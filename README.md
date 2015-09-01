@@ -18,9 +18,11 @@ Visual Basic for Applications is basically a simplified Visual Basic interpreter
 It has a very convenient and easy-to-learn-and-use Integrated Development Enviroment (IDE).
 To shift to the IDE in Excel (and shift back to Excel), press <kbd>Alt</kbd>+<kbd>F11</kbd>.
 
-	Usually, the uper-left corner will show you the Project Explorer: a typical Windows' folder structure, showing existing open workbooks and VBA projects associated with each one. If you don't see it, press  <<kbd>Cltrl</kbd> + <kbd>R</kbd>.
+Usually, the uper-left corner will show you the Project Explorer: a typical Windows' folder structure, showing existing open workbooks and VBA projects associated with each one. If you don't see it, press  <kbd>Cltrl</kbd> + <kbd>R</kbd>.
 
 There can be code written ''inside'' the workbook (inside each worksheet), to each project you can add forms and modules
+
+![Screenshot_Project_Explorer](/assets/Screeen_Project_Explorer.png)
 
 An exercise to understand how this works:
 
@@ -30,5 +32,7 @@ in File... Options... Customize Ribons... on the right side, check the box ''Dev
 ![Screenshot_Excel_options](/assets/Screeen_Excel_options.png)
 
 
+After while using the VBA IDE you will want to disable: Tools... Options... "Auto Sintax check". When sintax is wrong code lines goes red anyway.
 
+Another useful thing is to click with the right button in th menu bar and select Customize... Edit... and find the commands (buttons) 'Comment blocks' and 'Uncomment blocks' and drag them to the tool bar and the Edit Menu, they are not shown anywhere by default and are very useful.
 
