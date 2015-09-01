@@ -243,8 +243,14 @@ For iroute = 1 To nRoutes
             Reroute iroute
         End If
     End If
-sum = sum + route(iroute).Npoints 'check to see if should report on less per route, there is a virtual at the end
 Next iroute
+
+
+sum = 0
+For iroute = 1 To nRoutes
+    sum = sum + route(iroute).Npoints 'check to see if should report on less per route, there is a virtual at the end
+Next iroute
+
 MsgCell = MsgCell & Chr(10) & "... DONE: " & nRoutes - OldNRoutes & " new routes, total transit segments = " & sum & " )"
 
 Dim onlyChanges As Boolean
@@ -542,7 +548,10 @@ Sub RelinkPoint(i As Long, EquivWalkDistance As Single, _
                 Dlink.dp = NumP1
                 Dlink.Extension = 0.01
                 Dlink.modes = chargemode
-                If onlyOneTransfer Then Dlink.modes = "" 'let charge (and walk) mode out so there is no first boardings there
+                If onlyOneTransfer Then
+                    Dlink.modes = "" 'let charge (and walk) mode out so there is no first boardings there
+                    Dlink.t3 = 0
+                End If
                 Dlink.tipo = 800 + og 'uses the 800-900 range for types
                 Dlink.t3 = TableofIntegration(0, og)
                 Call Add_Link(Dlink)
@@ -582,6 +591,7 @@ Sub RelinkPoint(i As Long, EquivWalkDistance As Single, _
                 Call Add_Link(Dlink)
                 
                 If onlyOneTransfer Then 'first line needs acess directly
+                    Dlink.t3 = 0
                     Dlink.op = i
                     Dlink.dp = NumP51
                     Dlink.tipo = 870 + og
@@ -728,7 +738,7 @@ For ipoint = 1 To route(iroute).Npoints
 Next ipoint
 route(iroute).changed = True
 End Sub
-Sub RerouteONETRANSFER(iroute As Integer)
+Sub RerouteONETRANSFER(ByVal iroute As Integer)
 ' Duplicates the given iroute and change both to go inside integration cones
 ' (checks if links and nodes of the cones that are supposed to exist really do.)
 ' It only changes the boarding/alighting set

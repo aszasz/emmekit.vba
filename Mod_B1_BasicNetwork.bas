@@ -429,7 +429,7 @@ Function degtorad(deg)
 End Function
 
 'Return the distance in meters between P1 and P2 as Point_type
-Function Point_Distance(p1 As Point_type, p2 As Point_type) As Single
+Function Point_Distance(P1 As Point_type, P2 As Point_type) As Single
     'it does not use precise earth curve for coordinated systems
     'CONSIDERING ONE Degree both in latitude and longitude we have
     ' difference for Reykjavik: (bellow 0,2% in large distances considering flattening)
@@ -446,11 +446,11 @@ Function Point_Distance(p1 As Point_type, p2 As Point_type) As Single
     'considering flattening:  156.759,1
     'This difference comes down to 20 centimeters in 160 meters, near 0.12%
     
-    DeltY = p1.y - p2.y
-    DeltX = p1.x - p2.x
+    DeltY = P1.y - P2.y
+    DeltX = P1.x - P2.x
     If NetIsLongLat Then
         DeltY = DeltY * meter_per_degree
-        Ymed = (p1.y + p2.y) / 2
+        Ymed = (P1.y + P2.y) / 2
         DeltX = DeltX * meter_per_degree / 360 * Cos(PI * Ymed / 180)
         'Acos formula: R1 * Acs(sin(degtorad(lat2)) * sin(degtorad(lat1)) + Cos(degtorad(lat2)) * Cos(degtorad(lat1)) * Cos(degtorad(long1 - long2)))
     End If
@@ -463,13 +463,13 @@ End Function
 Function Distance(iponto As Long, jponto As Long)
     Distance = Point_Distance(point(iponto), point(jponto))
 End Function
-Function Point_Diference(p1 As Point_type, p2 As Point_type) As Point_type
-Point_Diference.x = p1.x - p2.x
-Point_Diference.y = p1.y - p2.y
+Function Point_Diference(P1 As Point_type, P2 As Point_type) As Point_type
+Point_Diference.x = P1.x - P2.x
+Point_Diference.y = P1.y - P2.y
 End Function
-Function Point_Summ(p1 As Point_type, p2 As Point_type) As Point_type
-Point_Summ.x = p1.x + p2.x
-Point_Summ.y = p1.y + p2.y
+Function Point_Summ(P1 As Point_type, P2 As Point_type) As Point_type
+Point_Summ.x = P1.x + P2.x
+Point_Summ.y = P1.y + P2.y
 End Function
 
 'Functions to look for points and links
@@ -714,7 +714,7 @@ Function Add_Point_Spliting_Link(ilink As Long, CandiEastings As Double, CandiNo
 'up to this version copies t1, t2 and t3 from original links
 Dim CandiP As Point_type
 Dim Dpoint As Point_type
-Dim DLink As Link_type
+Dim Dlink As Link_type
 Dim jlink As Long
 Dim ip As Long
 Dim Ang As Single 'for angle
@@ -733,14 +733,14 @@ Else
     If prop >= 1 Then MsgBox "HELLo": prop = 0.99
     If prop = 0 Then MsgBox "HELLo": prop = 0.01
     If ilink <> 0 Then
-        DLink = link(ilink)
-        DLink.dp = ip
-        DLink.Extension = link(ilink).Extension * prop
-        ilink1 = Add_Link(DLink)
-        DLink.op = ip
-        DLink.dp = link(ilink).dp
-        DLink.Extension = link(ilink).Extension * (1 - prop)
-        ilink2 = Add_Link(DLink)
+        Dlink = link(ilink)
+        Dlink.dp = ip
+        Dlink.Extension = link(ilink).Extension * prop
+        ilink1 = Add_Link(Dlink)
+        Dlink.op = ip
+        Dlink.dp = link(ilink).dp
+        Dlink.Extension = link(ilink).Extension * (1 - prop)
+        ilink2 = Add_Link(Dlink)
         If Not (Tira_Link_Daqui(link(ilink).op, ilink) And Tira_Link_Praka(link(ilink).dp, ilink)) Then MsgBox "Não tirou link"
         link(ilink).tipo = 1000
         For W = 1 To link(ilink).nRoutes
@@ -750,14 +750,14 @@ Else
         Next W
     End If
     If jlink <> 0 Then
-        DLink = link(jlink)
-        DLink.dp = ip
-        DLink.Extension = link(ilink).Extension * (1 - prop)
-        ilink3 = Add_Link(DLink)
-        DLink.op = ip
-        DLink.dp = link(jlink).dp
-        DLink.Extension = link(ilink).Extension * prop
-        ilink4 = Add_Link(DLink)
+        Dlink = link(jlink)
+        Dlink.dp = ip
+        Dlink.Extension = link(ilink).Extension * (1 - prop)
+        ilink3 = Add_Link(Dlink)
+        Dlink.op = ip
+        Dlink.dp = link(jlink).dp
+        Dlink.Extension = link(ilink).Extension * prop
+        ilink4 = Add_Link(Dlink)
         If Not (Tira_Link_Daqui(link(jlink).op, jlink) And Tira_Link_Praka(link(jlink).dp, jlink)) Then MsgBox "Remotion failed when splitting link"
         link(jlink).tipo = 1000
         For W = 1 To link(jlink).nRoutes
