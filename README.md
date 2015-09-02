@@ -37,10 +37,11 @@ It does not matter which fomat (even if it is called macro-enabled), when you op
 	- have macros automatically enabled (this has security concerns, because macros can change things beyond the file scope and beyond the application (Excel scope),
  even when openning the file)
 
-To set this go to "File... Options... Trust Center..." In Trust Center go to Macro Settings...
+To set this go to "File... Options... Trust Center... Trust Center Settings..." In Trust Center go to Macro Settings... and choose the suitable option
+(which is likely to be 'Disable all macros with notification')
 
-![Screeen of Excel options](/assets/Screeen_Excel_options.png)
-![Screeen of Excel Trsut Center](/assets/Screeen_Excel_options_TrustCenter.png)
+![Screeen of Excel Options to Trust Center](/assets/Screeen_Excel_options_TrustCenter.png)
+![Screeen of Excel options in Trust Center Macros Settings](/assets/Screen_Office_Trust_Center.png)
 
 
 
