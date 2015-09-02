@@ -29,7 +29,61 @@ If you learn how this works, you can, you get and idea of
  how the code should to do it, then you can look at the code 
 and create your own tools (even if you are a [first time user of VBA](#first-time-user)), and hopefully and share them here.
 
+
+<a name="play-withorganized-tools"></a>
+## Prepared tools:
+###Network parameters:
+The main gap to cross when you want to be able to manipulate a network, is having a subset of tools that can locate points in the map and calculate distances.
+This require learning about how the network is represented:
+	- how network coordinates relates to distances
+
+###Lines Mover
+Lines mover is a very simple tool to use, that will change transit lines itineraries based on an instruction file.
+It requires 3 files for input:
+	- emme network output file as exported by EMME with command 2.14
+	- emme transit line output file as exported by EMME with command 2.24
+	- a prepared file where you inform how transit lines must be changed, following the bellow sintax
+		- One instruction per line, words are separated by space
+		- first word of instruction is the EMME transit line number (=field line, up to six characters as) to be processed by the following command
+			- one line may be processed several times
+			- c (or C) as the first word indicates 'comment' and line is ignored (and therefore you never get to process a line whose number is "C" or "c" 
+		- second word is the command with one or two characters:
+			- first caracter can be:
+				- 'X' or 'x' means cut points
+				- '+' means add points to go to
+				- '-' means remove line
+			- the second caracter can be:
+				- '>' after
+				- '<' before
+			- So, compounding we have:
+				- 'X>' means delete all points after (if the line passes twice, it is the last pass)
+				- 'X<' means delete all points before (if the line passes twice, it is the first pass)
+				- '-' (minus) means delete line.
+				- '+>' Add points in the END of the line thru the following points (uses shortest path)
+				- '+<' Add points in the BEGIN of the line thru (uses shortest path)
+
+and outputs 2 files:
+	- emme network input file as exported by EMME with command 2.11: it is a differential file, that adds needed modes for the changes
+	- emme transit line input file as exported by EMME with command 2.21: also a differential file
+	
+
+###Cones
+
+Creates integration cones, as follows:
+    - New nodes will try to have the same number end (above 100,000)
+    - will create cones for all stops where a bus bellonging to a group with fare integration stops, with auxiliary mode given bellow and price is placed in ul3
+    - uses the 800-900 range for types of the new links
+    - will add a walking cost when making cones between two stops
+
+
+
+
+<a name="play-with-code"></a>
+## Playing with code:
+
 <a name="overall-workflow"></a>
+###Workflow overview
+
 This manipulation tools work as almost all tools:
 - Learn what and where are the input and output
 - Read input
@@ -47,22 +101,6 @@ specific needs... ideally you should do it as a new and independent tool, so you
  and that is the main reason why making generic macros are much harder than making specific ones.
 --->
 
-
-<a name="play-withorganized-tools"></a>
-## Prepared tools:
-###Network parameters:
-The main gap to cross when you want to be able to manipulate a network, is having a subset of tools that can locate points in the map and calculate distances.
-This require learning about how the network is represented:
-	- how network coordinates relates to distances
-
-###Lines Mover
-
-
-###Cones
-
-
-<a name="play-with-code"></a>
-## Playing with code:
 ### Module "Basic Network"
 This module holds the code that deal with network parameters, distance and find tools.
 
@@ -72,7 +110,7 @@ that are important to write on the output files.
 
 
 <a name="first-time-user"></a>
- ## If you are a first time user of VBA:
+## If you are a first time user of VBA:
 
 For now you just should download the ".xlsm" file and, _after learning the bellow_, play with it.
 
@@ -124,7 +162,7 @@ until you hit the record button again (that shall be renamed to stop recordding)
 	- Do a few operations: write text, change cell collors, border.
 	- Hit stop recording button (that is both on the developer Tool, and (in Excel 2013) appears again on the bottom left, diguised as a square...
 
-![Screen First_Macro](/assets Screen_First_Macro.png)
+![Screen First_Macro](/assets/Screen_First_Macro.png)
 
 ![Screeen stop recording](/assets/Screeen_stop_recording.png)
 
