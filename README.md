@@ -10,7 +10,7 @@ The utilities include, among others:
 - Read (some) GTFS feeds
 
 So this is an attempt to bring VBA code to git and document it, working around Excel by exporting the VBA modules, so we can see changes as texts.
-This exported modules, which receive the extension ".bas" (".cls" for class modules) are exactly the eddited code plus a single header line.
+This exported modules, which receive the extension ".bas" (".cls" for class modules) are exactly the edited code plus a single header line.
 
 
 ## If you are a first time user of VBA:
