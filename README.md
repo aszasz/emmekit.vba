@@ -41,27 +41,27 @@ This require learning about how the network is represented:
 Lines mover is a very simple tool to use, that will change transit lines itineraries based on an instruction file.
 It requires 3 files for input:
 	
-	- emme network output file as exported by EMME with command 2.14
-	- emme transit line output file as exported by EMME with command 2.24
-	- a prepared file where you inform how transit lines must be changed, following the bellow sintax
-		- One instruction per line, words are separated by space
-		- first word of instruction is the EMME transit line number (=field line, up to six characters as) to be processed by the following command
-			- one line may be processed several times
-			- c (or C) as the first word indicates 'comment' and line is ignored (and therefore you never get to process a line whose number is "C" or "c" 
-		- second word is the command with one or two characters:
-			- first caracter can be:
-				- 'X' or 'x' means cut points
-				- '+' means add points to go to
-				- '-' means remove line
-			- the second caracter can be:
-				- '>' after
-				- '<' before
-			- So, compounding we have:
-				- 'X>' means delete all points after (if the line passes twice, it is the last pass)
-				- 'X<' means delete all points before (if the line passes twice, it is the first pass)
-				- '-' (minus) means delete line.
-				- '+>' Add points in the END of the line thru the following points (uses shortest path)
-				- '+<' Add points in the BEGIN of the line thru (uses shortest path)
+- emme network output file as exported by EMME with command 2.14
+- emme transit line output file as exported by EMME with command 2.24
+- a prepared file where you inform how transit lines must be changed, following the bellow sintax
+	- One instruction per line, words are separated by space
+	- first word of instruction is the EMME transit line number (=field line, up to six characters as) to be processed by the following command
+		- one line may be processed several times
+		- c (or C) as the first word indicates 'comment' and line is ignored (and therefore you never get to process a line whose number is "C" or "c" 
+	- second word is the command with one or two characters:
+		- first caracter can be:
+			- 'X' or 'x' means cut points
+			- '+' means add points to go to
+			- '-' means remove line
+		- the second caracter can be:
+			- '>' after
+			- '<' before
+		- So, compounding we have:
+			- 'X>' means delete all points after (if the line passes twice, it is the last pass)
+			- 'X<' means delete all points before (if the line passes twice, it is the first pass)
+			- '-' (minus) means delete line.
+			- '+>' Add points in the END of the line thru the following points (uses shortest path)
+:			- '+<' Add points in the BEGIN of the line thru (uses shortest path)
 
 and outputs 2 files:
 	- emme network input file as exported by EMME with command 2.11: it is a differential file, that adds needed modes for the changes
