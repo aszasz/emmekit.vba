@@ -31,7 +31,7 @@ and create your own tools (even if you are a [first time user of VBA](#first-tim
 
 
 <a name="play-withorganized-tools"></a>
-## Prepared tools:
+## Playing with the available prepared and organized tools:
 ###Network parameters:
 The main gap to cross when you want to be able to manipulate a network, is having a subset of tools that can locate points in the map and calculate distances.
 This require learning about how the network is represented:
@@ -40,6 +40,7 @@ This require learning about how the network is represented:
 ###Lines Mover
 Lines mover is a very simple tool to use, that will change transit lines itineraries based on an instruction file.
 It requires 3 files for input:
+	
 	- emme network output file as exported by EMME with command 2.14
 	- emme transit line output file as exported by EMME with command 2.24
 	- a prepared file where you inform how transit lines must be changed, following the bellow sintax
@@ -121,7 +122,7 @@ It has a very convenient and easy-to-learn-and-use Integrated Development Enviro
 Before MS-Office 2007, simple spreadsheet files were all ".xls"  After 2007, they were divided as follows:
 - ".xls" became ".xlsb" (b for binary), even though ".xls" and ".xlsb" are internally different, they are both binaries, and:
 	- both can have macros embedded (or not)
-- ".xlsx" and ".xlsm" are a 'tree of zipped XML files'*, they are usually larger than the equivalent binaries and:
+- ".xlsx" and ".xlsm" are a 'tree of [zipped XML files](#xmlfiles)', they are usually larger than the equivalent binaries and:
 	- ".xlsx" do not have macros:
 		- they are called macro free workbooks
 		- if you save an ".xlsx" after you created a macro inside it, Excel will throw it away, after giving you proper warning and suggesting other formats to save it.
@@ -129,6 +130,7 @@ Before MS-Office 2007, simple spreadsheet files were all ".xls"  After 2007, the
 		- this can have macros embedded (or not)
 		
 It does not matter which fomat (even if it is called macro-enabled), when you oppen a file with embbeded macros, depending on your 'macro security settings' you may:
+
 	- be asked if you want-to enable macros
 	- have macros ignored
 	- have macros automatically enabled (this has security concerns, because macros can change things beyond the file scope and beyond the application (Excel scope),
@@ -141,7 +143,7 @@ To set this go to "File... Options... Trust Center... Trust Center Settings..." 
 ![Screeen of Excel options in Trust Center Macros Settings](/assets/Screen_Office_Trust_Center.png)
 
 
-
+<a name="xmlfiles"></a>
 * XML are HTML-on-steroids, but still text files: to understand this better you should try to rename an ".xlsx" or a ".docx" to _".zip"_ 
 (possible only after unckecking the settings of your Windows Explorer in \[ \] 'Hide extensions of known file types' and disregard the warning 
 that doing such a thing can affect how things work), unzip it and explore its contents.
@@ -205,4 +207,3 @@ After while using the VBA IDE you will want to disable: Tools... Options... "Aut
 
 Another useful thing is to click with the right button in th menu bar and select Customize... Edit... and find the commands (buttons) 'Comment blocks' and 'Uncomment blocks' and drag them to the tool bar and the Edit Menu, they are not shown anywhere by default and are very useful.
 
-## Playing with the available prepared and organized tools:
