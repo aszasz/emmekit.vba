@@ -10,7 +10,7 @@ If CountStrings(desc, "/") = 3 Then
     If CountStringsB(Splitword(1), "\") = 2 Then
         Set String_to_Range = Workbooks(SplitwordB(1)).Worksheets(SplitwordB(2)).Cells(Splitword(2), Splitword(3))
     Else
-        Set String_to_Range = ThisWorkbook.Worksheets(Splitword(1)).Cells(val(Splitword(2)), val(Splitword(3)))
+        Set String_to_Range = ThisWorkbook.Worksheets(Splitword(1)).Cells(Val(Splitword(2)), Val(Splitword(3)))
     End If
 End If
 
@@ -29,7 +29,7 @@ Sub UseFileDialogOpen()
         .Show
 
         ' Display paths of each file selected
-        For lngCount = 1 To .SelectedItems.count
+        For lngCount = 1 To .SelectedItems.Count
             ActiveCell.Offset(lngCount - 1) = .SelectedItems(lngCount)
         Next lngCount
 
@@ -46,7 +46,7 @@ Sub UseFileDialogBrowseFolder()
         .Show
 
         ' Display paths of each file selected
-        For lngCount = 1 To .SelectedItems.count
+        For lngCount = 1 To .SelectedItems.Count
             Cells(3, 3).Offset(lngCount - 1) = .SelectedItems(lngCount)
         Next lngCount
 

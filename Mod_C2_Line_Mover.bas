@@ -1,112 +1,196 @@
 Attribute VB_Name = "Mod_C2_Line_Mover"
-Sub dir_to_cell()
-    ThisWorkbook.Worksheets("Macro").Cells(4, 1) = ThisWorkbook.path
+Option Explicit
+Sub Run_Lines_Mover()
+'Called from a button in Worksheet plan
+'For each collumn marked with X in checkRow will call Cones
+Dim plan As Worksheet
+Set plan = ThisWorkbook.Sheets("Lines_mover_tool")
+
+'typed arguments to pass to Cones
+Dim msgCell As Range
+
+'locations in plan where to find arguments
+Dim startCol As Integer: startCol = 4
+Dim endCol As Integer: endCol = 104
+
+Dim folderRow As Integer: folderRow = 3
+Dim netINrow  As Integer: netINrow = 5
+Dim transitINrow  As Integer: transitINrow = 6
+Dim netOUTrow  As Integer: netOUTrow = 7
+Dim transitOUTRow  As Integer: transitOUTRow = 8
+Dim instructionsRow  As Integer: instructionsRow = 10
+
+Dim checkRow As Integer: checkRow = 11
+Dim messageRow As Integer: messageRow = 12
+
+On Error GoTo NoParam
+Load_Network_Parameters
+
+On Error GoTo 0
+Dim icol As Integer
+Dim folder As String
+For icol = startCol To endCol
+    If plan.Cells(checkRow, icol) = "X" Then
+
+        folder = plan.Cells(folderRow, icol)
+        If folder <> "" And Right(folder, 1) <> "\" Then folder = folder & "\"
+        
+        Set msgCell = plan.Cells(messageRow, icol)
+        msgCell.Value = "Start: " & Format(Now(), "MMM/DD/YYYY hh:mm:ss")
+        Call Cones(folder & plan.Cells(netINrow, icol), _
+                    folder & plan.Cells(transitINrow, icol), _
+                    folder & plan.Cells(netOUTrow, icol), _
+                    folder & plan.Cells(transitOUTRow, icol), _
+                    folder & plan.Cells(instructionsRow, icol), _
+                    msgCell)
+    End If
+Next icol
+
+Exit Sub:
+NoParam:
+    MsgBox "Fail to Load Network Parameters"
+Exit Sub
+Other:
+    
 End Sub
-Sub RunSplit()
-icol = 3
-ThisWorkbook.Sheets("Macro").Range(ThisWorkbook.Sheets("Macro").Cells(12, 3), ThisWorkbook.Sheets("Macro").Cells(12, 200)).Clear
-Do While ThisWorkbook.Sheets("Macro").Cells(4, icol) <> ""
-    RunSplitCol (icol)
-    icol = icol + 1
-Loop
-End Sub
-Sub RunSplitCol(icol As Integer)
-On Error GoTo PassaErroPraFrente
+Sub RunSplitCol(FileBaseNetIN As String, _
+                FileRouteIN As String, _
+                FileBaseNetOUT As String, _
+                FileRouteOUT As String, _
+                FileSPLITTXT As String, _
+                msgCell As Range)
+
 marker = 0
-ReDim point(0)
-Dim i As Integer
-Dim iroute As Integer
-Dim FileBaseNetIN As String
-Dim FileBaseNetOUT As String
-Dim FileRouteIN As String
-Dim FileRouteOUT As String
-Dim FileSPLITTXT As String
 ResetNetWork
 ResetRoutes
-folder = ThisWorkbook.Sheets("Macro").Cells(2, icol)
-ThisWorkbook.Sheets("Macro").Cells(12, icol) = ""
-If folder <> "" And Right(folder, 1) <> "\" Then folder = folder & "\"
-FileBaseNetIN = folder & ThisWorkbook.Sheets("Macro").Cells(4, icol)
-If Dir(FileBaseNetIN) = "" Then ThisWorkbook.Sheets("Macro").Cells(12, icol) = "Arquivo " & FileBaseNetIN & " não encontrado!": Exit Sub
-FileRouteIN = folder & ThisWorkbook.Sheets("Macro").Cells(5, icol)
-If Dir(FileRouteIN) = "" Then ThisWorkbook.Sheets("Macro").Cells(12, icol) = "Arquivo " & FileRouteIN & " não encontrado!": Exit Sub
-FileSPLITTXT = folder & ThisWorkbook.Sheets("Macro").Cells(10, icol)
-If Dir(FileSPLITTXT) = "" Then ThisWorkbook.Sheets("Macro").Cells(12, icol) = "Arquivo " & FileSPLITTXT & " não encontrado!": Exit Sub
-FileBaseNetOUT = folder & ThisWorkbook.Sheets("Macro").Cells(7, icol)
-FileRouteOUT = folder & ThisWorkbook.Sheets("Macro").Cells(8, icol)
-On Error GoTo 0
+'On Error GoTo Error_Handler
 
-ThisWorkbook.Sheets("Macro").Cells(12, icol) = "Lendo arquivo de rede"
+If Dir(FileBaseNetIN) = "" Then msgCell = msgCell & Chr(10) & "File " & FileBaseNetIN & " not found": Exit Sub
+If Dir(FileRouteIN) = "" Then msgCell = msgCell & Chr(10) & "File " & FileRouteIN & " not found": Exit Sub
 
-Call ReadM2NetworkFile(FileBaseNetIN)
+msgCell.Value = msgCell.Value & Chr(10) & "Reading Network    " & Format(Now(), "hh:mm:ss") & " ..."
+Call ReadM2NetworkFile(FileBaseNetIN, msgCell)
+msgCell = msgCell & Chr(10) & "... DONE: " & Npoints & " nodes and " & NLinks & " links  " ' & Format(Now(), "hh:mm:ss")
 OldNpoints = Npoints
 OldNLinks = NLinks
-ThisWorkbook.Sheets("Macro").Cells(12, icol) = ThisWorkbook.Sheets("Macro").Cells(12, icol) & "." & Chr(10) & "Lendo arquivo de linhas"
-Call ReadM2RoutesFile(FileRouteIN, False, False)
+
+msgCell.Value = msgCell.Value & Chr(10) & "Reading Routes    " & Format(Now(), "hh:mm:ss") & " ..."
+Call ReadM2RoutesFile(FileRouteIN, msgCell, False, False)
+msgCell = msgCell & Chr(10) & "... DONE: " & nRoutes & " transit lines  " '& Format(Now(), "hh:mm:ss")
 OldNRoutes = nRoutes
+CountRoutesinNetwork ' this is called to fill links and nodes positions (used to move routes later)
 
-ThisWorkbook.Sheets("Macro").Cells(12, icol) = ThisWorkbook.Sheets("Macro").Cells(12, icol) & "." & Chr(10) & "Movendo Linhas"
-Call Read_LineMover_file(FileSPLITTXT)
+msgCell.Value = msgCell.Value & Chr(10) & "Reading Moving Instructions and Processing    " & Format(Now(), "hh:mm:ss") & " ..."
+Call Read_LineMover_file(FileSPLITTXT, msgCell)
 
-ThisWorkbook.Sheets("Macro").Cells(12, icol) = ThisWorkbook.Sheets("Macro").Cells(12, icol) & "." & Chr(10) & "Escrevendo linhas alteradas"
+Dim onlyChanges As Boolean
+onlyChanges = (Format(OnlyOutputChanges, ">") = "X")
 
-WriteEmmeRoutes FileRouteOUT, False, True, False, True, 0, False
-ThisWorkbook.Sheets("Macro").Cells(12, icol) = ThisWorkbook.Sheets("Macro").Cells(12, icol) & "." & Chr(10) & "Escrevendo alterações de rede"
+msgCell.Value = msgCell.Value & Chr(10) & "Writting routes  " & Format(Now(), "hh:mm:ss") & " ..."
+WriteEmmeRoutes FileRouteOUT, False, True, True, onlyChanges
 
-WriteEmmeNetwork FileBaseNetOUT, True, False, 0, False
-ThisWorkbook.Sheets("Macro").Cells(12, icol) = ThisWorkbook.Sheets("Macro").Cells(12, icol) & "."
-    
+msgCell.Value = msgCell.Value & Chr(10) & "Writting changed network  " & Format(Now(), "hh:mm:ss") & " ..."
+WriteEmmeNetwork FileBaseNetOUT, onlyChanges
+   
+msgCell = msgCell & Chr(10) & "... DONE" & Format(Now(), "hh:mm:ss")
+   
 Exit Sub
-PassaErroPraFrente:
+
+Error_Handler:
     Select Case Err.number
         Case 55
             Close #1
             Resume
         Case 52
-            ThisWorkbook.Sheets("Macro").Cells(12, icol) = "Erro 52 - Formato de nome de Arquivo irreconhecível "
-            Case Else
-            ThisWorkbook.Sheets("Macro").Cells(12, icol) = " Erro: " & Err.number
+            msgCell = msgCell & Chr(10) & "Erro 52 - File Name not recognized "
+        Case Else
+            msgCell = msgCell & Chr(10) & " Error: " & Err.number
     End Select
     Exit Sub
 End Sub
-Sub Read_LineMover_file(fullfile)
+Sub Read_LineMover_file(fullfile, msgCell As Range)
 Dim stringline As String
 Open fullfile For Input As #1
 Dim iroute As Integer
 Dim ipoint As Long
+Dim i As Integer
+Dim N As Integer
+
 Do While Not EOF(1)
+Read_Line:
     Line Input #1, stringline
     N = CountWords(stringline)
-    If N > 0 And Splitword(1) <> "c" Then
+    If N > 0 And Splitword(1) <> "c" And Splitword(1) <> "C" Then
+        'Checking if route is valid
         iroute = Get_Route(Splitword(1))
+        If iroute = 0 Then
+            If vbNo = MsgBox("Transit line " & Splitword(1) & " in file " & fullfile & " not found in network. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                    msgCell = msgCell = "Transit line " & Splitword(i) & " not found. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                    Exit Sub
+                Else
+                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                    GoTo Read_Line
+                End If
+             End If
+        End If
+        'Check all words after 2, shall be network points
         For i = 3 To N
             PointList(i - 2) = PointNamed(Splitword(i))
             If PointList(i - 2) = 0 Then
-                If vbNo = MsgBox("Ponto" & Splitword(i) & " no arquivo " & fullfile & " não localizado. Prosseguir ignorando o comando:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then End
-            End If
+                If vbNo = MsgBox("Point" & Splitword(i) & " in file " & fullfile & " not found in network. Move ahead ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "?(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                    msgCell = msgCell = "Point " & Splitword(i) & " not found. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                    Exit Sub
+                Else
+                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                    GoTo Read_Line
+                End If
+             End If
         Next i
-        If iroute = 0 Then
-            If vbNo = MsgBox("Linha " & Splitword(1) & " no arquivo " & fullfile & " não encontrada. Prosseguir ignorando o comando:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then End
-        ElseIf Splitword(2) <> "X>" And Splitword(2) <> "X<" And Splitword(2) <> "x>" And Splitword(2) <> "x<" And Splitword(2) <> "+>" And Splitword(2) <> "+<" And Splitword(2) <> "-" Then
-            If vbNo = MsgBox("Operação" & Splitword(2) & " no arquivo " & fullfile & " não reconhecida. Prosseguir ignorando o comando:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then End
+        'Check and process signal
+        If Splitword(2) <> "X>" And Splitword(2) <> "X<" And Splitword(2) <> "x>" And Splitword(2) <> "x<" And Splitword(2) <> "+>" And Splitword(2) <> "+<" And Splitword(2) <> "-" Then
+            'Unknown signal
+            If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " unknown. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                    msgCell = msgCell = "Command " & Splitword(2) & " unknown. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                    Exit Sub
+                Else
+                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                    GoTo Read_Line
+                End If
+             End If
         ElseIf Splitword(2) = "-" Then
+            'Remove line
             If N > 2 Then
-                If vbNo = MsgBox("Operação" & Splitword(2) & " no arquivo " & fullfile & " não exige ponto extra. Prosseguir ignorando o comando:" & Chr(13) & stringline & "(?)" & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then End
+                If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " has more parameters than requested. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                    msgCell = msgCell = "More parameters than required. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                    Exit Sub
+                Else
+                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                    GoTo Read_Line
+                End If
             Else
                 route(iroute).changed = True
                 route(iroute).Deleta = True
             End If
         ElseIf Left(Splitword(2), 1) = "x" Or Left(Splitword(2), 1) = "X" Then
+            'Cut line
             If N > 3 Then
-                If vbNo = MsgBox("Operação" & Splitword(2) & " no arquivo " & fullfile & " exige apenas um ponto. Prosseguir ignorando o comando:" & Chr(13) & stringline & "(?)" & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then End
+                If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " has more parameters than requested. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                    msgCell = msgCell = "More parameters than required. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                    Exit Sub
+                Else
+                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                    GoTo Read_Line
+                End If
             Else
                 ipoint = PointNamed(Splitword(3))
-                passa = True
-                    For i = 1 To point(ipoint).nRoutes
-                        If point(ipoint).iroute(i) = iroute Then passa = True
-                    Next i
-                If Not passa Then
-                    If vbNo = MsgBox("Linha " & Splitword(1) & " não passa pelo ponto " & Splitword(3) & ", no arquivo " & fullfile & " não encontrada. Prosseguir ignorando o comando:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then End
+                If Not DoesRoutepasshere(iroute, ipoint) Then
+                    If vbNo = MsgBox("Transit line " & Splitword(1) & " doesn't goes thru point " & Splitword(3) & ", as suposed in file " & fullfile & "Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                        msgCell = msgCell = "Transit line " & Splitword(1) & " doesn't goes thru point " & Splitword(3) & Chr(13) & stringline & Chr(13)
+                        Exit Sub
+                    Else
+                        msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                        GoTo Read_Line
+                    End If
                 ElseIf Right(Splitword(2), 1) = ">" Then
                     route(iroute).changed = Cut_Route(iroute, 0, ipoint)
                 ElseIf Right(Splitword(2), 1) = "<" Then
@@ -772,3 +856,4 @@ For icol = 1 To 41 Step 5
     Loop
 Next icol
 End Sub
+

@@ -24,7 +24,7 @@ Dim plan As Worksheet
 Set plan = ThisWorkbook.Sheets("Cones_tool")
 
 'typed arguments to pass to Cones
-Dim MsgCell As Range
+Dim msgCell As Range
 
 'locations in plan where to find arguments
 Dim startCol As Integer: startCol = 3
@@ -44,7 +44,7 @@ Dim penaltyRow As Integer: penaltyRow = 15
 Dim OnetransferRow As Integer: OnetransferRow = 16
 Dim OnlyChangesRow As Integer: OnlyChangesRow = 18
 Dim netOUTrow  As Integer: netOUTrow = 19
-Dim transitOUTrow  As Integer: transitOUTrow = 20
+Dim transitOUTRow  As Integer: transitOUTRow = 20
 
 
 Dim checkRow As Integer: checkRow = 21
@@ -62,9 +62,9 @@ For icol = startCol To endCol
         folder = plan.Cells(folderRow, icol)
         If folder <> "" And Right(folder, 1) <> "\" Then folder = folder & "\"
         
-        Set MsgCell = plan.Cells(messageRow, icol)
-       MsgCell.Value = "Start: " & Format(Now(), "MMM/DD/YYYY hh:mm:ss")
-        Call Cones(folder & plan.Cells(netINrow, icol), folder & plan.Cells(transitINrow, icol), folder & plan.Cells(netOUTrow, icol), folder & plan.Cells(transitOUTrow, icol), _
+        Set msgCell = plan.Cells(messageRow, icol)
+       msgCell.Value = "Start: " & Format(Now(), "MMM/DD/YYYY hh:mm:ss")
+        Call Cones(folder & plan.Cells(netINrow, icol), folder & plan.Cells(transitINrow, icol), folder & plan.Cells(netOUTrow, icol), folder & plan.Cells(transitOUTRow, icol), _
                     plan.Cells(fareTableRow, icol), _
                     plan.Cells(groupListRow, icol), _
                     plan.Cells(walkingModeRow, icol), _
@@ -75,7 +75,7 @@ For icol = startCol To endCol
                     plan.Cells(coneHeightRow, icol), _
                     plan.Cells(OnetransferRow, icol), _
                     plan.Cells(OnlyChangesRow, icol), _
-                    MsgCell)
+                    msgCell)
     End If
 Next icol
 
@@ -107,10 +107,9 @@ Sub Cones(FileBaseNetIN As String, FileRouteIN As String, FileBaseNetOUT As Stri
           coneHeight_in_meters As Single, _
           OnlyONETransferX As String, _
           OnlyOutputChanges As String, _
-          MsgCell As Range)
+          msgCell As Range)
 
 marker = 0
-ReDim point(0)
 Dim i As Long
 Dim iroute As Integer
 Dim IntFare As Range
@@ -118,27 +117,27 @@ Dim IntFare As Range
 ResetNetWork
 ResetRoutes
 'On Error GoTo Error_Handler
-If Dir(FileBaseNetIN) = "" Then MsgCell = MsgCell & Chr(10) & "File " & FileBaseNetIN & " not found": Exit Sub
-If Dir(FileRouteIN) = "" Then MsgCell = MsgCell & Chr(10) & "File " & FileRouteIN & " not found": Exit Sub
+If Dir(FileBaseNetIN) = "" Then msgCell = msgCell & Chr(10) & "File " & FileBaseNetIN & " not found": Exit Sub
+If Dir(FileRouteIN) = "" Then msgCell = msgCell & Chr(10) & "File " & FileRouteIN & " not found": Exit Sub
 
-MsgCell.Value = MsgCell.Value & Chr(10) & "Reading Network    " & Format(Now(), "hh:mm:ss") & " ..."
-Call ReadM2NetworkFile(FileBaseNetIN, MsgCell)
-MsgCell = MsgCell & Chr(10) & "... DONE: " & Npoints & " nodes and " & NLinks & " links  " ' & Format(Now(), "hh:mm:ss")
+msgCell.Value = msgCell.Value & Chr(10) & "Reading Network    " & Format(Now(), "hh:mm:ss") & " ..."
+Call ReadM2NetworkFile(FileBaseNetIN, msgCell)
+msgCell = msgCell & Chr(10) & "... DONE: " & Npoints & " nodes and " & NLinks & " links  " ' & Format(Now(), "hh:mm:ss")
 OldNpoints = Npoints
 OldNLinks = NLinks
 
-MsgCell.Value = MsgCell.Value & Chr(10) & "Reading Routes    " & Format(Now(), "hh:mm:ss") & " ..."
-Call ReadM2RoutesFile(FileRouteIN, MsgCell, False, False)
-MsgCell = MsgCell & Chr(10) & "... DONE: " & nRoutes & " transit lines  " '& Format(Now(), "hh:mm:ss")
+msgCell.Value = msgCell.Value & Chr(10) & "Reading Routes    " & Format(Now(), "hh:mm:ss") & " ..."
+Call ReadM2RoutesFile(FileRouteIN, msgCell, False, False)
+msgCell = msgCell & Chr(10) & "... DONE: " & nRoutes & " transit lines  " '& Format(Now(), "hh:mm:ss")
 OldNRoutes = nRoutes
 CountRoutesinNetwork ' this is called to fill links and nodes positions (used to split node later)
 
 'check walkmode
 If Len(walkmode) <> 1 Then
-    MsgCell = MsgCell & Chr(10) & "Exiting early: Walking mode (" & walkmode & ") should be only one letter"
+    msgCell = msgCell & Chr(10) & "Exiting early: Walking mode (" & walkmode & ") should be only one letter"
     Exit Sub
 ElseIf Asc(walkmode) <= Asc("a") Or Asc(walkmode) >= Asc("z") Then
-    MsgCell = MsgCell & Chr(10) & "Warning: Expected walking mode (" & walkmode & ") to be a non capital letter"
+    msgCell = msgCell & Chr(10) & "Warning: Expected walking mode (" & walkmode & ") to be a non capital letter"
 End If
 Dim sum As Long
 Dim ilink As Long
@@ -146,92 +145,92 @@ sum = 0
 For ilink = 1 To NLinks
     If LinkhasMode(ilink, walkmode) Then sum = sum + 1
 Next ilink
-MsgCell = MsgCell & Chr(10) & " Found " & sum & " links with walking mode (" & walkmode & ")"
+msgCell = msgCell & Chr(10) & " Found " & sum & " links with walking mode (" & walkmode & ")"
 
 'check integrationlinktype
 If Not IsNumeric(integrationLinkType) Then
-    MsgCell = MsgCell & Chr(10) & "Exiting early: Integration link type (" & integrationLinkType & ") should be numeric"
+    msgCell = msgCell & Chr(10) & "Exiting early: Integration link type (" & integrationLinkType & ") should be numeric"
     Exit Sub
 ElseIf integrationLinkType >= 1000 Or integrationLinkType <= 0 Then
-    MsgCell = MsgCell & Chr(10) & "Warning: Expected integration link type (" & integrationLinkType & ") to be between 1 and 999"
+    msgCell = msgCell & Chr(10) & "Warning: Expected integration link type (" & integrationLinkType & ") to be between 1 and 999"
 End If
 sum = 0
 For ilink = 1 To NLinks
     If link(ilink).tipo = integrationLinkType Then sum = sum + 1
 Next ilink
-MsgCell = MsgCell & Chr(10) & " Found " & sum & " integration links (type=" & integrationLinkType & ")"
+msgCell = msgCell & Chr(10) & " Found " & sum & " integration links (type=" & integrationLinkType & ")"
 
 'check chargemode
 If Len(chargemode) <> 1 Then
-    MsgCell = MsgCell & Chr(10) & "Exiting early: Charge mode (" & chargemode & ") should be only one letter"
+    msgCell = msgCell & Chr(10) & "Exiting early: Charge mode (" & chargemode & ") should be only one letter"
     Exit Sub
 ElseIf Asc(chargemode) <= Asc("a") Or Asc(chargemode) >= Asc("z") Then
-    MsgCell = MsgCell & Chr(10) & "Warning: Expected auxiliary charging mode (" & chargemode & ") to be a non capital letter"
+    msgCell = msgCell & Chr(10) & "Warning: Expected auxiliary charging mode (" & chargemode & ") to be a non capital letter"
 End If
 sum = 0
 For ilink = 1 To NLinks
     If LinkhasMode(ilink, chargemode) Then sum = sum + 1
 Next ilink
-If sum > 0 Then MsgCell = MsgCell & Chr(10) & "Warning:  Found already " & sum & " links with charging mode (" & chargemode & ") in the network"
+If sum > 0 Then msgCell = msgCell & Chr(10) & "Warning:  Found already " & sum & " links with charging mode (" & chargemode & ") in the network"
 
 '' Read Fare Integration
-MsgCell = MsgCell & Chr(10) & "Reading Integration Table    " & Format(Now(), "hh:mm:ss") & " ..."
+msgCell = msgCell & Chr(10) & "Reading Integration Table    " & Format(Now(), "hh:mm:ss") & " ..."
 On Error GoTo NoFareRange
 Set IntFare = String_to_Range(IntFareRangeString)
 On Error GoTo 0
-If InputTableofIntegration(IntFare, MsgCell) Then
-    MsgCell = MsgCell & Chr(10) & "... DONE: " & NFareGroups & " faregroups  ("
+If InputTableofIntegration(IntFare, msgCell) Then
+    msgCell = msgCell & Chr(10) & "... DONE: " & NFareGroups & " faregroups  ("
         For i = 1 To NFareGroups - 1
-            MsgCell = MsgCell & FareGroupCode(i) & ", "
+            msgCell = msgCell & FareGroupCode(i) & ", "
     Next i
-    MsgCell = MsgCell & FareGroupCode(i) & ")"
+    msgCell = msgCell & FareGroupCode(i) & ")"
 Else
-    MsgCell = MsgCell & Chr(10) & "Fail to Read Fares in: " & IntFareRangeString
+    msgCell = msgCell & Chr(10) & "Fail to Read Fares in: " & IntFareRangeString
     Exit Sub
 End If
 
 'Put routes in faregroups
-MsgCell = MsgCell & Chr(10) & "Reading routes fare groups    " & Format(Now(), "hh:mm:ss") & " ..."
-If Not AssignRouteGroupsFromField(LineGroupListRange, MsgCell) Then
-    MsgCell = MsgCell & Chr(10) & "Fail to Read Transit Lines Fare Groups in: " & LineGroupListRange
+msgCell = msgCell & Chr(10) & "Reading routes fare groups    " & Format(Now(), "hh:mm:ss") & " ..."
+If Not AssignRouteGroupsFromField(LineGroupListRange, msgCell) Then
+    msgCell = msgCell & Chr(10) & "Fail to Read Transit Lines Fare Groups in: " & LineGroupListRange
     Exit Sub
 Else
-    MsgCell = MsgCell & Chr(10) & "... DONE: "
+    msgCell = msgCell & Chr(10) & "... DONE: "
         For i = 0 To NFareGroups
-            MsgCell = MsgCell & Chr(10) & " " & FareGroupCode(i) & " --> " & NRoutesInGroup(i) & " lines"
+            msgCell = msgCell & Chr(10) & " " & FareGroupCode(i) & " --> " & NRoutesInGroup(i) & " lines"
     Next i
 End If
 
 'Mark Points to Expand
-    MsgCell = MsgCell & Chr(10) & "Selected " & NSelected_Nodes_to_Cone & " points to expand for integration "
+    msgCell = msgCell & Chr(10) & "Selected " & NSelected_Nodes_to_Cone & " points to expand for integration "
 
 
 'Create all cones nodes
-MsgCell.Value = MsgCell.Value & Chr(10) & "Creating new nodes    " & Format(Now(), "hh:mm:ss") & " ..."
+msgCell.Value = msgCell.Value & Chr(10) & "Creating new nodes    " & Format(Now(), "hh:mm:ss") & " ..."
 For i = 1 To Npoints
     If point(i).selected Then
         SplitPoint i, coneHeight_in_meters
     End If
 Next i
-MsgCell = MsgCell & Chr(10) & "... DONE: " & Npoints - OldNpoints & " new nodes ( total = " & Npoints & " )"
+msgCell = msgCell & Chr(10) & "... DONE: " & Npoints - OldNpoints & " new nodes ( total = " & Npoints & " )"
 
 
 Dim onlyOneTransfer As Boolean
 onlyOneTransfer = (Format(OnlyONETransferX, ">") = "X")
 
 'Create all cones links
-MsgCell.Value = MsgCell.Value & Chr(10) & "Creating new links    " & Format(Now(), "hh:mm:ss") & " ..."
+msgCell.Value = msgCell.Value & Chr(10) & "Creating new links    " & Format(Now(), "hh:mm:ss") & " ..."
 For i = 1 To Npoints
     If point(i).selected Then
         RelinkPoint i, equivWalkDist, transferPenaltyCost, walkmode, chargemode, integrationLinkType, onlyOneTransfer
     End If
 Next i
-MsgCell = MsgCell & Chr(10) & "... DONE: " & NLinks - OldNLinks & " new links ( total = " & NLinks & " )"
+msgCell = msgCell & Chr(10) & "... DONE: " & NLinks - OldNLinks & " new links ( total = " & NLinks & " )"
 
 If onlyOneTransfer Then
-    MsgCell.Value = MsgCell.Value & Chr(10) & "Duplicating and Rerouting integrated transit lines   " & Format(Now(), "hh:mm:ss") & " ..."
+    msgCell.Value = msgCell.Value & Chr(10) & "Duplicating and Rerouting integrated transit lines   " & Format(Now(), "hh:mm:ss") & " ..."
 Else
-    MsgCell.Value = MsgCell.Value & Chr(10) & "Rerouting transit lines   " & Format(Now(), "hh:mm:ss") & " ..."
+    msgCell.Value = msgCell.Value & Chr(10) & "Rerouting transit lines   " & Format(Now(), "hh:mm:ss") & " ..."
 End If
 
 sum = 0
@@ -251,22 +250,22 @@ For iroute = 1 To nRoutes
     sum = sum + route(iroute).Npoints 'check to see if should report on less per route, there is a virtual at the end
 Next iroute
 
-MsgCell = MsgCell & Chr(10) & "... DONE: " & nRoutes - OldNRoutes & " new routes, total transit segments = " & sum & " )"
+msgCell = msgCell & Chr(10) & "... DONE: " & nRoutes - OldNRoutes & " new routes, total transit segments = " & sum & " )"
 
 Dim onlyChanges As Boolean
 onlyChanges = (Format(OnlyOutputChanges, ">") = "X")
 
-MsgCell.Value = MsgCell.Value & Chr(10) & "Writting routes  " & Format(Now(), "hh:mm:ss") & " ..."
+msgCell.Value = msgCell.Value & Chr(10) & "Writting routes  " & Format(Now(), "hh:mm:ss") & " ..."
 WriteEmmeRoutes FileRouteOUT, False, True, True, onlyChanges
 
-MsgCell.Value = MsgCell.Value & Chr(10) & "Writting changed network  " & Format(Now(), "hh:mm:ss") & " ..."
+msgCell.Value = msgCell.Value & Chr(10) & "Writting changed network  " & Format(Now(), "hh:mm:ss") & " ..."
 WriteEmmeNetwork FileBaseNetOUT, onlyChanges
 
 
-MsgCell.Value = MsgCell.Value & Chr(10) & "...DONE (don't forget to add  " & chargemode & " mode to your scenario!" & Format(Now(), "hh:mm:ss") & " ..."
+msgCell.Value = msgCell.Value & Chr(10) & "...DONE (don't forget to add  " & chargemode & " mode to your scenario!" & Format(Now(), "hh:mm:ss") & " ..."
 Exit Sub
 NoFareRange:
-    MsgCell = MsgCell & Chr(10) & "Could not locate" & IntFareRangeString
+    msgCell = msgCell & Chr(10) & "Could not locate" & IntFareRangeString
     Exit Sub
 Error_Handler:
     Select Case Err.number
@@ -274,13 +273,14 @@ Error_Handler:
             Close #1
             Resume
         Case 52
-            MsgCell = MsgCell & Chr(10) & "Erro 52 - Formato de nome de Arquivo irreconhecível "
+            msgCell = msgCell & Chr(10) & "Erro 52 - File Name not recognized "
         Case Else
-            MsgCell = MsgCell & Chr(10) & " Erro: " & Err.number
+            msgCell = msgCell & Chr(10) & " Error: " & Err.number
     End Select
     Exit Sub
 End Sub
-Function InputTableofIntegration(FirstCell As Range, MsgCell As Range) As Boolean
+
+Function InputTableofIntegration(FirstCell As Range, msgCell As Range) As Boolean
 'To see specification of what this is supposed to read: check sheet "Sample_Data_for_Cones_tool"
 Dim plan As Worksheet
 Dim iRow As Integer, icol As Integer
@@ -294,7 +294,7 @@ startCol = FirstCell.Column
 InputTableofIntegration = True
 
 If FirstCell.Value <> "FARE_PRICES" Then
-    MsgCell = MsgCell & Chr(10) & "Check if Integration Fare range is correct, missing check expression   'FARE_PRICES'"
+    msgCell = msgCell & Chr(10) & "Check if Integration Fare range is correct, missing check expression   'FARE_PRICES'"
     InputTableofIntegration = False
     Exit Function
 End If
@@ -322,9 +322,9 @@ For i = 0 To NFareGroups
     For j = 0 To NFareGroups
         If Not IsNumeric(plan.Cells(startRow + i, startCol + j)) Then
             InputTableofIntegration = False
-            MsgCell = MsgCell & Chr(10) & "Not a number in " & plan.Name & "!" & plan.Cells(startRow + i, startCol + j).Address
+            msgCell = msgCell & Chr(10) & "Not a number in " & plan.Name & "!" & plan.Cells(startRow + i, startCol + j).Address
         ElseIf plan.Cells(startRow + i, startCol + j) < 0 And plan.Cells(startRow + i, startCol + j) <> -1 Then
-            MsgCell = MsgCell & Chr(10) & "Unexpected value in " & plan.Name & "!" & plan.Cells(startRow + i, startCol + j).Address
+            msgCell = msgCell & Chr(10) & "Unexpected value in " & plan.Name & "!" & plan.Cells(startRow + i, startCol + j).Address
             InputTableofIntegration = False
         Else
             TableofIntegration(j, i) = plan.Cells(startRow + i, startCol + j)
@@ -332,7 +332,7 @@ For i = 0 To NFareGroups
     Next j
 Next i
 End Function
-Function AssignRouteGroupsFromField(LineGroupListRange As String, MsgCell As Range)
+Function AssignRouteGroupsFromField(LineGroupListRange As String, msgCell As Range)
     Dim iroute As Integer
     Dim grouprange As Range
     AssignRouteGroupsFromField = True
@@ -356,7 +356,7 @@ Function AssignRouteGroupsFromField(LineGroupListRange As String, MsgCell As Ran
         iRow = grouprange.Row
         icol = grouprange.Column
         If grouprange.Value <> "Line" Then
-            MsgCell = MsgCell & Chr(10) & "Check if Integration Fare range is correct, missing check expression   'Line'"
+            msgCell = msgCell & Chr(10) & "Check if Integration Fare range is correct, missing check expression   'Line'"
             AssignRouteGroupsFromField = False
             Exit Function
         End If
@@ -366,7 +366,7 @@ Function AssignRouteGroupsFromField(LineGroupListRange As String, MsgCell As Ran
             If iroute <> 0 Then
                 route(iroute).group = plan.Cells(iRow, icol + 1)
             Else
-                MsgCell = MsgCell & Chr(10) & "Warning: Line " & plan.Cells(iRow, icol) & " missing (" & plan.Name & "!" & plan.Cells(iRow, icol) & ")"
+                msgCell = msgCell & Chr(10) & "Warning: Line " & plan.Cells(iRow, icol) & " missing (" & plan.Name & "!" & plan.Cells(iRow, icol) & ")"
             End If
             iRow = iRow + 1
         Loop
@@ -378,7 +378,7 @@ Function AssignRouteGroupsFromField(LineGroupListRange As String, MsgCell As Ran
     Next iroute
     Exit Function
 NoRange:
-    MsgCell = MsgCell & Chr(10) & "Could not convert to range" & grouprange
+    msgCell = msgCell & Chr(10) & "Could not convert to range" & grouprange
     
 End Function
 Function GetFareGroup(groupCode As String) As Integer

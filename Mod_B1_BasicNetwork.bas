@@ -191,6 +191,16 @@ Type Route_Type
     dwt() As Single  'dwt must mark stop time
     HasTtf As Boolean
     ttf() As Integer
+    HasTtfL As Boolean
+    ttfL() As Integer
+    HasTtfT As Boolean
+    ttfT() As Integer
+    HasUs1 As Boolean
+    Us1() As Integer
+    HasUs2 As Boolean
+    Us2() As Integer
+    HasUs3 As Boolean
+    Us3() As Integer
     HasVoltr As Boolean
     voltr() As Single
     timetr() As Single
