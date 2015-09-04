@@ -1,5 +1,5 @@
 # Emmekit for VBA
-One tool kit for reading, manipulating, and writting INRO EMME files
+A tool kit for reading, manipulating, and writting INRO EMME files
 
 This tools were developed over the years working with EMME. They were originally in Fortran and I ported them to VBA so I could share with my coleagues...
  usually with strict instructions (and with me around).
@@ -53,6 +53,14 @@ specific needs... ideally you should do it as a new and independent tool, so you
 
 <a name="play-withorganized-tools"></a>
 ## Playing with the available prepared and organized tools:
+
+The 2 tools available in spreadsheet have the same organization, that we used in practice, to keep a record of what has been done to generate every file:
+
+- Each column on the spreadsheet represents one race of the tool
+- So each row, represents one diferent input (or output) parameter
+- By pressing the button 'RUN' the macro will excute for every column where an 'X' indicates to do so.
+- BEFORE running the first time, Network parameters in column 'C' of the 'NET_PARAMETERS' spreadsheet (described below) will be loaded.
+
 ###Network parameters:
 The main gap to cross when you want to be able to manipulate a network, is having a subset of tools that can locate points in the map and calculate distances.
 This require learning about how the network is represented:
@@ -114,6 +122,16 @@ It requires 3 files for input:
 			- '-' (minus) means delete line.
 			- '+>' Add points in the END of the line thru the following points (uses shortest path)
 			- '+<' Add points in the BEGIN of the line thru (uses shortest path)
+	- Examples of commands:
+		- c Cut route 123A back(b) and forth(f) to the corner of Saint Paul (node 6789)
+		- 123Af X> 6789
+		- 123Ab X< 789
+		-
+		- C Extend route 234B back(b) and forth(f) till new bus terminal (node 1021), going around the block
+		- 234Bf +> 7676 8988 1021
+		- 234Bb +< 1021 8888 7776
+		- c Remove route 345A back and forth 
+		- 345Ai -
 
 and outputs 2 files:
 
@@ -123,11 +141,77 @@ and outputs 2 files:
 
 ###Cones
 
-Creates integration cones, as follows:
-    - New nodes will try to have the same number end (above 100,000)
-    - will create cones for all stops where a bus bellonging to a group with fare integration stops, with auxiliary mode given bellow and price is placed in ul3
-    - uses the 800-900 range for types of the new links
-    - will add a walking cost when making cones between two stops
+Creates fare integration cones (mini terminals) to charge on auxiliary transit links:
+
+- Given:
+	- an integration fare table, like this:
+![fare integration table](assets/FareTable.png)
+
+	- And a list of the group each transit line belongs to -- either by ut1, ut2, ut3, mode or by a table as bellow:
+![GroupList](assets/GroupList.png)
+
+	- the auxiliary free of charge mode (walking mode)
+	- the auxiliary 'charging mode'
+	- \[cone height for drawing\]
+	- \[penalty cost for transfer\]
+
+- Will create cones for all stops where a bus bellonging to a group with fare integration stops, with auxiliary mode given bellow and price is placed in ul3, transforming
+the network from this (each fare group is represented by one color):
+![before](casquinhas_antes.png)
+
+to this:
+![after](casquinhas_depois.png)
+
+
+- Where:
+    	- New nodes will try to have the same number end (above 100,000) of the root node they are expanding to charge connections
+    	- uses the 700-900 range for types of the new links
+    	- buses only stops inside the cones
+	- user can only reach stop, thru auxiliary transit modes.
+		- from a root node on the street, where ul3 in the link gives the full price for first boarding
+		- from a alighting only stop node, where ul3 in the link states the fare integration price
+
+Image bellow shows an example (from Jakarta, left-handed traffic), showing modes and ul3:
+![after](cone.png)
+
+
+- It is possible to inform that two points appart from each other may also be considered for fare integration
+	- informing an special link type on the network that connects this 2 stops
+	- and providing an equivalence between  walking distance and fare, so a walking cost can be included when making cones between two stops
+
+	- with this special link, instead of this:
+
+![Regular_Cones](assets/BlokM.png)
+
+	- the cones will be created like this:
+
+![Special_Cones](assets/BlokMPlus.png)
+
+
+This solution was applied to large networks (Rio de Janeiro amd Belo Horizonte) with up to 18 fare groups, after selection of only relevant stops:
+	- first and last encounter of any transit lines
+	- closer stop between a centroid and a transit line passing within a radius of 2 km of the centroid (walking was allowed all over the network)
+
+
+In Rio, an experimental solution was used to restrict only one transfer, but to partial network, because at the time there were stronger transit segments limitations
+ (and our licence key was not big enough):
+
+-  Every line was doubled: one representing first boarding:
+	- first group, representing first boarding:
+		- allowed boarding for free every root stop node
+		- was detoured to the right leg of the cone
+		- alighting was only allowed inside the cone, from where:
+			- first boarding price was charged to allow user go back to the street
+			- integrated fare was charged for user move to any node on the left side of the cone
+	- second group to the left side, represented the line carrying the passengers that already transfered:
+		- entered the left side of cone
+		- allowed boarding only inside the cone
+		- allowed alighting for free on every root stop node
+	
+This experimental solution is available for this organized implementation as well, by marking an X on row 16,  comparison between the results in our testing for Jakarta 2004 Network is shown here:
+
+![Cones_anytransfers](assets/ConeAny.png)
+![Cones_onetransfer](assets/ConeOne.png)
 
 
 
@@ -150,9 +234,10 @@ This module holds code to export and import the own modules in VBA. This demands
 - Security settings (on Excel: "File... Options... Trust Center... Trust Center Settings... Macro Settings" or more directly on "Developer... Macro Security...") to \[v\] 
 Trust access to the VBA project object model
 - Microsoft Visual Basic For Applications Extensibility 5.3. (on IDE: "Tools... References...)
+
 ![Image of available references](assets/Screeen_References_MSVBAExtesibility.png)
 
-A good explanation of what is going on done by Chip Pearson [here](http://www.cpearson.com/excel/vbe.aspx).
+While this are enabled you must be aware of the origins of macros you run... a good explanation of what is going on done by Chip Pearson [here](http://www.cpearson.com/excel/vbe.aspx).
 
 <a name="first-time-user"></a>
 ## If you are a first time user of VBA:
