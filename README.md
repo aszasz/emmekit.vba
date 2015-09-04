@@ -125,8 +125,7 @@ It requires 3 files for input:
 	- Examples of commands:
 		- c Cut route 123A back(b) and forth(f) to the corner of Saint Paul (node 6789)
 		- 123Af X> 6789
-		- 123Ab X< 789
-		-
+		- 123Ab X< 6789
 		- C Extend route 234B back(b) and forth(f) till new bus terminal (node 1021), going around the block
 		- 234Bf +> 7676 8988 1021
 		- 234Bb +< 1021 8888 7776
@@ -157,10 +156,12 @@ Creates fare integration cones (mini terminals) to charge on auxiliary transit l
 
 - Will create cones for all stops where a bus bellonging to a group with fare integration stops, with auxiliary mode given bellow and price is placed in ul3, transforming
 the network from this (each fare group is represented by one color):
-![before](casquinhas_antes.png)
+
+![before](assets/casquinhas_antes.png)
 
 to this:
-![after](casquinhas_depois.png)
+
+![after](assets/casquinhas_depois.png)
 
 
 - Where:
@@ -172,7 +173,8 @@ to this:
 		- from a alighting only stop node, where ul3 in the link states the fare integration price
 
 Image bellow shows an example (from Jakarta, left-handed traffic), showing modes and ul3:
-![after](cone.png)
+
+![after](assets/cone.png)
 
 
 - It is possible to inform that two points appart from each other may also be considered for fare integration
@@ -183,7 +185,9 @@ Image bellow shows an example (from Jakarta, left-handed traffic), showing modes
 
 ![Regular_Cones](assets/BlokM.png)
 
+
 	- the cones will be created like this:
+
 
 ![Special_Cones](assets/BlokMPlus.png)
 
@@ -217,15 +221,32 @@ This experimental solution is available for this organized implementation as wel
 
 <a name="play-with-code"></a>
 ## Playing with code:
+Every module has a few Public variables (vectors) that it is responsible for computing, even functions not used outside are public (if you need disambiguation you use the format Module.Function).
 
 ### Module "Basic Network"
-This module holds the code that deal with network parameters, distance and find tools.
+This module holds the code that deal with network parameters, distance and find (network elements) tools. It is the responsible for maintaing the consistency of the network, while 
+making requested changes to its functions.
 
-It also holds the main types, points (=nodes), links and routes.
+It holds the main types, points (=nodes), links and routes, and broadcasts the elements of these types that make the network to the other routines
 
 ### Module "Emme"
 This module holds the functions that deal with reading and writting emme files, querying and changing properties
 that are important to write on the output files.
+
+### Module "Text"
+Deals basically with parsing and substitution of strings. As parsing is implemented, all functions return the number of elements parsed on a string and let the
+parsed result in a Public vector called SplitWord (instead of returning it as a Variant)... there is also a SplitWordB, for use when you want to parse something that is 
+in SplitWord, so it is not needed to save it.
+
+### Module "Sort"
+It has HeapSorts implemented, it follows the same idea of the parser:
+- There is a public vector variable (in fact two of them: one is numerical (single) and the other alfa-numerical (string)) to exchange information with the sorting function.
+The calling routine must fill these vectors, than inform up to what position it was done (in var Public NtoSort), then call the function to sort that vector up to that position.
+
+### Modules "Cone" and "Lines Mover"
+Have routines specific to those tools. Module "Dialog" has also tools  to assist this 'spreadsheet interface' in the selection of files and spreadsheets that will be used as parameters
+for this two routines. New tools may follow the same pattern.
+
 
 <a name="module-modules"></a>
 ### Module "Modules"
@@ -313,11 +334,10 @@ There can be code written ''inside'' the workbook (inside each worksheet), to ea
 
 ![Screenshot_Project_Explorer](/assets/Screeen_Project_Explorer.png)
 
-Welcome to a new world.
+To Execute a Macro (Sub) you can either, select it from Excel or place the cursor on its code on the VBA and hit the play button (same as <kbd>F5</kbd>),
+ but the most interest thing to do is to hit F8 and execute it step by step, at first (click in the Debug Menu to see your otpions to run the code)
 
-
-
-
+Welcome to a new world!
 
 
 
@@ -332,5 +352,6 @@ use . (dot) for decimal digits and , (comma) for thousand separator, so outputs 
 
 After while using the VBA IDE you will want to disable: Tools... Options... "Auto Sintax check". When sintax is wrong code lines goes red anyway.
 
-Another useful thing is to click with the right button in th menu bar and select Customize... Edit... and find the commands (buttons) 'Comment blocks' and 'Uncomment blocks' and drag them to the tool bar and the Edit Menu, they are not shown anywhere by default and are very useful.
+Another useful thing is to click with the right button in th menu bar and select Customize... Edit... and find the commands (buttons) 'Comment blocks' and 
+'Uncomment blocks' and drag them to the tool bar and the Edit Menu, they are not shown anywhere by default and are very useful.
 
