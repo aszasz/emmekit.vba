@@ -20,22 +20,74 @@ This was prepared within a few days, so I could announce the fufilling of my pro
 audience...
 
 ... So this is an attempt to bring VBA code to git and document it, working around Excel by exporting the VBA modules, so we can see changes as texts.
-This exported modules, which receive the extension ".bas" (".cls" for class modules) are exactly the edited code plus a single header line.
+This exported modules, which receive the extension ".bas" (".cls" for class modules) are exactly the edited code plus a single header line. You can import and export modules one
+ by one, right clicking them on Project Explorer ([see first time user of VBA](#first-time-user)) or use a toll for that in the [module Modules](module-modules)
 
 To do so, I organized (thus far only two) tools in a way that one can use without knowing anything about the code, one is very simple and the other
  is very complex (although not as complex as it can be when real applications are made). 
 
-If you learn how this works, you can, you get and idea of
- how the code should to do it, then you can look at the code 
-and create your own tools (even if you are a [first time user of VBA](#first-time-user)), and hopefully and share them here.
+If you understand how these works, then you got a hold of
+ what the code should look like, follow it and then create your own tools (even if you are a [first time user of VBA](#first-time-user)), and hopefully and share them here.
 
+<a name="overall-workflow"></a>
+##Overview
+
+This manipulation tools work as almost all programming tools:
+
+- Learn what and where are the input and output
+- Read input
+- Do stuff
+- Output 
+
+Usually, the input and/or the output are EMME formatted files. In the "do stuff" part, ideally a program must check if the input is what it
+ should be and if it is consistent internally and with other input. According with the proposal of this tools, this is usually only checked
+(sometimes not even that);
+figuring out what is wrong and solving it is let to the user.
+
+When you are writting your own code, you will addapt it to fix it according to 
+specific needs... ideally you should do it as a new and independent tool, so you can use it later and share. 
+
+<!--- When you do a patch, as I used to
+ and that is the main reason why making generic macros are much harder than making specific ones.
+--->
 
 <a name="play-withorganized-tools"></a>
 ## Playing with the available prepared and organized tools:
 ###Network parameters:
 The main gap to cross when you want to be able to manipulate a network, is having a subset of tools that can locate points in the map and calculate distances.
 This require learning about how the network is represented:
-	- how network coordinates relates to distances
+
+- how network coordinates relates to distances
+- some limits of the network, so search can be efficient
+
+So, whenever you use the EMMEkit (with or without the prepared tools) you need first to set up the Network parameters... on the corresponding spreadsheet (NET PARAMETERS on column C), as follows:
+
+- meters_per_network_unit: your network grid might be coded in miles, kilometers, yards, or in latitude and longitude: so you need to inform how many meters fit in one unit of your grid, 
+or mark 'X' to inform that is latitude and longitude (in case it is assumed is in decimal degrees and NOT minutes and seconds -- minutes and seconds are not yet supported)
+- meters_per_link_extension_unit: EMME eventually uses diferent unit for the grid and link and lines extensions, so you must inform how many meters fit in one unit of this used measure
+
+- MIN_X: coordinate of the south limit of the network (it can be further south)
+- MAX_X: coordinate of the north limit of the network (it can be further north)
+- MIN_X: coordinate of the west limit of the network (it can be further west)
+- MAX_X: coordinate of the east limit of the network (it can be further east)
+
+- X_SCREEN_STEP: for searching elements, the screen is divided in rectangles of equal width, this is the width -- too large, search gets slower, to narrow we use to much memory.
+ Considering urban desnsities no issues have been noticed, neither in speed or memory while dividing the screen in 1 million squares (creating two memory vectors of 10 Mbytes each) 
+ so you shall choose a number that multiplied by the Y_SCREEN_STEP results in a number near 1 million
+- Y_SCREEN_STEP: its the height of the rectangle explained above. (In the EMMEkit for Haxe, we implemented R-Trees, which are equivalent of self-size regulating rectangles, so no waste of memory and time
+, but for the purposes of this kit, this is still good).
+
+- MaxNodeNumber: The higher node number that can be seen and/or accepted in the network, it will be used to locate points by number and to create new points
+- MaxLinkList: The maximum nunber of links in the base, saves resizing times in link listing vectors, it is a variable that uses 4 bytes per link, not a big problem nowdays either.
+
+- DIM_XPOINTFINDER and DIM_YPOINTFINDER, they are the number of rectangles resulting from the MAX, MIN and SCREEN STEP, that should be in the range of 1000.
+
+- USeLinkSearch: To enable When the tool will use link serarch in a given area (like unify  and compare networks). This is a legacy feature that 
+can be removed, because of concern of speed and  memory size in the old days...
+(we are now talking about a second for a 30.000 links network in an 3 year-old laptop,v so you can always enable it)
+
+Once this is set, the other prepared tools work fine.
+
 
 ###Lines Mover
 Lines mover is a very simple tool to use, that will change transit lines itineraries based on an instruction file.
@@ -61,11 +113,12 @@ It requires 3 files for input:
 			- 'X<' means delete all points before (if the line passes twice, it is the first pass)
 			- '-' (minus) means delete line.
 			- '+>' Add points in the END of the line thru the following points (uses shortest path)
-:			- '+<' Add points in the BEGIN of the line thru (uses shortest path)
+			- '+<' Add points in the BEGIN of the line thru (uses shortest path)
 
 and outputs 2 files:
-	- emme network input file as exported by EMME with command 2.11: it is a differential file, that adds needed modes for the changes
-	- emme transit line input file as exported by EMME with command 2.21: also a differential file
+
+- emme network input file as exported by EMME with command 2.11: it is a differential file, that adds needed modes for the changes
+- emme transit line input file as exported by EMME with command 2.21: also a differential file
 	
 
 ###Cones
@@ -78,37 +131,28 @@ Creates integration cones, as follows:
 
 
 
-
 <a name="play-with-code"></a>
 ## Playing with code:
 
-<a name="overall-workflow"></a>
-###Workflow overview
-
-This manipulation tools work as almost all tools:
-- Learn what and where are the input and output
-- Read input
-- Do stuff
-- Output 
-
-Usually, the input and/or the output are EMME formatted files. In the "do stuff" part, ideally a program must check if the input is what it
- should be and if it is consistent internally and with other input. According with the proposal of this tools, this is usually only checked;
-figuring out what is wrong and solving it is let to the user.
-
-When you are writting your own code, you will addapt it to fix it according to 
-specific needs... ideally you should do it as a new and independent tool, so you can use it later. 
-
-<!--- When you do a patch, as I used to
- and that is the main reason why making generic macros are much harder than making specific ones.
---->
-
 ### Module "Basic Network"
 This module holds the code that deal with network parameters, distance and find tools.
+
+It also holds the main types, points (=nodes), links and routes.
 
 ### Module "Emme"
 This module holds the functions that deal with reading and writting emme files, querying and changing properties
 that are important to write on the output files.
 
+<a name="module-modules"></a>
+### Module "Modules"
+This module holds code to export and import the own modules in VBA. This demands that you enable:
+
+- Security settings (on Excel: "File... Options... Trust Center... Trust Center Settings... Macro Settings" or more directly on "Developer... Macro Security...") to \[v\] 
+Trust access to the VBA project object model
+- Microsoft Visual Basic For Applications Extensibility 5.3. (on IDE: "Tools... References...)
+![Image of available references](assets/Screeen_References_MSVBAExtesibility.png)
+
+A good explanation of what is going on done by Chip Pearson [here](http://www.cpearson.com/excel/vbe.aspx).
 
 <a name="first-time-user"></a>
 ## If you are a first time user of VBA:
@@ -131,9 +175,9 @@ Before MS-Office 2007, simple spreadsheet files were all ".xls"  After 2007, the
 		
 It does not matter which fomat (even if it is called macro-enabled), when you oppen a file with embbeded macros, depending on your 'macro security settings' you may:
 
-	- be asked if you want-to enable macros
-	- have macros ignored
-	- have macros automatically enabled (this has security concerns, because macros can change things beyond the file scope and beyond the application (Excel scope),
+- be asked if you want-to enable macros
+- have macros ignored
+- have macros automatically enabled (this has security concerns, because macros can change things beyond the file scope and beyond the application (Excel scope),
  even when openning the file)
 
 To set this go to "File... Options... Trust Center... Trust Center Settings..." In Trust Center go to Macro Settings... and choose the suitable option
@@ -184,9 +228,7 @@ There can be code written ''inside'' the workbook (inside each worksheet), to ea
 
 ![Screenshot_Project_Explorer](/assets/Screeen_Project_Explorer.png)
 
-
-
-Well come to a different world.
+Welcome to a new world.
 
 
 
