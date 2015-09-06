@@ -157,6 +157,8 @@ Creates fare integration cones (mini terminals) to charge on auxiliary transit l
 - Will create cones for all stops where a bus bellonging to a group with fare integration stops, with auxiliary mode given bellow and price is placed in ul3, transforming
 the network from this (each fare group is represented by one color):
 
+from this:
+
 ![before](assets/casquinhas_antes.png)
 
 to this:
@@ -181,12 +183,12 @@ Image bellow shows an example (from Jakarta, left-handed traffic), showing modes
 	- informing an special link type on the network that connects this 2 stops
 	- and providing an equivalence between  walking distance and fare, so a walking cost can be included when making cones between two stops
 
-	- with this special link, instead of this:
+with this special link, instead of this:
 
 ![Regular_Cones](assets/BlokM.png)
 
 
-	- the cones will be created like this:
+the cones will be created like this:
 
 
 ![Special_Cones](assets/BlokMPlus.png)
@@ -318,11 +320,9 @@ until you hit the record button again (that shall be renamed to stop recordding)
 
 ![Screeen stop recording](/assets/Screeen_stop_recording.png)
 
-	- To see this work, undo what you did and execute the macro by clicking in the second button of the Developer Ribbon "Macros".
-	- To see the code, which you should do after recording a few more macros, use the first button of that Ribbon "Visual Basic", (equivalent 
+- To see this work, undo what you did and execute the macro by clicking in the second button of the Developer Ribbon "Macros".
+- To see the code, which you should do after recording a few more macros, use the first button of that Ribbon "Visual Basic", (equivalent 
 to <kbd>Alt</kbd>+<kbd>F11</kbd>. You will be in the Visual Basic IDE, as explained bellow
-
-
 
 
 To shift to the IDE in Excel (and shift back to Excel), press <kbd>Alt</kbd>+<kbd>F11</kbd>.
@@ -342,7 +342,7 @@ Welcome to a new world!
 
 
 
-- to deal with EMME input without problems you must set your Excel and your Windows to use "dots" as decimal separator.
+OBs.: to deal with EMME input without problems you must set your Excel and your Windows to use "dots" as decimal separator.
 Over the years I've learn that is easier to go back and forth changing this settings, based on your needs, than having your macros to deal with it.
 (place settings for Windows on the Start Menu.)
 
