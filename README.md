@@ -31,6 +31,9 @@ If you understand how these works, then you got a hold of
 
 <a name="overall-workflow"></a>
 ##Overview
+You can download only the .xlsm file check and run the code. (to test you need to get the 2 input files in exampledata/database too).
+ To contribute, you shall change and add your code in the xlsm and export it to a ".bas" in the directory "modules" or update you shall change the ".bas"
+ in the folder modules (see [module Modules](module-modules)
 
 This manipulation tools work as almost all programming tools:
 
@@ -51,6 +54,7 @@ specific needs... ideally you should do it as a new and independent tool, so you
  and that is the main reason why making generic macros are much harder than making specific ones.
 --->
 
+
 <a name="play-withorganized-tools"></a>
 ## Playing with the available prepared and organized tools:
 
@@ -60,6 +64,24 @@ The 2 tools available in spreadsheet have the same organization, that we used in
 - So each row, represents one diferent input (or output) parameter
 - By pressing the button 'RUN' the macro will excute for every column where an 'X' indicates to do so.
 - BEFORE running the first time, Network parameters in column 'C' of the 'NET_PARAMETERS' spreadsheet (described below) will be loaded.
+
+###Example data:
+If you clone the repository, you will also have the input example data and emme project.
+
+ It is uses network and transit data to represent Jakarta network, back in 2005. The directory 'exampledata' holds an EMME project 
+"JKT2005.emp" and the EMME folder structure bellow it, only thing is that you must unzipp the emmebank (in database folder) before opening it, the bank fits in a license #7. 
+(the experimental feature of Cones_tool -- only one transfer -- requires it, the standard Cones_tool output fits in license #5, the input network fits in #3, 
+but you will need to start a new project and input files: modes13, vehicles13, basenetwork13 and transitlines13)
+
+![example_data_base](assets/emmekit_example)
+
+There is four transit lines modes (with different collors in the picture above):
+- Mikrolets, mode "e" are vans and run mostly in the outskirts area (yellow)
+- Medium buses, mode "d" are micro-buses and run to more central areas (blue)
+- Patas, mode "b" are the traditional bus, run longer distances in the main corridors (green)
+- TransJakarta, mode "w", the first 13 km BRT corridor implemented from north (Kota) to south (BlokM) (red)
+
+
 
 ###Network parameters:
 The main gap to cross when you want to be able to manipulate a network, is having a subset of tools that can locate points in the map and calculate distances.
@@ -136,7 +158,53 @@ and outputs 2 files:
 
 - emme network input file as exported by EMME with command 2.11: it is a differential file, that adds needed modes for the changes
 - emme transit line input file as exported by EMME with command 2.21: also a differential file
-	
+
+The example file:
+
+
+'''
+C When looking at network, remember it is left-hand traffic
+C Mikrolet lines aorund the kota block to end near Kota station
+JU004B X> 18068
+MK008B X> 18068
+MK012B X> 18068
+MK039B X> 18068
+
+C Mikrolet lines aorund the kota block to start near Kota station
+c First cut them to the corner
+MK008F X< 14782
+MK012F X< 14782
+c Then extend them
+MK008F +< 18068
+MK012F +< 18068
+JU004F +< 18068
+MK039F +< 18068
+
+c Detour Route MK053 B and F thru Local Jalan (16474)
+MK053F X< 14763
+MK053B X> 14763
+
+MK053F +< 16474 12207
+MK053B +> 16474 12207
+
+c Delete Route Mikrolet 14
+MK014F -
+MK014B -
+'''	
+
+changes this:
+
+![Before Move](assets/BeforeMove.png)
+
+![Before Move](assets/BeforeMoveToo.png)
+
+into this:
+
+![After Move](assets/AfterMove.png)
+
+![After Move](assets/AfterMoveToo.png)
+
+
 
 ###Cones
 
@@ -262,6 +330,14 @@ Trust access to the VBA project object model
 
 While this are enabled you must be aware of the origins of macros you run... a good explanation of what is going on done by Chip Pearson [here](http://www.cpearson.com/excel/vbe.aspx).
 
+Once you do this, you can export all modules running the Sub export_all_my_basic_modules() (and adding the names of your created modules to Sub load_names_of_modules()
+
+##Inspirational Garbage
+In the file with the same name you can find a considerable ammount of things not cleaned up and not well organized is huge:
+- There is some fairly well documented classes
+
+
+
 <a name="first-time-user"></a>
 ## If you are a first time user of VBA:
 
@@ -354,4 +430,5 @@ After while using the VBA IDE you will want to disable: Tools... Options... "Aut
 
 Another useful thing is to click with the right button in th menu bar and select Customize... Edit... and find the commands (buttons) 'Comment blocks' and 
 'Uncomment blocks' and drag them to the tool bar and the Edit Menu, they are not shown anywhere by default and are very useful.
+
 
