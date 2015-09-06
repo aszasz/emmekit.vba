@@ -71,7 +71,8 @@ If you clone the repository, you will also have the input example data and emme 
  It is uses network and transit data to represent Jakarta network, back in 2005. The directory 'exampledata' holds an EMME project 
 "JKT2005.emp" and the EMME folder structure bellow it, only thing is that you must unzipp the emmebank (in database folder) before opening it, the bank fits in a license #7. 
 (the experimental feature of Cones_tool -- only one transfer -- requires it, the standard Cones_tool output fits in license #5, the input network fits in #3, 
-but you will need to start a new project and input files: modes13, vehicles13, basenetwork13 and transitlines13)
+but you will need to start a new project and input files: [modes13](exampledata/database/modes13), [vehicles13](exampledata/database/vehicles13), 
+[basenetwork13](exampledata/database/basenetwork13) and [transitlines13](exampledata/database/transitlines13)
 
 ![example_data_base](assets/emmekit_example)
 
@@ -159,10 +160,10 @@ and outputs 2 files:
 - emme network input file as exported by EMME with command 2.11: it is a differential file, that adds needed modes for the changes
 - emme transit line input file as exported by EMME with command 2.21: also a differential file
 
-The example file:
+The [example file](exampledata/database/movelineskota.txt) :
 
 
-'''
+```
 C When looking at network, remember it is left-hand traffic
 C Mikrolet lines aorund the kota block to end near Kota station
 JU004B X> 18068
@@ -190,17 +191,21 @@ MK053B +> 16474 12207
 c Delete Route Mikrolet 14
 MK014F -
 MK014B -
-'''	
+```	
 
 changes this:
 
 ![Before Move](assets/BeforeMove.png)
 
-![Before Move](assets/BeforeMoveToo.png)
-
 into this:
 
 ![After Move](assets/AfterMove.png)
+
+and this:
+
+![Before Move](assets/BeforeMoveToo.png)
+
+into this:
 
 ![After Move](assets/AfterMoveToo.png)
 
@@ -415,20 +420,18 @@ To Execute a Macro (Sub) you can either, select it from Excel or place the curso
 
 Welcome to a new world!
 
-
-
-
-OBs.: to deal with EMME input without problems you must set your Excel and your Windows to use "dots" as decimal separator.
-Over the years I've learn that is easier to go back and forth changing this settings, based on your needs, than having your macros to deal with it.
-(place settings for Windows on the Start Menu.)
-
-(OBS: VBA does not respect the Excel settings for digits and thousand separator, so make sure you set Windows to 
-use . (dot) for decimal digits and , (comma) for thousand separator, so outputs are recognized by EMME.
-
-
 After while using the VBA IDE you will want to disable: Tools... Options... "Auto Sintax check". When sintax is wrong code lines goes red anyway.
 
 Another useful thing is to click with the right button in th menu bar and select Customize... Edit... and find the commands (buttons) 'Comment blocks' and 
 'Uncomment blocks' and drag them to the tool bar and the Edit Menu, they are not shown anywhere by default and are very useful.
+
+
+_OBs.:_ to deal with EMME input without problems you must set your Excel and your Windows to use "dots" as decimal separator.
+Over the years I've learn that is easier to go back and forth changing this settings, based on your needs, than having your macros to deal with it.
+(place settings for Windows on the Start Menu.)
+VBA does not respect the Excel settings for digits and thousand separator, so make sure you set Windows to 
+use . (dot) for decimal digits and , (comma) for thousand separator, so outputs are recognized by EMME.
+
+
 
 
