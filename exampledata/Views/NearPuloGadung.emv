@@ -1,0 +1,29 @@
+BE1EDF10-2EAD-462F-8D9D-01D816FE2C10 07B0F5AD-A2A7-4B4E-B4A9-06EB441586D6 2 0 0
+# Emme View file generated on ter 1. set 01:14:46 2015
+# File: D:/docs/Development/emmekit.vba/Views/NearPuloGadung.emv
+#
+# String Name: user definable name of configurable object (tr)
+Name = NearPuloGadung
+# String IncomingSyncs: regular expression to filter incoming sync signals
+IncomingSyncs = .
+# String OutgoingSyncs: regular expression to filter outgoing sync signals
+OutgoingSyncs = .
+# Expression Condition: The file is applicable only if this condition is true (tr)
+Condition =  
+# String File: Full file path (ro,subst,nosave)
+File : (0x80)
+# Click Delete: Delete file (nosave)
+Delete : (0x80)
+# String FileType: File type (ro,nosave)
+FileType : (0x80)
+# Float XMin: X-coordinate of lower left corner of the view
+XMin = 699587.5
+# Float YMin: Y-coordinate of lower left corner of the view
+YMin = 9316835
+# Float XMax: X-coordinate of upper right corner of the view
+XMax = 701103
+# Float YMax: Y-coordinate of upper right corner of the view
+YMax = 9318210
+# Box ViewBox: box defining the view (nosave)
+ViewBox : (0x80)
+

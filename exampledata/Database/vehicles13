@@ -1,0 +1,12 @@
+c Emme Module:    2.02(v8376)  Date: 15-08-29 18:13   User: EB62/LOGIT.....ACS
+c Project:        TRANSJAKARTA BUSWAY KORIDOR I, II DAN III                   
+c Scenario   13:  c12 mf39                                                    
+t vehicles init
+a   1 'PatasAC   ' b   5000    54    90   0.00   0.00   0.00   0.00   2.00
+a   2 'PatasNE   ' b   2000    45    75   0.00   0.00   0.00   0.00   2.00
+a   3 'Patas     ' b   3000    54    90   0.00   0.00   0.00   0.00   2.00
+a   4 'Regular   ' b   2000    54    90   0.00   0.00   0.00   0.00   2.00
+a   5 'Bus       ' d   3000    42    65   0.00   0.00   0.00   0.00   1.50
+a   6 'Mikrolet  ' e   6000    14    17   0.00   0.00   0.00   0.00   1.00
+a   7 'busway    ' w   2000    40    90   0.00   0.00   0.00   0.00   2.00
+

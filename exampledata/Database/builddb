@@ -1,0 +1,43 @@
+~/Defining data base dimensions.............................................0.01
+10 / scenarios
+3000 / centroids
+30000 / nodes
+96000 / links
+240000 / turns
+30 / transit vehicles
+12000 / transit lines
+480000 / line segments
+10,999,999,999 / matrices (mf,mo,md[,ms])
+99 / functions per class
+5000 / operators per class
+5000 / log book size
+100 / demarcation size
+2574015 / extra network attributes
+yes / node labels
+yes / user data on transit line segments
+yes / work file to save class specific auto volumes
+emmekitVBA_Jakarta_2005_Example                              / project title
+yes / confirm dimensions
+~/Reading device table......................................................0.02
+7 / terminal type (here Non graphic report /401)
+1 / printer type
+1 / plot file type (here GPL/GPR plot file, color)
+ACS   / initials
+~/Creating scenario 1....................................................1.22
+1 / scenario to be created
+Base                                                         / scenario title
+~/Modifying units....................................................1.23
+m=1.23
+3 / unit of length
+'km'
+4 / unit of cost
+'$'
+5 / unit of energy
+'MJ'
+6 / length of coordinate unit
+0.001
+7 / node number digits
+6 / number of digits for node number
+~/CREATION_FINISHED_TAG (do not remove this comment)
+q
+q

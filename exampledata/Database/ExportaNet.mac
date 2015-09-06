@@ -1,0 +1,5 @@
+~!del BaseNet%s%.out
+~!del Routes%s%.out
+~+;2.14;5;BaseNet%s%.out;y;y;q
+~+;2.24;4;*;Routes%s%.out;q
+  

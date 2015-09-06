@@ -1,0 +1,257 @@
+D2461A6A-1F51-4A2C-87AC-6C3C49AA9DF7 07B0F5AD-A2A7-4B4E-B4A9-06EB441586D6 2 1 0
+# Emme worksheet generated on dom 6. set 10:37:54 2015
+# File: D:/docs/Development/emmekit.vba/Worksheets/JKT_General.emw
+#
+# String Name: name of worksheet (tr,subst)
+Name = JKT_General
+# Flags Flags: worksheet configuration flags
+Flags = 0x8
+# String Active: name of currently active layer
+Active = Transit line
+# Bool ShowCursorPosition: show cursor position in status bar
+ShowCursorPosition = 1
+# Expression Condition: indicates that the worksheet is valid only if the condition is met (tr)
+Condition = 
+
+[Inclusion]
+# Flags Flags: bit pattern containing layer flags
+Flags = 0x9e00000
+# Bool CFlag: display layer controls
+CFlag = 0
+# Bool SFlag: display layer on screen
+SFlag = 1
+# Bool MFlag: display layer under the magnifier
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool IFlag: allow interactive input
+IFlag = 0
+# Bool TFlag: provide tips
+TFlag = 0
+# Bool AFlag: set active flag of filtered elements
+AFlag = 0
+# Bool BFlag: include bounding box in full view
+BFlag = 1
+# Bool EnableObjects: enable included objects
+EnableObjects = 1
+# String ConfigurationFile: file containing configuration to include (subst)
+ConfigurationFile = C:/Program Files (x86)/INRO/Emme/Emme 3.4/Emme-3.4.1/common/nodes.emt
+
+[Background]
+# String Name: layer name that appears on layer control tab (tr,subst)
+Name = Background color
+# Bool CFlag: display layer controls
+CFlag = 1
+# Bool SFlag: display layer on screen
+SFlag : ShowBackColor
+SFlag = 1
+# Bool MFlag: display layer under the magnifier
+MFlag : /ShowBackColor
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool IFlag: allow interactive input
+IFlag = 0
+# Bool UseWallpaper: use pixmap wallpaper to draw background
+UseWallpaper : (0x2)
+UseWallpaper = 0
+# Style Style: style for filling background when no wallpaper is used
+Style : (0x200) /BackgroundColor!/$WorksheetLoaded
+Style = 0x00000000 0x01f4f4f4 0x00000000 0x00
+# String WallpaperFile: file containing wallpaper image (subst)
+WallpaperFile : (0x2)
+WallpaperFile = 
+
+[ESRI ArcGIS]
+# Flags Flags: bit pattern containing layer flags
+Flags = 0xbc10000
+# Bool CFlag: display layer controls
+CFlag = 1
+# Bool SFlag: display layer on screen
+SFlag = 0
+# Bool MFlag: display layer under the magnifier
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool BFlag: include bounding box in full view
+BFlag = 0
+# String File: the location of an ArcGIS map document (subst)
+File = Bing_Maps.mxd
+
+[Link value]
+# Flags Flags: bit pattern containing layer flags
+Flags = 0x9c10000
+# Bool CFlag: display layer controls
+CFlag = 1
+# Bool SFlag: display layer on screen
+SFlag = 0
+# Bool MFlag: display layer under the magnifier
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool AFlag: set active flag of filtered elements
+AFlag = 0
+# Bool BFlag: include bounding box in full view
+BFlag = 1
+# Bool DrawLinkBars: draw link bars with proportional width
+DrawLinkBars = 0
+# Bool NumericalValues: display link values numerically on links
+NumericalValues = 1
+# Integer Decimals: number of decimals in numeric values
+Decimals = -1
+# Float Offset: link offset (pixels)
+Offset = 12
+# Expression LinkValue: expression for link value (tr,link,max. 12 values)
+LinkValue = ul3
+# Filter LinkFilter: expression for link filtering [,link iterator] (tr,link)
+LinkFilter = i>100000 .or. j>100000
+
+[Link text]
+# Flags Flags: bit pattern containing layer flags
+Flags = 0x9c10000
+# Bool CFlag: display layer controls
+CFlag = 1
+# Bool SFlag: display layer on screen
+SFlag = 0
+# Bool MFlag: display layer under the magnifier
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool AFlag: set active flag of filtered elements
+AFlag = 0
+# Bool BFlag: include bounding box in full view
+BFlag = 1
+# Float Offset: link offset (pixels)
+Offset = 12
+# Float TextStartPosition: start position of text (fraction of link length)
+TextStartPosition = 0.2
+# Expression LinkValue: expression for link value (tr,link,string,max. 12 values)
+LinkValue = modes 
+# Filter LinkFilter: expression for link filtering [,link iterator] (tr,link)
+LinkFilter = [all links] 1
+
+[Transit line]
+# Flags Flags: bit pattern containing layer flags
+Flags = 0x9c00000
+# Bool CFlag: display layer controls
+CFlag = 1
+# Bool SFlag: display layer on screen
+SFlag = 1
+# Bool MFlag: display layer under the magnifier
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool AFlag: set active flag of filtered elements
+AFlag = 0
+# Bool BFlag: include bounding box in full view
+BFlag = 1
+# Bool DisplayLineNames: display line name on transit line segments
+DisplayLineNames = 0
+# Bool ShowLineEnds: mark line ends and layovers graphically
+ShowLineEnds = 1
+# Bool ShowTransitStops: show transit stops along the transit line as small circles
+ShowTransitStops = 1
+# Float LinkOffset: offset for first transit segment on link
+LinkOffset = 2
+# Float SegmentOffset: offset between transit segments on same link
+SegmentOffset = 0.05
+# Float TextOffset: lateral text offset from segment center in pixels
+TextOffset = -10
+# Float TextSize: text size on transit segments and stops
+TextSize = 14
+# Float StopWidth: size of transit stops and layovers
+StopWidth = 2
+# Float LineEndOffset: longitudinal offset of line ends
+LineEndOffset = -0.01
+# Integer Digits: number of decimals in numeric values
+Digits = 0
+# Style Style: style used to display transit line itineraries
+Style[] = 0x21ffaa00 0x01ffaa00 0x00000000 0x2f
+Style[] = 0x23fc0026 0x01fc0026 0x00000000 0x2f
+Style[] = 0x21ffe100 0x01ffe100 0x00000000 0x2f
+Style[] = 0x2110ea00 0x0110ea00 0x00000000 0x2f
+Style[] = 0x21007fff 0x01007fff 0x00000000 0x2f
+Style[] = 0x214907ff 0x014907ff 0x00000000 0x2f
+Style[] = 0x21a601ff 0x01a601ff 0x00000000 0x2f
+# Filter LineFilter: expression for transit line filtering [,line iterator] (tr,line)
+LineFilter = 
+# Filter LinkFilter: expression for link filtering [,link iterator] (tr,link)
+LinkFilter = 
+# Expression StyleIndex: transit line expression for style index (tr,line)
+StyleIndex = which(1, mode=="w", mode=="e", mode=="b", mode=="d")
+
+[Link base]
+# Bool CFlag: display layer controls
+CFlag = 1
+# Bool SFlag: display layer on screen
+SFlag = 1
+# Bool MFlag: display layer under the magnifier
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool IFlag: allow interactive input
+IFlag = 0
+# Bool TFlag: provide tips
+TFlag = 0
+# Bool AFlag: set active flag of filtered elements
+AFlag = 0
+# Bool BFlag: include bounding box in full view
+BFlag = 1
+# Float Offset: link thickness (pixels)
+Offset = 0
+# Filter LinkFilter: expression for link filtering [,link iterator] (tr,link)
+LinkFilter = [no connectors] not(isConnector)
+# Bool DrawINode: draw a circle at the I-node of each selected link
+DrawINode = 0
+# Bool DrawJNode: draw a circle at the J-node of each selected link
+DrawJNode = 0
+# Integer HighligthedVertex: highlight vertex (-1 == none)
+HighligthedVertex : HighligthedVertex
+HighligthedVertex = 0
+# Style Style: style for link outline and fill properties
+Style[] = 0x2029ade4 0x01ffffff 0x00000000 0xa00
+Style[] = 0x20ec2026 0x01ffffff 0x00000000 0xa00
+Style[] = 0x20a8a8a8 0x01ffffff 0x00000000 0xa00
+Style[] = 0x2068ac3e 0x01ffffff 0x00000000 0xa00
+Style[] = 0x2099268d 0x01ffffff 0x00000000 0xa00
+Style[] = 0x200d6cb5 0x01ffffff 0x00000000 0xa00
+# Expression StyleIndex: expression for link style index (tr,link)
+StyleIndex = which(1,modes~"p",modes~"y",modes~"b")
+
+[Node box]
+# Flags Flags: bit pattern containing layer flags
+Flags = 0x9c10000
+# Bool CFlag: display layer controls
+CFlag = 1
+# Bool SFlag: display layer on screen
+SFlag = 0
+# Bool MFlag: display layer under the magnifier
+MFlag = 1
+# Bool LFlag: include layer in the legend window
+LFlag = 1
+# Bool IFlag: allow interactive input
+IFlag = 0
+# Bool TFlag: provide tips
+TFlag = 0
+# Bool AFlag: set active flag of filtered elements
+AFlag = 0
+# Bool BFlag: include bounding box in full view
+BFlag = 1
+# Float NodeBoxWidth: width of node box in pixels
+NodeBoxWidth = -0.01
+# Float NodeBoxHeight: height of node box in pixels
+NodeBoxHeight = -0.01
+# Filter NodeFilter: expression for node filtering [,node iterator] (tr,node)
+NodeFilter = [regular nodes] not(isZone)
+# Float YOffset: vertical offset of node box
+YOffset = 0
+# Float NodeTextSize: text size for node box text
+NodeTextSize = 12
+# Style Style: style for node box outline, fill and text properties
+Style[] = 0x21d0d0d0 0x01fcfbf0 0x00000000 0x2f
+Style[] = 0x21d0d0d0 0x01a51313 0x00ffffff 0x2f
+# Expression StyleIndex: node expression for style index (tr,node)
+StyleIndex = i==1409
+# Expression NodeValue: expression for node value (tr,node,string,max. 6 values)
+NodeValue = 
+

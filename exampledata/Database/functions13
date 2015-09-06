@@ -1,0 +1,8 @@
+c Emme Module:    4.14(v8376)  Date: 15-08-29 18:13   User: EB62/LOGIT.....ACS
+c Project:        TRANSJAKARTA BUSWAY KORIDOR I, II DAN III                   
+t  functions  init
+a fd1  =length / ul3 * 60
+a ft1  =length / ul3 * 60
+a ft2  =length / ut3 * 60
+a ft3  =(length / ul3 * 60) + (length * .1 * 16.99)
+

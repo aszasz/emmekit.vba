@@ -1,0 +1,35 @@
+R: ?[H?[2J?[H?[2J
+
+ ************************************************************
+ *****                                                  *****
+ *****                   Emme 3.4.1                     *****
+ *****                                                  *****
+ *****             Copyright 1987-2011 INRO             *****
+ *****            Developed initially at CRT,           *****
+ *****         University of Montreal (1983-1986)       *****
+ *****                                                  *****
+ *****                    Licensed to                   *****
+ *****                      LOGIT                       *****
+ *****               CONSULTORIA S/C LTDA               *****
+ *****                                                  *****
+ *****     Licence No. EB62   Installation LOGIT...     *****
+ *****                                                  *****
+ ************************************************************
+
+ Size of database:  866148184 bytes     Date: 15-09-06 10:52
+
+ Enter: Your initials=
+S: ACS
+R: ?[H?[2J Licence EB62:      LOGIT.....ACS                   LOGIT                  
+ Database Title:    emmekitVBA_Jakarta_2005_Example 
+ Scen.   13(--- --): BaseScenario
+ 1.   U T I L I T I E S
+ 2.   N E T W O R K   E D I T O R
+ 3.   M A T R I X   E D I T O R
+ 4.   F U N C T I O N   E D I T O R
+ 5.   A S S I G N M E N T   P R O C E D U R E S
+ 6.   R E S U L T S
+ 9.   E N D   O F   S E S S I O N
+ Enter: Next module=
+S: 
+R:  Enter: Next module=

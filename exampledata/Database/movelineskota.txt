@@ -1,0 +1,27 @@
+C When looking at network, remember it is left-hand traffic
+C Mikrolet lines aorund the kota block to end near Kota station
+JU004B X> 18068
+MK008B X> 18068
+MK012B X> 18068
+MK039B X> 18068
+
+C Mikrolet lines aorund the kota block to start near Kota station
+c First cut them to the corner
+MK008F X< 14782
+MK012F X< 14782
+c Then extend them
+MK008F +< 18068
+MK012F +< 18068
+JU004F +< 18068
+MK039F +< 18068
+
+c Detour Route MK053 B and F thru Local Jalan (16474)
+MK053F X< 14763
+MK053B X> 14763
+
+MK053F +< 16474 12207
+MK053B +> 16474 12207
+
+c Delete Route Mikrolet 14
+MK014F -
+MK014B -

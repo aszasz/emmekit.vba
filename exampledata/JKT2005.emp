@@ -1,0 +1,635 @@
+0CAFACB7-AD3C-40E4-80DD-675DE315EA7F 07B0F5AD-A2A7-4B4E-B4A9-06EB441586D6 1 2 0
+# Emme project file generated on dom 6. set 10:39:57 2015
+# File: D:/docs/Development/emmekit.vba/New_Project.emp
+#
+# String Name: name of preference configuration (tr)
+Name = emmekit_example
+# Text Description: description of preference configuration (tr,subst)
+Description = Created on 2015-08-31 at 21:53:23 by ACS.
+# String TranslationContext: context for translations of configuration texts (subst)
+TranslationContext = GeneralConfiguration
+# String OpenDatabases: database open in the project (subst)
+OpenDatabases = Database/emmebank
+# String ViewFolder: folder storing the view files (subst)
+ViewFolder = Views
+# String WorksheetFolder: folder storing worksheets (subst)
+WorksheetFolder = Worksheets
+# String MediaFolder: folder for storing media files (subst)
+MediaFolder = Media
+# String ProjectDatabases: list of databases associated with the project (subst)
+ProjectDatabases = Database/emmebank;;System
+# String ProjectMacroPath: macro path (subst)
+ProjectMacroPath[] = %<$EnvironmentMacroPath>%
+ProjectMacroPath[] = %<$EnvironmentMacroPath>%
+# String PredStyle: list of predefined styles (tr)
+PredStyle[] = ;Emme General
+PredStyle[] = Background colour;Sync BackgroundColor!;Emme General
+PredStyle[] = Link base;Sync Basenet!;Emme General
+PredStyle[] = Node boxes;Sync Nodes!;Emme General
+PredStyle[] = Link bars;Sync MultiBars!;Emme General
+PredStyle[] = Multivalues;Sync MultiValue!;Emme General
+PredStyle[] = Link segment values;Sync SegmentBarStyle!;Emme General
+PredStyle[] = Node segment values;Sync SegmentSymbolStyle!;Emme General
+PredStyle[] = Thick coloured pens;Sync MultiPen!;Emme General
+PredStyle[] = Turns;Sync Turns!;Emme General
+PredStyle[] = Intersection circle;Sync CircleStyle!;Emme General
+PredStyle[] = Desire lines;Sync DesireLines!;Emme General
+PredStyle[] = Shortest Paths;Sync ShortestPath!;Emme General
+PredStyle[] = Grid values;Sync GridValue!;Emme General
+PredStyle[] = Comparison bars;Sync CompBars!;Emme General
+PredStyle[] = Comparison links;Sync CompLinks!;Emme General
+PredStyle[] = Line profile bars;Sync LineProfile!;Emme General
+PredStyle[] = Congestion on transit lines;Sync Congestion!;Emme General
+PredStyle[] = Histogram Comparisons;Sync HistComp!;Emme General
+PredStyle[] = Scattergram Comparison;Sync ScatComp!;Emme General
+PredStyle[] = Regression and confidence;Sync Regression!;Emme General
+PredStyle[] = Functions;Sync FunctionStyle!;Emme General
+PredStyle[] = Shapes;Sync Shapes!;Emme General
+PredStyle[] = Diagram frame;Sync DiagFrame!;Emme General
+PredStyle[] = LegendFrameStyle;Sync LegendFrameStyle!;Emme General
+PredStyle[] = Tables;Sync Tables!;Emme General
+PredStyle[] = ;Emme Editor
+PredStyle[] = Node edit;Sync NodeEditStyle!;Emme Editor
+PredStyle[] = Node select;Sync NodeSelectStyle!;Emme Editor
+PredStyle[] = Link edit;Sync LinkEditStyle!;Emme Editor
+PredStyle[] = Link select;Sync LinkSelectStyle!;Emme Editor
+PredStyle[] = Line edit;Sync LineEditStyle!;Emme Editor
+PredStyle[] = Line select;Sync LineSelectStyle!;Emme Editor
+PredStyle[] = New line;Sync NewLineStyle!;Emme Editor
+PredStyle[] = Turn edit;Sync TurnEditStyle!;Emme Editor
+PredStyle[] = Intersection highlight;Sync InterHighlightStyle!;Emme Editor
+PredStyle[] = ;Discrete Values
+PredStyle[] = Dark;;Discrete Values
+PredStyle[] = Pastels 1;;Discrete Values
+PredStyle[] = Pastels 2;;Discrete Values
+PredStyle[] = Pastels 2 brilliant;;Discrete Values
+PredStyle[] = Greyscale;;Discrete Values
+PredStyle[] = ;Progressions
+PredStyle[] = White Red Interpolated 2;white to red (2, interpolated);Progressions
+PredStyle[] = Red Yellow Green Interpolated 3;red to green (3, interpolated);Progressions
+PredStyle[] = White Blue 4;white to blue (4);Progressions
+PredStyle[] = True Grey 5;light to dark grey (5);Progressions
+PredStyle[] = Soft Grey 5;light to dark grey (5);Progressions
+PredStyle[] = Grey Yellow 5;grey to yellow (5);Progressions
+PredStyle[] = White Red 5;white to red (5);Progressions
+PredStyle[] = White Blue 5;white to blue (5);Progressions
+PredStyle[] = Orange Red 5;orange to red (5);Progressions
+PredStyle[] = Pale Yellow Red 5;pale yellow to red (5);Progressions
+PredStyle[] = Yellow Red 5;bright yellow to red (5);Progressions
+PredStyle[] = Yellow Green 5;bright yellow to green (5);Progressions
+PredStyle[] = Yellow White Green 7;pale yellow to white to green (7);Progressions
+PredStyle[] = Green Yellow Red 7;green to yellow to red (7);Progressions
+PredStyle[] = Blue White Red 7;blue to white to red (7);Progressions
+PredStyle[] = Rainbow;red to purple (7, interpolated);Progressions
+PredStyle[] = Interpolated 7 classes;black to white (7, interpolated);Progressions
+PredStyle[] = Interpolated 12 classes;black to white (12, interpolated);Progressions
+PredStyle[] = ;EMME2 default indices
+PredStyle[] = E2_annotation;pen color=fill color=text color, thick pen, white solid fill;EMME2 default indices
+PredStyle[] = E2_truncate;pen darker than filling, interpolation to next lower - Shortest paths in general worksheets;EMME2 default indices
+PredStyle[] = E2_higher;pen darker than filling, interpolation to next higher;EMME2 default indices
+PredStyle[] = E2_no_fill;pen color=fill color=text color, no filling;EMME2 default indices
+PredStyle[] = ;Diagrams
+PredStyle[] = DefaultFrame;default diagram frame;Diagrams
+PredStyle[] = NoFrames;no frame, title:150%;Diagrams
+PredStyle[] = NoInnerFrame;no inner frame, title:bold - Diagram frame in general worksheets;Diagrams
+PredStyle[] = SolidFrame;solid frame, title: 150 %bold;Diagrams
+PredStyle[] = ;Tables
+PredStyle[] = GeneralTables;index 1:bold text, index 2:red text, index 3:no pen;Tables
+PredStyle[] = BlackWhiteList;for black and white printing;Tables
+PredStyle[] = Stripes;stripes with red pen (indices 2 and 3);Tables
+PredStyle[] = BlackWhiteStripes;stripes for black and white printing;Tables
+# String ConfAttFile: default file for project specific attribute configurations (subst)
+ConfAttFile = %<$ProjectPath>%/Worksheets/general.ema
+# Bool DefaultAttsSet: whether the default attributes values have been sets (nosave)
+DefaultAttsSet : (0x80)
+# Bool WarnUserForDeleteCentroids: whether we warn the user when deleting centroids (nosave)
+WarnUserForDeleteCentroids : (0x80)
+# Bool WarnUserForAddCentroids: whether we warn the user when adding centroids (nosave)
+WarnUserForAddCentroids : (0x80)
+# Bool LeftHandTraffic: if set, positive link offsets will be applied to the left of the link
+LeftHandTraffic = 1
+# String DefaultWorksheet: file name for default worksheet file (subst)
+DefaultWorksheet = ./Worksheets/JKT_General.emw
+# String UserParFile: default configuration file for user parameters
+UserParFile = %<$ProjectPath>%/Worksheets/general.emu
+# String ColumnSeparator: separator used between field values in exported tables
+ColumnSeparator[] = \t
+ColumnSeparator[] = ,
+ColumnSeparator[] =  
+ColumnSeparator[] = \t
+ColumnSeparator[] = \n
+ColumnSeparator[] = ;
+# Float ExportMargin: margin(s) in percent for exporting print view to image file (left[,top,[right,[bottom]]])
+ExportMargin[] = 0
+ExportMargin[] = 10
+ExportMargin[] = 0
+ExportMargin[] = 15
+# String DefaultLinkAttributes: default values for links attributes
+DefaultLinkAttributes[] = -1
+DefaultLinkAttributes[] = 1
+DefaultLinkAttributes[] = c
+DefaultLinkAttributes[] = 0
+DefaultLinkAttributes[] = 0
+DefaultLinkAttributes[] = 0
+DefaultLinkAttributes[] = 0
+DefaultLinkAttributes[] = 0
+# Click ParameterModified: clicked by the system when some parameters have been modified (nosave)
+ParameterModified : (0x80) $WorksheetLoaded/
+
+# Style Background colour: Sync BackgroundColor!
+Background colour : $BackgroundColor!/
+Background colour = 0x00000000 0x01f4f4f4 0x00000000 0x00
+# Style Link base: Sync Basenet!
+Link base : $Basenet!/
+Link base[] = 0x217b7f6b 0x01d6d4b8 0x00000000 0x00
+Link base[] = 0x21ffd7c3 0x01ffffff 0x00000000 0x00
+Link base[] = 0x219c4d3d 0x01ff6b4c 0x00000000 0x00
+Link base[] = 0x209c6e3d 0x01ffa94c 0x00000000 0x00
+Link base[] = 0x209c803d 0x01ffcb4c 0x00000000 0x00
+Link base[] = 0x21646464 0x01969696 0x00000000 0x00
+Link base[] = 0x2196ab59 0x01c3de73 0x00000000 0x00
+# Style Node boxes: Sync Nodes!
+Node boxes : $Nodes!/
+Node boxes[] = 0x2088896d 0x01fffddb 0x00000000 0x00
+Node boxes[] = 0x21ff5c0a 0x01ffe4d7 0x00000000 0x00
+Node boxes[] = 0x2000665f 0x01bef9be 0x00000000 0x00
+Node boxes[] = 0x2000647f 0x01afdbdc 0x00000000 0x00
+Node boxes[] = 0x207e5f08 0x01b5a57c 0x00000000 0x00
+# Style Link bars: Sync MultiBars!
+Link bars : $MultiBars!/
+Link bars[] = 0x20a6371e 0x01fc6340 0x00000000 0x20
+Link bars[] = 0x20135373 0x011e84b0 0x00000000 0x20
+Link bars[] = 0x20a66200 0x01fd9500 0x00000000 0x20
+Link bars[] = 0x206f8021 0x01a9c353 0x00000000 0x20
+Link bars[] = 0x20d5bc17 0x01ffd71a 0x00000000 0x20
+Link bars[] = 0x205f44a6 0x01a787ff 0x00000000 0x20
+Link bars[] = 0x207f0000 0x01e59d9d 0x00000000 0x20
+Link bars[] = 0x20006281 0x017fbce5 0x00000000 0x20
+Link bars[] = 0x20803b18 0x01f9d5b5 0x00000000 0x20
+Link bars[] = 0x207c8032 0x01dadda0 0x00000000 0x20
+Link bars[] = 0x20817236 0x01feeca4 0x00000000 0x20
+Link bars[] = 0x207c4b82 0x01dfb0e6 0x00000000 0x20
+# Style Multivalues: Sync MultiValue!
+Multivalues : $MultiValue!/
+Multivalues[] = 0x21b35142 0x01e66956 0x00000000 0x01
+Multivalues[] = 0x2189b899 0x01afebc4 0x00000000 0x00
+Multivalues[] = 0x21b87153 0x01ed926b 0x00000000 0x00
+Multivalues[] = 0x21a2ab88 0x01cde887 0x00000000 0x01
+Multivalues[] = 0x21b59d6c 0x01e8c98b 0x00000000 0x00
+Multivalues[] = 0x218ea1b8 0x01c8d8eb 0x00000000 0x00
+Multivalues[] = 0x21813a30 0x01b4594b 0x00ffffff 0x01
+Multivalues[] = 0x21737960 0x01a0b66a 0x00ffffff 0x01
+Multivalues[] = 0x2186533d 0x01bb7354 0x00ffffff 0x00
+Multivalues[] = 0x2164866f 0x018ab99a 0x00ffffff 0x00
+Multivalues[] = 0x21687586 0x019daab9 0x00ffffff 0x00
+# Style Link segment values: Sync SegmentBarStyle!
+Link segment values : $SegmentBarStyle!/
+Link segment values[] = 0x209696e1 0x01aaaaff 0x00000000 0x20
+Link segment values[] = 0x20e19670 0x01ffaa7f 0x00000000 0x20
+Link segment values[] = 0x2093cce1 0x01a7e8ff 0x00000000 0x20
+Link segment values[] = 0x20e18989 0x01ff9b9b 0x00000000 0x20
+Link segment values[] = 0x206cd685 0x0179ef94 0x00000000 0x20
+Link segment values[] = 0x20c8c864 0x01ffff7f 0x00000000 0x20
+# Style Node segment values: Sync SegmentSymbolStyle!
+Node segment values : $SegmentSymbolStyle!/
+Node segment values[] = 0x207575af 0x01978de6 0x00000000 0x20
+Node segment values[] = 0x20af6f50 0x01ff874b 0x00000000 0x20
+Node segment values[] = 0x20739faf 0x0188bccf 0x00000000 0x20
+Node segment values[] = 0x20af6a6a 0x01ff6969 0x00000000 0x20
+Node segment values[] = 0x2058ae6c 0x0146ef6e 0x00000000 0x20
+Node segment values[] = 0x20c8c864 0x01ffff4b 0x00000000 0x20
+# Style Thick coloured pens: Sync MultiPen!
+Thick coloured pens : $MultiPen!/
+Thick coloured pens[] = 0x22ec2026 0x01ffffff 0x00000000 0xa00
+Thick coloured pens[] = 0x2229ade4 0x01ffffff 0x00000000 0xa00
+Thick coloured pens[] = 0x22df9318 0x01ffffff 0x00000000 0xa00
+Thick coloured pens[] = 0x2268ac3e 0x01ffffff 0x00000000 0xa00
+Thick coloured pens[] = 0x2299268d 0x01ffffff 0x00000000 0xa00
+Thick coloured pens[] = 0x220d6cb5 0x01ffffff 0x00000000 0xa00
+# Style Turns: Sync Turns!
+Turns : $Turns!/
+Turns[] = 0x206f8021 0x01a9c353 0x00000000 0x20
+Turns[] = 0x20a6371e 0x01fc6340 0x00000000 0x20
+Turns[] = 0x20135373 0x011e84b0 0x00000000 0x20
+Turns[] = 0x20a66200 0x01fd9500 0x00000000 0x20
+Turns[] = 0x20998710 0x01ffd71a 0x00000000 0x20
+Turns[] = 0x205f44a6 0x01a787ff 0x00000000 0x20
+Turns[] = 0x207f0000 0x01e59d9d 0x00000000 0x20
+Turns[] = 0x207c8032 0x01dadda0 0x00000000 0x20
+Turns[] = 0x20803b18 0x01f9d5b5 0x00000000 0x20
+Turns[] = 0x20817236 0x01feeca4 0x00000000 0x20
+Turns[] = 0x20006281 0x017fbce5 0x00000000 0x20
+Turns[] = 0x207c4b82 0x01dfb0e6 0x00000000 0x20
+# Style Intersection circle: Sync CircleStyle!
+Intersection circle : $CircleStyle!/
+Intersection circle = 0x20c8c8c8 0x01ffffff 0xe0000000 0x00
+# Style Desire lines: Sync DesireLines!
+Desire lines : $DesireLines!/
+Desire lines[] = 0x20ccb02c 0x01ffdc37 0x00000000 0x00
+Desire lines[] = 0x207e5100 0x01e88f3e 0x00000000 0x00
+Desire lines[] = 0x20949e39 0x01c5d139 0x00000000 0x00
+Desire lines[] = 0x2095a2b3 0x01bfd1e6 0x00000000 0x00
+# Style Shortest Paths: Sync ShortestPath!
+Shortest Paths : $ShortestPath!/
+Shortest Paths[] = 0x207c4b82 0x01dfb0e6 0x00000000 0x20
+Shortest Paths[] = 0x20006281 0x017fbce5 0x00000000 0x20
+Shortest Paths[] = 0x20817236 0x01feeca4 0x00000000 0x20
+Shortest Paths[] = 0x207f0000 0x01e59d9d 0x00000000 0x20
+Shortest Paths[] = 0x207c8032 0x01dadda0 0x00000000 0x20
+Shortest Paths[] = 0x20803b18 0x01f9d5b5 0x00000000 0x20
+Shortest Paths[] = 0x205f44a6 0x012a545e 0x00000000 0x20
+Shortest Paths[] = 0x20135373 0x01259db6 0x00000000 0x20
+Shortest Paths[] = 0x20998710 0x01cc9441 0x00000000 0x20
+Shortest Paths[] = 0x20a66200 0x01ac563a 0x00000000 0x20
+Shortest Paths[] = 0x206f8021 0x01952e2a 0x00ffffff 0x20
+Shortest Paths[] = 0x20a6371e 0x01590a2f 0x00ffffff 0x20
+# Style Grid values: Sync GridValue!
+Grid values : $GridValue!/
+Grid values[] = 0x21d0d0d0 0x01fcfbf0 0x00000000 0x2f
+Grid values[] = 0x21d0d0d0 0x012a545e 0x00ffffff 0x2f
+# Style Comparison bars: Sync CompBars!
+Comparison bars : $CompBars!/
+Comparison bars[] = 0x20007f00 0x01b0e63b 0x00000000 0x05
+Comparison bars[] = 0x20b12d16 0x01f03c1e 0x00000000 0x05
+# Style Comparison links: Sync CompLinks!
+Comparison links : $CompLinks!/
+Comparison links[] = 0x219fa389 0x01e5e2c5 0x00000000 0x00
+Comparison links[] = 0x2132623d 0x017fde40 0x00000000 0x00
+Comparison links[] = 0x2075602e 0x01ffff08 0x00000000 0x00
+Comparison links[] = 0x219c4d3d 0x01ff6b4c 0x00000000 0x00
+Comparison links[] = 0x209c6e3d 0x01ffa94c 0x00000000 0x00
+Comparison links[] = 0x21646464 0x01969696 0x00000000 0x00
+# Style Line profile bars: Sync LineProfile!
+Line profile bars : $LineProfile!/
+Line profile bars[] = 0x20bfac64 0x01f2db8a 0x00000000 0x20
+Line profile bars[] = 0x20ba6828 0x01ed8330 0x00000000 0x20
+Line profile bars[] = 0x20b34626 0x01e65928 0x00000000 0x20
+# Style Congestion on transit lines: Sync Congestion!
+Congestion on transit lines : $Congestion!/
+Congestion on transit lines[] = 0x20bfac64 0x01f2db8a 0x00000000 0x20
+Congestion on transit lines[] = 0x20b89c48 0x01ecad5d 0x00000000 0x20
+Congestion on transit lines[] = 0x20ba6828 0x01ed8330 0x00000000 0x20
+Congestion on transit lines[] = 0x20b34626 0x01e65928 0x00000000 0x20
+# Style Histogram Comparisons: Sync HistComp!
+Histogram Comparisons : $HistComp!/
+Histogram Comparisons[] = 0x20b12d16 0x0dd1998f 0x00000000 0x05
+Histogram Comparisons[] = 0x20007f00 0x01c9e68c 0x00000000 0x05
+# Style Scattergram Comparison: Sync ScatComp!
+Scattergram Comparison : $ScatComp!/
+Scattergram Comparison[] = 0x20646464 0x01a8a8a8 0x00000000 0x20
+Scattergram Comparison[] = 0x20b04b4f 0x01e36065 0x00000000 0x20
+Scattergram Comparison[] = 0x201b748f 0x01249dc2 0x00000000 0x20
+# Style Regression and confidence: Sync Regression!
+Regression and confidence : $Regression!/
+Regression and confidence[] = 0x20000000 0x00ffaa7f 0x00000000 0x00
+Regression and confidence[] = 0x20c6bb8e 0x01fff1b7 0x00000000 0x00
+# Style Functions: Sync FunctionStyle!
+Functions : $FunctionStyle!/
+Functions[] = 0x22ec2026 0x00ffffff 0x00000000 0xa00
+Functions[] = 0x2229ade4 0x00ffffff 0x00000000 0xa00
+Functions[] = 0x22df9318 0x00ffffff 0x00000000 0xa00
+Functions[] = 0x2268ac3e 0x00ffffff 0x00000000 0xa00
+Functions[] = 0x2299268d 0x00ffffff 0x00000000 0xa00
+Functions[] = 0x220d6cb5 0x00ffffff 0x00000000 0xa00
+# Style Shapes: Sync Shapes!
+Shapes : $Shapes!/
+Shapes[] = 0x20c5c1b9 0x01ebe6dc 0x00000000 0x00
+Shapes[] = 0x20c5c1b9 0x01d1d1d1 0x00000000 0x00
+Shapes[] = 0x20c5c1b9 0x01bababa 0x00000000 0x00
+Shapes[] = 0x2088a679 0x01a7cc95 0x00000000 0x00
+Shapes[] = 0x20788ca0 0x0199b3cc 0x00000000 0x00
+Shapes[] = 0x20b69696 0x01dcb5b5 0x00000000 0x00
+# Style Diagram frame: Sync DiagFrame!
+Diagram frame : $DiagFrame!/
+Diagram frame[] = 0x00bebebe 0x01ffffff 0x48000000 0x00
+Diagram frame[] = 0x20000000 0x00ffffff 0x00000000 0x00
+Diagram frame[] = 0x00000000 0x00ffffff 0x00000000 0x00
+Diagram frame[] = 0x20646464 0x00ffffff 0x00000000 0x00
+Diagram frame[] = 0x20bebebe 0x00ffffff 0x00000000 0x00
+Diagram frame[] = 0x20bebebe 0x00ffffff 0x00000000 0x00
+# Style LegendFrameStyle: Sync LegendFrameStyle!
+LegendFrameStyle : $LegendFrameStyle!/
+LegendFrameStyle[] = 0x00000000 0x01ffffff 0x00000000 0x00
+LegendFrameStyle[] = 0x20000000 0x01ffffff 0x08000000 0x00
+LegendFrameStyle[] = 0x20000000 0x01ffffff 0x03000000 0x00
+LegendFrameStyle[] = 0x20ff0000 0x01ffffff 0x08ff0000 0x00
+# Style Tables: Sync Tables!
+Tables : $Tables!/
+Tables[] = 0x21000000 0x01ffffff 0x00000000 0x00
+Tables[] = 0x21000000 0x01ffffff 0x08000000 0x00
+Tables[] = 0x21000000 0x01ffffff 0x08ff0000 0x00
+Tables[] = 0x01000000 0x01ffffff 0x00000000 0x00
+# Style Node edit: Sync NodeEditStyle!
+Node edit : $NodeEditStyle!/
+Node edit[] = 0x20164a64 0x0137bcff 0x00000000 0x05
+Node edit[] = 0x20642121 0x01ff4040 0x00000000 0x05
+Node edit[] = 0x20646432 0x01ffff7f 0x00000000 0x05
+# Style Node select: Sync NodeSelectStyle!
+Node select : $NodeSelectStyle!/
+Node select = 0x229393b6 0x0100007f 0x28ffffff 0x400
+# Style Link edit: Sync LinkEditStyle!
+Link edit : $LinkEditStyle!/
+Link edit[] = 0x216c705e 0x01d6d4b8 0x00000000 0x00
+Link edit[] = 0x21ffbc9b 0x01ffffff 0x00000000 0x00
+Link edit[] = 0x219c4d3d 0x01ff6b4c 0x00000000 0x00
+# Style Link select: Sync LinkSelectStyle!
+Link select : $LinkSelectStyle!/
+Link select = 0x219393b6 0x0100007f 0x00ffffff 0x400
+# Style Line edit: Sync LineEditStyle!
+Line edit : $LineEditStyle!/
+Line edit[] = 0x22ec2026 0x01ffffff 0x00000000 0xa00
+Line edit[] = 0x2229ade4 0x01ffffff 0x00000000 0xa00
+Line edit[] = 0x22df9318 0x01ffffff 0x00000000 0xa00
+Line edit[] = 0x2268ac3e 0x01ffffff 0x00000000 0xa00
+Line edit[] = 0x2299268d 0x01ffffff 0x00000000 0xa00
+Line edit[] = 0x220d6cb5 0x01ffffff 0x00000000 0xa00
+# Style Line select: Sync LineSelectStyle!
+Line select : $LineSelectStyle!/
+Line select = 0x2300007f 0x019393b6 0x00ffffff 0x400
+# Style New line: Sync NewLineStyle!
+New line : $NewLineStyle!/
+New line = 0x20000000 0x01000000 0x00000000 0x400
+# Style Turn edit: Sync TurnEditStyle!
+Turn edit : $TurnEditStyle!/
+Turn edit[] = 0x221dac27 0x0000ff00 0x00000000 0x05
+Turn edit[] = 0x629a9a9a 0x00ff0000 0x00000000 0x05
+Turn edit[] = 0x224b5dff 0x00ff0000 0x00000000 0x05
+Turn edit[] = 0x24ff0000 0x00ff0000 0x00000000 0x05
+# Style Intersection highlight: Sync InterHighlightStyle!
+Intersection highlight : $InterHighlightStyle!/
+Intersection highlight = 0x24ff0000 0x00ffffff 0xe0000000 0x00
+# Style Dark
+Dark[] = 0x20813932 0x01ca5b4f 0x00ffffff 0x20
+Dark[] = 0x201c1826 0x014e4266 0x00ffffff 0x20
+Dark[] = 0x20322415 0x01644726 0x00ffffff 0x20
+Dark[] = 0x202e3326 0x01687457 0x00ffffff 0x20
+Dark[] = 0x20494d20 0x0192993a 0x00ffffff 0x20
+Dark[] = 0x204d201f 0x01973e3d 0x00ffffff 0x20
+Dark[] = 0x20182b40 0x012c4e76 0x00ffffff 0x20
+# Style Pastels 1
+Pastels 1[] = 0x20727380 0x01b7b8cc 0x00000000 0x20
+Pastels 1[] = 0x20826f4a 0x01f5d28c 0x00000000 0x20
+Pastels 1[] = 0x207e806a 0x01bed4af 0x00000000 0x20
+Pastels 1[] = 0x20757c80 0x01cbcceb 0x00000000 0x20
+Pastels 1[] = 0x2080705b 0x01e2c7a1 0x00000000 0x20
+Pastels 1[] = 0x2080687b 0x01ddb5d5 0x00000000 0x20
+Pastels 1[] = 0x20806b66 0x01d7b3ab 0x00000000 0x20
+Pastels 1[] = 0x2081755a 0x01f2daa8 0x00000000 0x20
+Pastels 1[] = 0x207d7d7d 0x01e1e1e1 0x00000000 0x20
+Pastels 1[] = 0x20757c80 0x01ffffff 0x00000000 0x20
+# Style Pastels 2
+Pastels 2[] = 0x20b5a969 0x01e8d886 0x00000000 0x20
+Pastels 2[] = 0x20b7ba74 0x01e5e981 0x00000000 0x20
+Pastels 2[] = 0x20ccb064 0x01ffdc7d 0x00000000 0x20
+Pastels 2[] = 0x20cdb36c 0x01e5d5a9 0x00000000 0x20
+Pastels 2[] = 0x20cdae84 0x01ffdaa5 0x00000000 0x20
+Pastels 2[] = 0x20afab75 0x01fcf5a8 0x00000000 0x20
+Pastels 2[] = 0x20adb67d 0x01cae2a1 0x00000000 0x20
+Pastels 2[] = 0x20cdb36c 0x01e6e388 0x00000000 0x20
+Pastels 2[] = 0x20969696 0x01e1e1e1 0x00000000 0x20
+Pastels 2[] = 0x00969696 0x01ffffff 0x00000000 0x20
+# Style Pastels 2 brilliant
+Pastels 2 brilliant[] = 0x20b5a969 0x01eacd3f 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20b7ba74 0x01e2e442 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20ccb064 0x01ffce4a 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20cdb36c 0x01e5c97a 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20cdae84 0x01fdbb5a 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20afab75 0x01fbee5f 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20adb67d 0x01b2d460 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20cdb36c 0x01e7e25b 0x00000000 0x20
+Pastels 2 brilliant[] = 0x20969696 0x01b4b4b4 0x00000000 0x20
+# Style Greyscale
+Greyscale[] = 0x20474747 0x01797979 0x00000000 0x00
+Greyscale[] = 0x207c7c7c 0x01dddddd 0x00000000 0x00
+Greyscale[] = 0x20515151 0x01a1a1a1 0x00000000 0x00
+Greyscale[] = 0x20808080 0x01000000 0x00ffffff 0x00
+Greyscale[] = 0x204f4f4f 0x01b8b8b8 0x00000000 0x00
+Greyscale[] = 0x20636363 0x01454545 0x00ffffff 0x00
+# Style White Red Interpolated 2: white to red (2, interpolated)
+White Red Interpolated 2[] = 0x21d0d0d0 0x01fcfbf0 0x00000000 0x2f
+White Red Interpolated 2[] = 0x21d0d0d0 0x01a51313 0x00ffffff 0x2f
+# Style Red Yellow Green Interpolated 3: red to green (3, interpolated)
+Red Yellow Green Interpolated 3 : $Interpolated3!/
+Red Yellow Green Interpolated 3[] = 0x20aa3e2b 0x01ea252e 0x00000000 0x2f
+Red Yellow Green Interpolated 3[] = 0x20c8c48d 0x01fbfbb2 0x00000000 0x2f
+Red Yellow Green Interpolated 3[] = 0x205c835c 0x015bb64b 0x00000000 0x2f
+# Style White Blue 4: white to blue (4)
+White Blue 4[] = 0x21d0d0d0 0x01fcfbf0 0x00000000 0x2f
+White Blue 4[] = 0x21d0d0d0 0x01b9e5f4 0x00000000 0x2f
+White Blue 4[] = 0x21d0d0d0 0x01259db6 0x00ffffff 0x2f
+White Blue 4[] = 0x21d0d0d0 0x012a545e 0x00ffffff 0x2f
+# Style True Grey 5: light to dark grey (5)
+True Grey 5[] = 0x20b2b2b2 0x01e5e5e5 0x00000000 0x20
+True Grey 5[] = 0x208c8c8c 0x01bfbfbf 0x00000000 0x20
+True Grey 5[] = 0x20595959 0x018c8c8c 0x00000000 0x20
+True Grey 5[] = 0x201a1a1a 0x01404040 0x00ffffff 0x20
+True Grey 5[] = 0x20000000 0x011a1a1a 0x00ffffff 0x20
+# Style Soft Grey 5: light to dark grey (5)
+Soft Grey 5[] = 0x20bcbeac 0x01eff1da 0x00000000 0x20
+Soft Grey 5[] = 0x20afb499 0x01e0e6c3 0x00000000 0x20
+Soft Grey 5[] = 0x20a2a587 0x01d5d9b2 0x00000000 0x20
+Soft Grey 5[] = 0x2099987c 0x01c2c29d 0x00000000 0x20
+Soft Grey 5[] = 0x2085836a 0x01a8a484 0x00000000 0x20
+# Style Grey Yellow 5: grey to yellow (5)
+Grey Yellow 5[] = 0x20a59e90 0x01dfd9ce 0x00000000 0x20
+Grey Yellow 5[] = 0x20a59e90 0x01d9cfbe 0x00000000 0x20
+Grey Yellow 5[] = 0x20c3a76f 0x01f5d28c 0x00000000 0x20
+Grey Yellow 5[] = 0x20c8942c 0x01fdc363 0x00000000 0x20
+Grey Yellow 5[] = 0x20c78a2b 0x01fbac18 0x00000000 0x20
+# Style White Red 5: white to red (5)
+White Red 5[] = 0x20c9c7b6 0x01fcfbe5 0x00000000 0x20
+White Red 5[] = 0x20c4999a 0x01f7c1c2 0x00000000 0x20
+White Red 5[] = 0x20b06368 0x01e38085 0x00000000 0x20
+White Red 5[] = 0x20b1363c 0x01e3585d 0x00000000 0x20
+White Red 5[] = 0x208b191c 0x01e7272d 0x00000000 0x20
+# Style White Blue 5: white to blue (5)
+White Blue 5[] = 0x20c9c7b6 0x01fcfbe5 0x00000000 0x20
+White Blue 5[] = 0x2093b5c1 0x01b9e5f4 0x00000000 0x20
+White Blue 5[] = 0x203e8da7 0x0150b8da 0x00000000 0x20
+White Blue 5[] = 0x20185e74 0x012186a6 0x00ffffff 0x20
+White Blue 5[] = 0x20182f42 0x012a5475 0x00ffffff 0x20
+# Style Orange Red 5: orange to red (5)
+Orange Red 5[] = 0x20b3875c 0x01e7ad76 0x00000000 0x00
+Orange Red 5[] = 0x20c17246 0x01f39058 0x00000000 0x00
+Orange Red 5[] = 0x20bc513e 0x01ee674f 0x00000000 0x00
+Orange Red 5[] = 0x209a2b3c 0x01cc384e 0x00000000 0x00
+Orange Red 5[] = 0x204f2027 0x01823440 0x00000000 0x00
+# Style Pale Yellow Red 5: pale yellow to red (5)
+Pale Yellow Red 5[] = 0x20bfac64 0x01f2db8a 0x00000000 0x20
+Pale Yellow Red 5[] = 0x20b89c48 0x01ecad5d 0x00000000 0x20
+Pale Yellow Red 5[] = 0x20ba6828 0x01ed8330 0x00000000 0x20
+Pale Yellow Red 5[] = 0x20b34626 0x01e65928 0x00000000 0x20
+Pale Yellow Red 5[] = 0x20b72026 0x01ea252e 0x00000000 0x20
+# Style Yellow Red 5: bright yellow to red (5)
+Yellow Red 5[] = 0x20bf922d 0x01f4b81a 0x00000000 0x20
+Yellow Red 5[] = 0x20c17329 0x01f4901f 0x00000000 0x20
+Yellow Red 5[] = 0x2080371e 0x01b34e29 0x00000000 0x20
+Yellow Red 5[] = 0x208c2f22 0x01bf402e 0x00000000 0x20
+Yellow Red 5[] = 0x20a4222f 0x01d62d3c 0x00000000 0x20
+# Style Yellow Green 5: bright yellow to green (5)
+Yellow Green 5[] = 0x20a87f2d 0x01f4b81a 0x00000000 0x20
+Yellow Green 5[] = 0x208f8933 0x01ccb930 0x00000000 0x20
+Yellow Green 5[] = 0x206c8136 0x0197b33f 0x00000000 0x20
+Yellow Green 5[] = 0x20437437 0x0162a844 0x00000000 0x20
+Yellow Green 5[] = 0x201f613d 0x0130945b 0x00000000 0x20
+# Style Yellow White Green 7: pale yellow to white to green (7)
+Yellow White Green 7[] = 0x20a69d4a 0x01dace62 0x00000000 0x20
+Yellow White Green 7[] = 0x20b3ad6a 0x01e5df89 0x00000000 0x20
+Yellow White Green 7[] = 0x20c2c092 0x01f5f3b9 0x00000000 0x20
+Yellow White Green 7[] = 0x20c9c7b6 0x01fcfbe5 0x00000000 0x20
+Yellow White Green 7[] = 0x208ca882 0x01b8dcab 0x00000000 0x20
+Yellow White Green 7[] = 0x203a825d 0x0152b580 0x00000000 0x20
+Yellow White Green 7[] = 0x20084d3b 0x010a664f 0x00000000 0x20
+# Style Green Yellow Red 7: green to yellow to red (7)
+Green Yellow Red 7[] = 0x20063328 0x010a6e3b 0x00000000 0x20
+Green Yellow Red 7[] = 0x205c835c 0x0180b676 0x00000000 0x20
+Green Yellow Red 7[] = 0x20a7aa84 0x01c3e799 0x00000000 0x20
+Green Yellow Red 7[] = 0x20c8c48d 0x01fbf6b2 0x00000000 0x20
+Green Yellow Red 7[] = 0x20c4a594 0x01f6cfba 0x00000000 0x20
+Green Yellow Red 7[] = 0x20b25d4e 0x01e36e6e 0x00000000 0x20
+Green Yellow Red 7[] = 0x208b191c 0x01c8161c 0x00000000 0x20
+# Style Blue White Red 7: blue to white to red (7)
+Blue White Red 7[] = 0x20182f42 0x012a5475 0x00000000 0x20
+Blue White Red 7[] = 0x201b748f 0x01249dc2 0x00000000 0x20
+Blue White Red 7[] = 0x2093b5c1 0x01b9e5f4 0x00000000 0x20
+Blue White Red 7[] = 0x20c9c7b6 0x01fcfbe5 0x00000000 0x20
+Blue White Red 7[] = 0x20c49192 0x01f7b7b8 0x00000000 0x20
+Blue White Red 7[] = 0x20b04b4f 0x01e36065 0x00000000 0x20
+Blue White Red 7[] = 0x208b191c 0x01be2026 0x00000000 0x20
+# Style Rainbow: red to purple (7, interpolated)
+Rainbow[] = 0x217f0000 0x01fc0026 0x00ffffff 0x2f
+Rainbow[] = 0x219f6603 0x01ffaa00 0x00000000 0x2f
+Rainbow[] = 0x21a37200 0x01ffe100 0x00000000 0x2f
+Rainbow[] = 0x21407f00 0x0110ea00 0x00000000 0x2f
+Rainbow[] = 0x2100407f 0x01007fff 0x00ffffff 0x2f
+Rainbow[] = 0x2100007f 0x014907ff 0x00ffffff 0x2f
+Rainbow[] = 0x216a007f 0x01a601ff 0x00ffffff 0x2f
+# Style Interpolated 7 classes: black to white (7, interpolated)
+Interpolated 7 classes[] = 0x20000000 0x01000000 0x00ffffff 0x2e
+Interpolated 7 classes[] = 0x20000000 0x01454545 0x00ffffff 0x2e
+Interpolated 7 classes[] = 0x20000000 0x018a8a8a 0x00000000 0x2e
+Interpolated 7 classes[] = 0x20000000 0x01a1a1a1 0x00000000 0x2e
+Interpolated 7 classes[] = 0x20000000 0x01b8b8b8 0x00000000 0x2e
+Interpolated 7 classes[] = 0x20000000 0x01cfcfcf 0x00000000 0x2e
+Interpolated 7 classes[] = 0x20000000 0x01ffffff 0x00000000 0x2e
+# Style Interpolated 12 classes: black to white (12, interpolated)
+Interpolated 12 classes[] = 0x20000000 0x01000000 0x00ffffff 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01171717 0x00ffffff 0x2e
+Interpolated 12 classes[] = 0x20000000 0x012e2e2e 0x00ffffff 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01454545 0x00ffffff 0x2e
+Interpolated 12 classes[] = 0x20000000 0x015c5c5c 0x00ffffff 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01737373 0x00ffffff 0x2e
+Interpolated 12 classes[] = 0x20000000 0x018a8a8a 0x00000000 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01a1a1a1 0x00000000 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01b8b8b8 0x00000000 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01cfcfcf 0x00000000 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01e6e6e6 0x00000000 0x2e
+Interpolated 12 classes[] = 0x20000000 0x01ffffff 0x00000000 0x2e
+# Style E2_annotation: pen color=fill color=text color, thick pen, white solid fill
+E2_annotation[] = 0x22ffffff 0x01ffffff 0x00ffffff 0x00
+E2_annotation[] = 0x22000000 0x01ffffff 0x00000000 0x00
+E2_annotation[] = 0x22ff0000 0x01ffffff 0x00ff0000 0x00
+E2_annotation[] = 0x2200ff00 0x01ffffff 0x0000ff00 0x00
+E2_annotation[] = 0x220000ff 0x01ffffff 0x000000ff 0x00
+E2_annotation[] = 0x2200ffff 0x01ffffff 0x0000ffff 0x00
+E2_annotation[] = 0x22ff00ff 0x01ffffff 0x00ff00ff 0x00
+E2_annotation[] = 0x22ffff00 0x01ffffff 0x00ffff00 0x00
+E2_annotation[] = 0x22ff7f00 0x01ffffff 0x00ff7f00 0x00
+E2_annotation[] = 0x227f8000 0x01ffffff 0x007f8000 0x00
+E2_annotation[] = 0x22008000 0x01ffffff 0x00008000 0x00
+E2_annotation[] = 0x22000080 0x01ffffff 0x00000080 0x00
+E2_annotation[] = 0x228c00d3 0x01ffffff 0x008c00d3 0x00
+E2_annotation[] = 0x22ff008c 0x01ffffff 0x00ff008c 0x00
+E2_annotation[] = 0x22545454 0x01ffffff 0x00545454 0x00
+E2_annotation[] = 0x22ababab 0x01ffffff 0x00ababab 0x00
+# Style E2_truncate: pen darker than filling, interpolation to next lower - Shortest paths in general worksheets
+E2_truncate[] = 0x20000000 0x017f7f7f 0x09ffffff 0x20
+E2_truncate[] = 0x207f0000 0x01ff0000 0x09ffffff 0x20
+E2_truncate[] = 0x20007f00 0x0100ff00 0x09ffffff 0x00
+E2_truncate[] = 0x2000007f 0x010000ff 0x09ffffff 0x00
+E2_truncate[] = 0x20007f7f 0x0100ffff 0x09ffffff 0x30
+E2_truncate[] = 0x207f007f 0x01ff00ff 0x09ffffff 0x10
+E2_truncate[] = 0x207f7f00 0x01ffff00 0x09ffffff 0x10
+E2_truncate[] = 0x207f4000 0x01ff7f00 0x09ffffff 0x10
+E2_truncate[] = 0x20404000 0x017f8000 0x09ffffff 0x10
+E2_truncate[] = 0x20004000 0x01008000 0x09ffffff 0x10
+E2_truncate[] = 0x20000040 0x01000080 0x09ffffff 0x10
+E2_truncate[] = 0x20460069 0x018c00d3 0x09ffffff 0x00
+E2_truncate[] = 0x207f0046 0x01ff008c 0x09ffffff 0x10
+E2_truncate[] = 0x20000000 0x01545454 0x09ffffff 0x10
+E2_truncate[] = 0x20555555 0x01ababab 0x09ffffff 0x10
+# Style E2_higher: pen darker than filling, interpolation to next higher
+E2_higher[] = 0x207f0000 0x01ff0000 0x10000000 0x25
+E2_higher[] = 0x20007f00 0x0100ff00 0x10000000 0x05
+E2_higher[] = 0x2000007f 0x010000ff 0x10000000 0x05
+E2_higher[] = 0x20007f7f 0x0100ffff 0x10000000 0x35
+E2_higher[] = 0x207f007f 0x01ff00ff 0x10000000 0x15
+E2_higher[] = 0x207f7f00 0x01ffff00 0x10000000 0x15
+E2_higher[] = 0x207f4000 0x01ff7f00 0x10000000 0x15
+E2_higher[] = 0x20404000 0x017f8000 0x10000000 0x15
+E2_higher[] = 0x20004000 0x01008000 0x10000000 0x15
+E2_higher[] = 0x20000040 0x01000080 0x10000000 0x15
+E2_higher[] = 0x20460069 0x018c00d3 0x10000000 0x05
+E2_higher[] = 0x207f0046 0x01ff008c 0x10000000 0x15
+E2_higher[] = 0x20000000 0x01545454 0x10000000 0x15
+E2_higher[] = 0x20555555 0x01ababab 0x10000000 0x15
+# Style E2_no_fill: pen color=fill color=text color, no filling
+E2_no_fill[] = 0x22ff0000 0x00ff0000 0x00ff0000 0x00
+E2_no_fill[] = 0x2200ff00 0x0000ff00 0x0000ff00 0x00
+E2_no_fill[] = 0x220000ff 0x000000ff 0x000000ff 0x00
+E2_no_fill[] = 0x2200ffff 0x0000ffff 0x0000ffff 0x00
+E2_no_fill[] = 0x22ff00ff 0x00ff00ff 0x00ff00ff 0x00
+E2_no_fill[] = 0x22ffff00 0x00ffff00 0x00ffff00 0x00
+E2_no_fill[] = 0x22ff7f00 0x00ff7f00 0x00ff7f00 0x00
+E2_no_fill[] = 0x227f8000 0x007f8000 0x007f8000 0x00
+E2_no_fill[] = 0x22008000 0x00008000 0x00008000 0x00
+E2_no_fill[] = 0x22000080 0x00000080 0x00000080 0x00
+E2_no_fill[] = 0x228c00d3 0x008c00d3 0x008c00d3 0x00
+E2_no_fill[] = 0x22ff008c 0x00ff008c 0x00ff008c 0x00
+E2_no_fill[] = 0x22545454 0x00545454 0x00545454 0x00
+E2_no_fill[] = 0x22ababab 0x00ababab 0x00ababab 0x00
+# Style DefaultFrame: default diagram frame
+DefaultFrame[] = 0x20000000 0x01c0c0c0 0x20000000 0x00
+DefaultFrame[] = 0x20000000 0x01c0c0c0 0x00000000 0x00
+DefaultFrame[] = 0x20000000 0x01ffffff 0x00000000 0x00
+# Style NoFrames: no frame, title:150%
+NoFrames[] = 0x00000000 0x00ffffff 0x40000000 0x00
+NoFrames[] = 0x20000000 0x00ffffff 0x00000000 0x00
+NoFrames[] = 0x00000000 0x00ffffff 0x00000000 0x00
+NoFrames[] = 0x2000ff00 0x00ffffff 0x00000000 0x00
+NoFrames[] = 0x20ff0000 0x00ffffff 0x00000000 0x00
+NoFrames[] = 0x200000ff 0x00ffffff 0x00000000 0x00
+# Style NoInnerFrame: no inner frame, title:bold - Diagram frame in general worksheets
+NoInnerFrame[] = 0x00000000 0x01c0c0c0 0x28000000 0x00
+NoInnerFrame[] = 0x20000000 0x00ffffff 0x00000000 0x00
+NoInnerFrame[] = 0x00000000 0x00ffffff 0x00000000 0x00
+NoInnerFrame[] = 0x2000ff00 0x00ffffff 0x00000000 0x00
+NoInnerFrame[] = 0x20ff0000 0x00ffffff 0x00000000 0x00
+NoInnerFrame[] = 0x200000ff 0x00ffffff 0x00000000 0x00
+# Style SolidFrame: solid frame, title: 150 %bold
+SolidFrame[] = 0x00000000 0x01c0c0c0 0x48000000 0x00
+SolidFrame[] = 0x20000000 0x01c0c0c0 0x20000000 0x00
+SolidFrame[] = 0x00000000 0x01c0c0c0 0x20000000 0x00
+SolidFrame[] = 0x2000ff00 0x01c0c0c0 0x00000000 0x00
+SolidFrame[] = 0x20404040 0x01c0c0c0 0x00000000 0x00
+# Style GeneralTables: index 1:bold text, index 2:red text, index 3:no pen
+GeneralTables[] = 0x21000000 0x01ffffff 0x00000000 0x00
+GeneralTables[] = 0x21000000 0x01ffffff 0x08000000 0x00
+GeneralTables[] = 0x21000000 0x01ffffff 0x08ff0000 0x00
+GeneralTables[] = 0x01000000 0x01ffffff 0x00000000 0x00
+# Style BlackWhiteList: for black and white printing
+BlackWhiteList[] = 0x21000000 0x01ffffff 0x00000000 0x00
+BlackWhiteList[] = 0x21000000 0x01ffffff 0x08000000 0x00
+BlackWhiteList[] = 0x21000000 0x017f7f7f 0x08000000 0x00
+BlackWhiteList[] = 0x01000000 0x01ffffff 0x00000000 0x00
+# Style Stripes: stripes with red pen (indices 2 and 3)
+Stripes[] = 0x00000000 0x01dfdfdf 0x00000000 0x2e
+Stripes[] = 0x00000000 0x01ffffff 0x00000000 0x00
+Stripes[] = 0x20ff0000 0x01dfdfdf 0x00ff0000 0x00
+Stripes[] = 0x20ff0000 0x01ffffff 0x00ff0000 0x00
+# Style BlackWhiteStripes: stripes for black and white printing
+BlackWhiteStripes[] = 0x00000000 0x01dfdfdf 0x00000000 0x2e
+BlackWhiteStripes[] = 0x00000000 0x01ffffff 0x00000000 0x00
+BlackWhiteStripes[] = 0x00000000 0x01dfdfdf 0x28000000 0x00
+BlackWhiteStripes[] = 0x00000000 0x01ffffff 0x28000000 0x00
+

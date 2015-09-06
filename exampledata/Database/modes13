@@ -1,0 +1,14 @@
+c Emme Module:    2.01(v8376)  Date: 15-08-29 18:13   User: EB62/LOGIT.....ACS
+c Project:        TRANSJAKARTA BUSWAY KORIDOR I, II DAN III                   
+c Scenario   13:  c12 mf39                                                    
+t modes init
+a c 'car       ' 1   1   0.00   0.00   0.00   0.00
+a b 'bus       ' 2   2
+a d 'busmedium ' 2   3
+a e 'Mikrolet  ' 2   4
+a r 'Rail      ' 2   5
+a a 'auxauto   ' 4   6
+a p 'auxtransit' 3   7   0.00   0.00   0.00   0.00         3.00
+a w 'Busway    ' 2   7
+a z 'pedcentroi' 3   4   0.00   0.00   0.00   0.00         3.00
+

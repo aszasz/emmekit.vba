@@ -1,0 +1,29 @@
+BE1EDF10-2EAD-462F-8D9D-01D816FE2C10 07B0F5AD-A2A7-4B4E-B4A9-06EB441586D6 2 0 0
+# Emme View file generated on ter 1. set 01:16:22 2015
+# File: D:/docs/Development/emmekit.vba/Views/BlokM.emv
+#
+# String Name: user definable name of configurable object (tr)
+Name = BlokM
+# String IncomingSyncs: regular expression to filter incoming sync signals
+IncomingSyncs = .
+# String OutgoingSyncs: regular expression to filter outgoing sync signals
+OutgoingSyncs = .
+# Expression Condition: The file is applicable only if this condition is true (tr)
+Condition =  
+# String File: Full file path (ro,subst,nosave)
+File : (0x80)
+# Click Delete: Delete file (nosave)
+Delete : (0x80)
+# String FileType: File type (ro,nosave)
+FileType : (0x80)
+# Float XMin: X-coordinate of lower left corner of the view
+XMin = 698641.625
+# Float YMin: Y-coordinate of lower left corner of the view
+YMin = 9309263
+# Float XMax: X-coordinate of upper right corner of the view
+XMax = 699713.375
+# Float YMax: Y-coordinate of upper right corner of the view
+YMax = 9310236
+# Box ViewBox: box defining the view (nosave)
+ViewBox : (0x80)
+
