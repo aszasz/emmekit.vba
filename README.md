@@ -21,7 +21,7 @@ audience...
 
 ... So this is an attempt to bring VBA code to git and document it, working around Excel by exporting the VBA modules, so we can see changes as texts.
 This exported modules, which receive the extension ".bas" (".cls" for class modules) are exactly the edited code plus a single header line. You can import and export modules one
- by one, right clicking them on Project Explorer ([see first time user of VBA](#first-time-user)) or use a toll for that in the [module Modules](module-modules)
+ by one, right clicking them on Project Explorer ([see first time user of VBA](#first-time-user)) or use a toll for that in the [module Modules](module-modules))
 
 To do so, I organized (thus far only two) tools in a way that one can use without knowing anything about the code, one is very simple and the other
  is very complex (although not as complex as it can be when real applications are made). 
@@ -33,7 +33,7 @@ If you understand how these works, then you got a hold of
 ##Overview
 You can download only the .xlsm file check and run the code. (to test you need to get the 2 input files in exampledata/database too).
  To contribute, you shall change and add your code in the xlsm and export it to a ".bas" in the directory "modules" or update you shall change the ".bas"
- in the folder modules (see [module Modules](module-modules)
+ in the folder modules (see [module Modules](module-modules))
 
 This manipulation tools work as almost all programming tools:
 
@@ -71,10 +71,12 @@ If you clone the repository, you will also have the input example data and emme 
  It is uses network and transit data to represent Jakarta network, back in 2005. The directory 'exampledata' holds an EMME project 
 "JKT2005.emp" and the EMME folder structure bellow it, only thing is that you must unzipp the emmebank (in database folder) before opening it, the bank fits in a license #7. 
 (the experimental feature of Cones_tool -- only one transfer -- requires it, the standard Cones_tool output fits in license #5, the input network fits in #3, 
-but you will need to start a new project and input files: [modes13](exampledata/database/modes13), [vehicles13](exampledata/database/vehicles13), 
-[basenetwork13](exampledata/database/basenetwork13) and [transitlines13](exampledata/database/transitlines13)
+but you will need to start a new project and input files: [modes13](https://github.com/aszasz/emmekit.vba/blob/master/exampledata/Database/modes13),
+ [vehicles13](https://github.com/aszasz/emmekit.vba/blob/master/exampledata/Database/vehicles13), 
+[basenetwork13](https://github.com/aszasz/emmekit.vba/blob/master/exampledata/Database/basenetwork13) 
+and [transitlines13](https://github.com/aszasz/emmekit.vba/blob/master/exampledata/Database/transitlines13)
 
-![example_data_base](assets/emmekit_example)
+![example_data_base](assets/emmekit_example.png)
 
 There is four transit lines modes (with different collors in the picture above):
 - Mikrolets, mode "e" are vans and run mostly in the outskirts area (yellow)
