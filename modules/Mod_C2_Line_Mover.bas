@@ -4,7 +4,7 @@ Sub Run_Lines_Mover()
 'Called from a button in Worksheet plan
 'For each collumn marked with X in checkRow will call Cones
 Dim plan As Worksheet
-Set plan = ThisWorkbook.Sheets("Lines_mover_tool")
+Set plan = ThisWorkbook.Sheets("Line_mover_tool")
 
 'typed arguments to pass to Cones
 Dim msgCell As Range
@@ -13,9 +13,9 @@ Dim msgCell As Range
 Dim startCol As Integer: startCol = 4
 Dim endCol As Integer: endCol = 104
 
-Dim folderRow As Integer: folderRow = 3
-Dim netINrow  As Integer: netINrow = 5
-Dim transitINrow  As Integer: transitINrow = 6
+Dim folderRow As Integer: folderRow = 2
+Dim netINrow  As Integer: netINrow = 4
+Dim transitINrow  As Integer: transitINrow = 5
 Dim netOUTrow  As Integer: netOUTrow = 7
 Dim transitOUTRow  As Integer: transitOUTRow = 8
 Dim instructionsRow  As Integer: instructionsRow = 10
@@ -37,7 +37,7 @@ For icol = startCol To endCol
         
         Set msgCell = plan.Cells(messageRow, icol)
         msgCell.Value = "Start: " & Format(Now(), "MMM/DD/YYYY hh:mm:ss")
-        Call Cones(folder & plan.Cells(netINrow, icol), _
+        Call RunSplitCol(folder & plan.Cells(netINrow, icol), _
                     folder & plan.Cells(transitINrow, icol), _
                     folder & plan.Cells(netOUTrow, icol), _
                     folder & plan.Cells(transitOUTRow, icol), _
@@ -80,11 +80,13 @@ msgCell = msgCell & Chr(10) & "... DONE: " & nRoutes & " transit lines  " '& For
 OldNRoutes = nRoutes
 CountRoutesinNetwork ' this is called to fill links and nodes positions (used to move routes later)
 
+
+SelectAllnotConnector
 msgCell.Value = msgCell.Value & Chr(10) & "Reading Moving Instructions and Processing    " & Format(Now(), "hh:mm:ss") & " ..."
 Call Read_LineMover_file(FileSPLITTXT, msgCell)
 
 Dim onlyChanges As Boolean
-onlyChanges = (Format(OnlyOutputChanges, ">") = "X")
+onlyChanges = True ' (Format(OnlyOutputChanges, ">") = "X")
 
 msgCell.Value = msgCell.Value & Chr(10) & "Writting routes  " & Format(Now(), "hh:mm:ss") & " ..."
 WriteEmmeRoutes FileRouteOUT, False, True, True, onlyChanges
@@ -120,96 +122,103 @@ Do While Not EOF(1)
 Read_Line:
     Line Input #1, stringline
     N = CountWords(stringline)
-    If N > 0 And Splitword(1) <> "c" And Splitword(1) <> "C" Then
-        'Checking if route is valid
-        iroute = Get_Route(Splitword(1))
-        If iroute = 0 Then
-            If vbNo = MsgBox("Transit line " & Splitword(1) & " in file " & fullfile & " not found in network. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
-                    msgCell = msgCell = "Transit line " & Splitword(i) & " not found. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
-                    Exit Sub
-                Else
-                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
-                    GoTo Read_Line
-                End If
-             End If
+    
+    If N = 0 Or Splitword(1) = "c" Or Splitword(1) = "C" Then
+        'If empty line or comment goto next line
+        GoTo Read_Line
+    End If
+        
+    'Checking if route, (first word)  is valid
+    iroute = Get_Route(Splitword(1))
+    If iroute = 0 Then
+        If vbNo = MsgBox("Transit line " & Splitword(1) & " in file " & fullfile & " not found in network. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+            msgCell = msgCell = "Transit line " & Splitword(i) & " not found. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+            Exit Sub
+        Else
+            msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+            GoTo Read_Line
         End If
-        'Check all words after 2, shall be network points
-        For i = 3 To N
-            PointList(i - 2) = PointNamed(Splitword(i))
-            If PointList(i - 2) = 0 Then
-                If vbNo = MsgBox("Point" & Splitword(i) & " in file " & fullfile & " not found in network. Move ahead ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "?(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
-                    msgCell = msgCell = "Point " & Splitword(i) & " not found. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
-                    Exit Sub
-                Else
-                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
-                    GoTo Read_Line
-                End If
-             End If
-        Next i
-        'Check and process signal
-        If Splitword(2) <> "X>" And Splitword(2) <> "X<" And Splitword(2) <> "x>" And Splitword(2) <> "x<" And Splitword(2) <> "+>" And Splitword(2) <> "+<" And Splitword(2) <> "-" Then
-            'Unknown signal
-            If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " unknown. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
-                    msgCell = msgCell = "Command " & Splitword(2) & " unknown. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
-                    Exit Sub
-                Else
-                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
-                    GoTo Read_Line
-                End If
-             End If
-        ElseIf Splitword(2) = "-" Then
-            'Remove line
-            If N > 2 Then
-                If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " has more parameters than requested. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
-                    msgCell = msgCell = "More parameters than required. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
-                    Exit Sub
-                Else
-                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
-                    GoTo Read_Line
-                End If
+    End If
+        
+    'Check if command (the second word) is valid
+    If Splitword(2) <> "X>" And Splitword(2) <> "X<" And Splitword(2) <> "x>" And Splitword(2) <> "x<" And Splitword(2) <> "+>" And Splitword(2) <> "+<" And Splitword(2) <> "-" Then
+        'Unknown signal
+        If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " unknown. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+            msgCell = msgCell = "Command " & Splitword(2) & " unknown. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+            Exit Sub
+        Else
+            msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+            GoTo Read_Line
+        End If
+    End If
+        
+    'Check all words after 2, shall be network points
+    For i = 3 To N
+        'uses point list i-2, to let in right poistion (first point in list is word 3)
+        PointList(i - 2) = PointNamed(Splitword(i))
+        If PointList(i - 2) = 0 Then
+            If vbNo = MsgBox("Point" & Splitword(i) & " in file " & fullfile & " not found in network. Move ahead ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "?(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                msgCell = msgCell = "Point " & Splitword(i) & " not found. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                Exit Sub
             Else
-                route(iroute).changed = True
-                route(iroute).Deleta = True
+                msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                GoTo Read_Line
             End If
-        ElseIf Left(Splitword(2), 1) = "x" Or Left(Splitword(2), 1) = "X" Then
-            'Cut line
-            If N > 3 Then
-                If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " has more parameters than requested. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
-                    msgCell = msgCell = "More parameters than required. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
-                    Exit Sub
-                Else
-                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
-                    GoTo Read_Line
-                End If
+         End If
+    Next i
+        
+    'If everything is write up to this point, start processing
+    
+    If Splitword(2) = "-" Then
+        'Remove line
+        If N > 2 Then
+            If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " has more parameters than requested. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                msgCell = msgCell = "More parameters than required. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                Exit Sub
             Else
-                ipoint = PointNamed(Splitword(3))
-                If Not DoesRoutepasshere(iroute, ipoint) Then
-                    If vbNo = MsgBox("Transit line " & Splitword(1) & " doesn't goes thru point " & Splitword(3) & ", as suposed in file " & fullfile & "Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
-                        msgCell = msgCell = "Transit line " & Splitword(1) & " doesn't goes thru point " & Splitword(3) & Chr(13) & stringline & Chr(13)
-                        Exit Sub
-                    Else
-                        msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
-                        GoTo Read_Line
-                    End If
-                ElseIf Right(Splitword(2), 1) = ">" Then
-                    route(iroute).changed = Cut_Route(iroute, 0, ipoint)
-                ElseIf Right(Splitword(2), 1) = "<" Then
-                    route(iroute).changed = Cut_Route(iroute, ipoint, 0)
-                Else
-                    MsgBox "Contate o revendedor... isso aqui é bug!"
-                End If
-            End If
-        ElseIf Left(Splitword(2), 1) = "+" Then
-            If Right(Splitword(2), 1) = ">" Then
-                route(iroute).changed = Extend_Route_TO(iroute, N - 2)
-            ElseIf Right(Splitword(2), 1) = "<" Then
-                route(iroute).changed = Extend_Route_FROM(iroute, N - 2)
-            Else
-                MsgBox "Contate o revendedor... isso aqui é bug!"
+                msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
             End If
         Else
-            MsgBox "Contate o revendedor... isso aqui é inesperado!"
+            route(iroute).changed = True
+            route(iroute).deleted = True
         End If
+    ElseIf Left(Splitword(2), 1) = "x" Or Left(Splitword(2), 1) = "X" Then
+        'Cut line
+        If N > 3 Then
+            If vbNo = MsgBox("Operation" & Splitword(2) & " in file " & fullfile & " has more parameters than requested. Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                msgCell = msgCell = "More parameters than required. Aborted moving lines after command:" & Chr(13) & stringline & Chr(13)
+                Exit Sub
+            Else
+                msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+            End If
+        Else
+            ipoint = PointNamed(Splitword(3))
+            If Not DoesRoutepasshere(iroute, ipoint) <> 0 Then
+                If vbNo = MsgBox("Transit line " & Splitword(1) & " doesn't goes thru point " & Splitword(3) & ", as suposed in file " & fullfile & "Proceed ignoring command:" & Chr(13) & stringline & Chr(13) & Chr(13) & "(Não, aborta a execução do programa)", vbYesNo, "OOPS!") Then
+                    msgCell = msgCell = "Transit line " & Splitword(1) & " doesn't goes thru point " & Splitword(3) & Chr(13) & stringline & Chr(13)
+                    Exit Sub
+                Else
+                    msgCell = msgCell = "Ignoring command:" & Chr(13) & stringline & Chr(13)
+                    GoTo Read_Line
+                End If
+            ElseIf Right(Splitword(2), 1) = ">" Then
+                route(iroute).changed = Cut_Route(iroute, 0, ipoint)
+            ElseIf Right(Splitword(2), 1) = "<" Then
+                route(iroute).changed = Cut_Route(iroute, ipoint, 0)
+            Else
+                MsgBox "Bug found.. Error found after checking input... Can't process line..." & stringline
+            End If
+        End If
+    ElseIf Left(Splitword(2), 1) = "+" Then
+        If Right(Splitword(2), 1) = ">" Then
+            route(iroute).changed = Extend_Route_TO(iroute, N - 2)
+        ElseIf Right(Splitword(2), 1) = "<" Then
+            route(iroute).changed = Extend_Route_FROM(iroute, N - 2)
+        Else
+                MsgBox "Bug found.. Error found after checking input... Can't process line..." & stringline
+        End If
+    Else
+                MsgBox "Bug found.. Error found after checking input... Can't process line..." & stringline
     End If
 Loop
 Close #1

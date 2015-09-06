@@ -18,7 +18,7 @@ Public Sub export_all_my_basic_modules()
     For Each N In names
         export_module CStr(N)
     Next
-    Application.VBE.ActiveVBProject.VBComponents("modules").Export "mod\version_control\modules.bas"
+'    Application.VBE.ActiveVBProject.VBComponents("modules").Export "mod\version_control\modules.bas"
 End Sub
 
 Public Sub load_names_of_modules()
@@ -35,10 +35,10 @@ Public Sub load_names_of_modules()
 '    ref.Add "Mod_Y_Removed_for_Now.bas", "Mod_Y_Removed_for_Now": names.Add "Mod_Y_Removed_for_Now"
     ref.Add "modules/Mod_Z_VBAConstants.bas", "Mod_Z_VBAConstants": names.Add "Mod_Z_VBAConstants"
     
-    On Error Resume Next
-    Application.VBE.ActiveVBProject.References.AddFromFile "C:\Windows\System32\vbscript.dll\3" ' Microsoft VBScript Regular Expressions 5.0
-    Application.VBE.ActiveVBProject.References.AddFromFile "C:\Windows\system32\scrrun.dll" ' Microsoft Scripting Runtime (for Dictionary support)
-    On Error GoTo 0
+  '  On Error Resume Next
+'    Application.VBE.ActiveVBProject.References.AddFromFile "C:\Windows\System32\vbscript.dll\3" ' Microsoft VBScript Regular Expressions 5.0
+ '   Application.VBE.ActiveVBProject.References.AddFromFile "C:\Windows\system32\scrrun.dll" ' Microsoft Scripting Runtime (for Dictionary support)
+   ' On Error GoTo 0
 End Sub
 
 Public Sub unload_module(Name As String)

@@ -233,6 +233,11 @@ Sub ReadM2RoutesFile(fullfile As String, msgCell As Range, _
     Dim para As String 'temp input for allow board/alight
     Dim tempopara As Single 'temp input for dwelltima
     Dim functempo As Integer 'temporary value for ttf
+    Dim functempot As Integer 'temporary value for ttft
+    Dim functempol As Integer 'temporary value for ttfl
+    Dim us1 As Single
+    Dim us2 As Single
+    Dim us3 As Single
     Dim keep_going As Boolean
     N = CountStrings(fullfile, "\")
     shortFileName = Splitword(N)
@@ -263,9 +268,9 @@ Sub ReadM2RoutesFile(fullfile As String, msgCell As Range, _
             tempopara = 0  '=dwt (dwell time in emme)
             functempot = 0  '=tttf
             functempol = 0  '=ttfl
-            Us1 = 0
-            Us2 = 0
-            Us3 = 0
+            us1 = 0
+            us2 = 0
+            us3 = 0
             route(nRoutes).Npoints = 0
             route(nRoutes).HasPara = True
             route(nRoutes).HasDwt = True
@@ -280,14 +285,19 @@ Sub ReadM2RoutesFile(fullfile As String, msgCell As Range, _
             ReDim route(nRoutes).para(route(nRoutes).Npoints)
             ReDim route(nRoutes).dwt(route(nRoutes).Npoints)
             ReDim route(nRoutes).ttf(route(nRoutes).Npoints)
+            ReDim route(nRoutes).ttfT(route(nRoutes).Npoints)
+            ReDim route(nRoutes).ttfL(route(nRoutes).Npoints)
+            ReDim route(nRoutes).us1(route(nRoutes).Npoints)
+            ReDim route(nRoutes).us2(route(nRoutes).Npoints)
+            ReDim route(nRoutes).us3(route(nRoutes).Npoints)
             route(nRoutes).para(route(nRoutes).Npoints) = para
             route(nRoutes).dwt(route(nRoutes).Npoints) = tempopara
             route(nRoutes).ttf(route(nRoutes).Npoints) = functempo
             route(nRoutes).ttfT(route(nRoutes).Npoints) = functempot
             route(nRoutes).ttfL(route(nRoutes).Npoints) = functempol
-            route(nRoutes).Us1(route(nRoutes).Npoints) = Us1
-            route(nRoutes).Us2(route(nRoutes).Npoints) = Us2
-            route(nRoutes).Us3(route(nRoutes).Npoints) = Us3
+            route(nRoutes).us1(route(nRoutes).Npoints) = us1
+            route(nRoutes).us2(route(nRoutes).Npoints) = us2
+            route(nRoutes).us3(route(nRoutes).Npoints) = us3
         Else
             For i = 1 To CountWords(stringline)
                 If CountStringsB(Splitword(i), "=") = 2 Then
@@ -304,11 +314,11 @@ Sub ReadM2RoutesFile(fullfile As String, msgCell As Range, _
                     ElseIf SplitwordB(1) = "ttft" Then
                         functempot = Val(SplitwordB(2))
                     ElseIf SplitwordB(1) = "us1" Then
-                        Us1 = Val(SplitwordB(2))
+                        us1 = Val(SplitwordB(2))
                     ElseIf SplitwordB(1) = "us2" Then
-                        Us2 = Val(SplitwordB(2))
+                        us2 = Val(SplitwordB(2))
                     ElseIf SplitwordB(1) = "us3" Then
-                        Us3 = Val(SplitwordB(2))
+                        us3 = Val(SplitwordB(2))
                     ElseIf SplitwordB(1) = "lay" Then
                         route(nRoutes).lay = SplitwordB(2)
                     ElseIf SplitwordB(1) = "path" Then
@@ -324,17 +334,17 @@ Sub ReadM2RoutesFile(fullfile As String, msgCell As Range, _
                         ReDim Preserve route(nRoutes).ttf(route(nRoutes).Npoints)
                         ReDim Preserve route(nRoutes).ttfT(route(nRoutes).Npoints)
                         ReDim Preserve route(nRoutes).ttfL(route(nRoutes).Npoints)
-                        ReDim Preserve route(nRoutes).Us1(route(nRoutes).Npoints)
-                        ReDim Preserve route(nRoutes).Us2(route(nRoutes).Npoints)
-                        ReDim Preserve route(nRoutes).Us3(route(nRoutes).Npoints)
+                        ReDim Preserve route(nRoutes).us1(route(nRoutes).Npoints)
+                        ReDim Preserve route(nRoutes).us2(route(nRoutes).Npoints)
+                        ReDim Preserve route(nRoutes).us3(route(nRoutes).Npoints)
                         route(nRoutes).ipoint(route(nRoutes).Npoints) = P
                         route(nRoutes).para(route(nRoutes).Npoints) = para
                         route(nRoutes).dwt(route(nRoutes).Npoints) = tempopara
                         route(nRoutes).ttfT(route(nRoutes).Npoints) = functempot
                         route(nRoutes).ttfL(route(nRoutes).Npoints) = functempol
-                        route(nRoutes).Us1(route(nRoutes).Npoints) = Us1
-                        route(nRoutes).Us2(route(nRoutes).Npoints) = Us2
-                        route(nRoutes).Us3(route(nRoutes).Npoints) = Us3
+                        route(nRoutes).us1(route(nRoutes).Npoints) = us1
+                        route(nRoutes).us2(route(nRoutes).Npoints) = us2
+                        route(nRoutes).us3(route(nRoutes).Npoints) = us3
                         'This have been controversial: should a line that passes twice at the same point be entered twice... it is annoyng when used for integration
                         'In this version register only once
                         If point(P).iroute(point(P).nRoutes) <> nRoutes Then
@@ -506,6 +516,7 @@ Next i
 End Function
 Function DoesRoutepasshere(iroute As Integer, ipoint As Long) As Integer
 DoesRoutepasshere = 0
+Dim i As Integer
 For i = 1 To point(ipoint).nRoutes
     If point(ipoint).iroute(i) = iroute Then DoesRoutepasshere = i: Exit Function
 Next i
@@ -940,6 +951,7 @@ Sub WriteEmmeNetwork(fullfilename As String, Optional onlyChanges As Boolean = F
 'IF OnlyChanges, will be based on the parameter OldNPoints and OldNLinks, to check what is new
 '                will try to delete links with tipo=1000 or 100, depending of NeverMindRoutes
 '                and consider that there were changes if tipo>1000 (will remove 1000 of tipo)
+'                and will not print links with no modes
 '                will delete (or not write) nodes that have .IsM2=100 DOES NOT CHECK FOR LINKS USING THE POINT
 '                and consider that there were changes in nodes where .IsM2>100
 '                if markt3<>0 will use the value for marking the link was modified in ul3
@@ -969,7 +981,7 @@ End If
 If onlyChanges Then
 Print #2, "t links"
     For i = 1 To OldNLinks
-        If link(i).isM2 = 0 Or link(i).tipo = 1000 Then Print #2, "d " & point(link(i).op).Name & "  " & point(link(i).dp).Name
+        If link(i).isM2 = 0 Or link(i).tipo = 1000 Or link(i).modes = "" Then Print #2, "d " & point(link(i).op).Name & "  " & point(link(i).dp).Name
     Next i
 End If
 Print #2, "t nodes" & initstring
@@ -993,7 +1005,8 @@ For i = 1 To Npoints
     stringline = stringline & " " & Right("           " & Format(print3, "0.00"), 9)
     stringline = stringline & "  " & Right(point(i).STname, 4)
     
-    If Not point(i).Deleta And point(i).isM2 <> 100 And point(i).isM2 > 0 And (Not onlyChanges Or (onlyChanges And (i > OldNpoints Or point(i).isM2 > 100))) Then Print #2, stringline
+    If Not point(i).Deleta And point(i).isM2 <> 100 And point(i).isM2 > 0 And _
+    (Not onlyChanges Or (onlyChanges And (i > OldNpoints Or point(i).isM2 > 100))) Then Print #2, stringline
 Next i
 Print #2,
 Print #2, "t links" & initstring
@@ -1007,7 +1020,7 @@ For i = 1 To NLinks
     If link(i).tipo = 1000 Or link(i).isM2 = 0 Then
         If onlyChanges And i <= OldNLinks Then
             If link(i).nRoutes = 0 Or NeverMindRoutes Then
-'                Print #2, "d " & stringline
+'                Print #2, "d " & stringline <-- this was moved to before adding points
             Else
                 Print #2, "m " & stringline & " modes=-a"
             End If
@@ -1015,7 +1028,7 @@ For i = 1 To NLinks
                 printipo = 100
         End If
     End If
-    If printipo <> 1000 Then
+    If printipo <> 1000 And link(i).modes <> "" Then
         If printipo > 1000 Then printipo = printipo - 1000
         stringline = stringline & " " & Right("       " & Format(link(i).Extension, "0.000"), 7)
         stringline = stringline & " " & Left(ordermodes(link(i).modes) & "          ", 10)
@@ -1252,27 +1265,30 @@ End If
 End Sub
 Function Cut_Route(iroute As Integer, Optional FirstPoint As Long = 0, Optional LastPoint As Long = 0) As Boolean
 'Corta a linha antes de firstpoint e depois de lastpoint
+Dim i As Integer
+Dim FROMPoint As Integer
+Dim TOPoint As Integer
 For i = 1 To route(iroute).Npoints
-    If route(iroute).ipoint(i) = FirstPoint Then frompoint = i
+    If route(iroute).ipoint(i) = FirstPoint Then FROMPoint = i
     If route(iroute).ipoint(i) = LastPoint Then TOPoint = i
 Next i
 
-If FirstPoint = 0 Then frompoint = 1
+If FirstPoint = 0 Then FROMPoint = 1
 If LastPoint = 0 Then TOPoint = route(iroute).Npoints
 
-For i = frompoint To TOPoint
-    route(iroute).ipoint(i - frompoint + 1) = route(iroute).ipoint(i)
-    If route(iroute).HasPara Then route(iroute).para(i - frompoint + 1) = route(iroute).para(i)
-    If route(iroute).HasPara Then route(iroute).dwt(i - frompoint + 1) = route(iroute).dwt(i)
-    If route(iroute).HasTtf Then route(iroute).ttf(i - frompoint + 1) = route(iroute).ttf(i)
-    If route(iroute).HasTtfT Then route(iroute).ttfT(i - frompoint + 1) = route(iroute).ttfT(i)
-    If route(iroute).HasTtfL Then route(iroute).ttfL(i - frompoint + 1) = route(iroute).ttfL(i)
-    If route(iroute).HasUs1 Then route(iroute).Us1(i - frompoint + 1) = route(iroute).Us1(i)
-    If route(iroute).HasUs2 Then route(iroute).Us2(i - frompoint + 1) = route(iroute).Us2(i)
-    If route(iroute).HasUs3 Then route(iroute).Us3(i - frompoint + 1) = route(iroute).Us3(i)
+For i = FROMPoint To TOPoint
+    route(iroute).ipoint(i - FROMPoint + 1) = route(iroute).ipoint(i)
+    If route(iroute).HasPara Then route(iroute).para(i - FROMPoint + 1) = route(iroute).para(i)
+    If route(iroute).HasPara Then route(iroute).dwt(i - FROMPoint + 1) = route(iroute).dwt(i)
+    If route(iroute).HasTtf Then route(iroute).ttf(i - FROMPoint + 1) = route(iroute).ttf(i)
+    If route(iroute).HasTtfT Then route(iroute).ttfT(i - FROMPoint + 1) = route(iroute).ttfT(i)
+    If route(iroute).HasTtfL Then route(iroute).ttfL(i - FROMPoint + 1) = route(iroute).ttfL(i)
+    If route(iroute).HasUs1 Then route(iroute).us1(i - FROMPoint + 1) = route(iroute).us1(i)
+    If route(iroute).HasUs2 Then route(iroute).us2(i - FROMPoint + 1) = route(iroute).us2(i)
+    If route(iroute).HasUs3 Then route(iroute).us3(i - FROMPoint + 1) = route(iroute).us3(i)
 Next i
 
-route(iroute).Npoints = TOPoint - frompoint + 1
+route(iroute).Npoints = TOPoint - FROMPoint + 1
 ReDim Preserve route(iroute).ipoint(route(iroute).Npoints)
 If route(iroute).HasPara Then ReDim Preserve route(iroute).para(route(iroute).Npoints)
 If route(iroute).HasPara Then ReDim Preserve route(iroute).dwt(route(iroute).Npoints)
@@ -1280,16 +1296,25 @@ If route(iroute).HasTtf Then ReDim Preserve route(iroute).ttf(route(iroute).Npoi
 Cut_Route = True
 End Function
 Function Extend_Route_TO(iroute, NPointsinPointList) As Boolean
+Dim j As Integer
 Dim arethey As Boolean
+Dim ENNE As Integer
+Dim i As Integer
+Dim ipoint As Integer
 Extend_Route_TO = True
 For i = 1 To NPointsinPointList
     ipoint = PointList(i)
-    ENNE = NLinksInShortestPathDijkstra(route(iroute).ipoint(route(iroute).Npoints), ipoint, arethey)
+    ENNE = NLinksInShortestPathWithinSelectedLinks(route(iroute).ipoint(route(iroute).Npoints), ipoint, arethey)
     If Not arethey Then MsgBox "Não é possível ligar o ponto final da linha " & route(iroute).number & " (ponto " & point(route(iroute).ipoint(route(iroute).Npoints)).Name & "). ao ponto " & point(ipoint).Name & ". A linha permanecerá com o mencionado ponto final.": Exit Function
     ReDim Preserve route(iroute).ipoint(route(iroute).Npoints + ENNE)
     If route(iroute).HasPara Then ReDim Preserve route(iroute).para(route(iroute).Npoints + ENNE)
     If route(iroute).HasPara Then ReDim Preserve route(iroute).dwt(route(iroute).Npoints + ENNE)
     If route(iroute).HasTtf Then ReDim Preserve route(iroute).ttf(route(iroute).Npoints + ENNE)
+    If route(iroute).HasTtfT Then ReDim Preserve route(iroute).ttfT(route(iroute).Npoints + ENNE)
+    If route(iroute).HasTtfL Then ReDim Preserve route(iroute).ttfL(route(iroute).Npoints + ENNE)
+    If route(iroute).HasUs1 Then ReDim Preserve route(iroute).us1(route(iroute).Npoints + ENNE)
+    If route(iroute).HasUs2 Then ReDim Preserve route(iroute).us2(route(iroute).Npoints + ENNE)
+    If route(iroute).HasUs3 Then ReDim Preserve route(iroute).us3(route(iroute).Npoints + ENNE)
     For j = route(iroute).Npoints + 1 To route(iroute).Npoints + ENNE
         route(iroute).ipoint(j) = link(LinkList(j - route(iroute).Npoints)).dp
         If route(iroute).HasPara Then route(iroute).para(j) = route(iroute).para(route(iroute).Npoints)
@@ -1297,25 +1322,33 @@ For i = 1 To NPointsinPointList
         If route(iroute).HasTtf Then route(iroute).ttf(j) = route(iroute).ttf(route(iroute).Npoints)
         If route(iroute).HasTtfT Then route(iroute).ttfT(j) = route(iroute).ttfT(route(iroute).Npoints)
         If route(iroute).HasTtfL Then route(iroute).ttfL(j) = route(iroute).ttfL(route(iroute).Npoints)
-        If route(iroute).HasUs1 Then route(iroute).Us1(j) = route(iroute).Us1(route(iroute).Npoints)
-        If route(iroute).HasUs2 Then route(iroute).Us2(j) = route(iroute).Us2(route(iroute).Npoints)
-        If route(iroute).HasUs3 Then route(iroute).Us3(j) = route(iroute).Us2(route(iroute).Npoints)
+        If route(iroute).HasUs1 Then route(iroute).us1(j) = route(iroute).us1(route(iroute).Npoints)
+        If route(iroute).HasUs2 Then route(iroute).us2(j) = route(iroute).us2(route(iroute).Npoints)
+        If route(iroute).HasUs3 Then route(iroute).us3(j) = route(iroute).us2(route(iroute).Npoints)
     Next j
     route(iroute).Npoints = route(iroute).Npoints + ENNE
 Next i
 End Function
 Function Extend_Route_FROM(iroute, NPointsinPointList) As Boolean
+Dim j As Integer
 Dim arethey As Boolean
 Dim ENNE As Integer
 Extend_Route_FROM = True
+Dim i As Integer
+Dim ipoint As Integer
 For i = 1 To NPointsinPointList
     ipoint = PointList(i)
-    ENNE = NLinksInShortestPathDijkstra(ipoint, route(iroute).ipoint(1), arethey)
+    ENNE = NLinksInShortestPathWithinSelectedLinks(ipoint, route(iroute).ipoint(1), arethey)
     If Not arethey Then MsgBox "It is not possible to link  node " & point(ipoint).Name & " to first node of transit line " & route(iroute).number & " (node " & point(route(iroute).ipoint(1)).Name & "). Line will remain with its current initial node.": Exit Function
     ReDim Preserve route(iroute).ipoint(route(iroute).Npoints + ENNE)
     If route(iroute).HasPara Then ReDim Preserve route(iroute).para(route(iroute).Npoints + ENNE)
     If route(iroute).HasPara Then ReDim Preserve route(iroute).dwt(route(iroute).Npoints + ENNE)
     If route(iroute).HasTtf Then ReDim Preserve route(iroute).ttf(route(iroute).Npoints + ENNE)
+    If route(iroute).HasTtfT Then ReDim Preserve route(iroute).ttfT(route(iroute).Npoints + ENNE)
+    If route(iroute).HasTtfL Then ReDim Preserve route(iroute).ttfL(route(iroute).Npoints + ENNE)
+    If route(iroute).HasUs1 Then ReDim Preserve route(iroute).us1(route(iroute).Npoints + ENNE)
+    If route(iroute).HasUs2 Then ReDim Preserve route(iroute).us2(route(iroute).Npoints + ENNE)
+    If route(iroute).HasUs3 Then ReDim Preserve route(iroute).us3(route(iroute).Npoints + ENNE)
     For j = route(iroute).Npoints + ENNE To ENNE + 1 Step -1
         route(iroute).ipoint(j) = route(iroute).ipoint(j - ENNE)
         If route(iroute).HasPara Then route(iroute).para(j) = route(iroute).para(j - ENNE)
@@ -1323,22 +1356,32 @@ For i = 1 To NPointsinPointList
         If route(iroute).HasTtf Then route(iroute).ttf(j) = route(iroute).ttf(j - ENNE)
         If route(iroute).HasTtfT Then route(iroute).ttfT(j) = route(iroute).ttfT(j - ENNE)
         If route(iroute).HasTtfL Then route(iroute).ttfL(j) = route(iroute).ttfL(j - ENNE)
-        If route(iroute).HasUs1 Then route(iroute).Us1(j) = route(iroute).Us1(j - ENNE)
-        If route(iroute).HasUs2 Then route(iroute).Us2(j) = route(iroute).Us2(j - ENNE)
-        If route(iroute).HasUs3 Then route(iroute).Us3(j) = route(iroute).Us2(j - ENNE)
+        If route(iroute).HasUs1 Then route(iroute).us1(j) = route(iroute).us1(j - ENNE)
+        If route(iroute).HasUs2 Then route(iroute).us2(j) = route(iroute).us2(j - ENNE)
+        If route(iroute).HasUs3 Then route(iroute).us3(j) = route(iroute).us2(j - ENNE)
     Next j
     For j = ENNE To 1 Step -1
-        route(iroute).ipoint(j) = link(LinkList(j)).dp
+        route(iroute).ipoint(j) = link(LinkList(j)).op
         If route(iroute).HasPara Then route(iroute).para(j) = route(iroute).para(ENNE + 1)
         If route(iroute).HasPara Then route(iroute).dwt(j) = route(iroute).dwt(ENNE + 1)
         If route(iroute).HasTtf Then route(iroute).ttf(j) = route(iroute).ttf(ENNE + 1)
         If route(iroute).HasTtfT Then route(iroute).ttfT(j) = route(iroute).ttfT(ENNE + 1)
         If route(iroute).HasTtfL Then route(iroute).ttfL(j) = route(iroute).ttfL(ENNE + 1)
-        If route(iroute).HasUs1 Then route(iroute).Us1(j) = route(iroute).Us1(ENNE + 1)
-        If route(iroute).HasUs2 Then route(iroute).Us2(j) = route(iroute).Us2(ENNE + 1)
-        If route(iroute).HasUs3 Then route(iroute).Us3(j) = route(iroute).Us2(ENNE + 1)
+        If route(iroute).HasUs1 Then route(iroute).us1(j) = route(iroute).us1(ENNE + 1)
+        If route(iroute).HasUs2 Then route(iroute).us2(j) = route(iroute).us2(ENNE + 1)
+        If route(iroute).HasUs3 Then route(iroute).us3(j) = route(iroute).us2(ENNE + 1)
     Next j
     route(iroute).Npoints = route(iroute).Npoints + ENNE
 Next i
 End Function
+Sub SelectAllnotConnector()
+    Dim i As Long
+    For i = 1 To NLinks
+        If link(i).isM2 = 2 Then
+            link(i).selected = True
+        Else
+            link(i).selected = False
+        End If
+    Next i
+End Sub
 

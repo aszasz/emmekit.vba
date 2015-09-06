@@ -196,11 +196,11 @@ Type Route_Type
     HasTtfT As Boolean
     ttfT() As Integer
     HasUs1 As Boolean
-    Us1() As Integer
+    us1() As Integer
     HasUs2 As Boolean
-    Us2() As Integer
+    us2() As Integer
     HasUs3 As Boolean
-    Us3() As Integer
+    us3() As Integer
     HasVoltr As Boolean
     voltr() As Single
     timetr() As Single
@@ -455,6 +455,9 @@ Function Point_Distance(P1 As Point_type, P2 As Point_type) As Single
     'this formula:            157.282,8
     'considering flattening:  156.759,1
     'This difference comes down to 20 centimeters in 160 meters, near 0.12%
+    Dim DeltY As Single
+    Dim DeltX As Single
+    Dim Ymed As Single
     
     DeltY = P1.y - P2.y
     DeltX = P1.x - P2.x
@@ -931,4 +934,148 @@ Function DifAngleOrder(maior As Single, menor As Single) As Single
 If maior = 10000 Or menor = 10000 Then DifAngleOrder = 10000: Exit Function
 If maior < menor Then maior = maior + 360
 DifAngleOrder = maior - menor
+End Function
+
+' optional AreLinked returns if points are linked (thru Links which property .selected is true
+'   - if they are: LinkList() up to the return value will return the path the links to go from Opoint to Dpoint
+'   - if thery are not, LinkList() will return the path to the closest point from Dpoint
+' optional NetworkDistance is also a return variable that will inform the run distance in network (regarding the .extension property of links (not actual distance)
+' UptoDist if provided will to limit search of the shortest path to a maximum distance (and return AreThey = false
+' Up to BusNode will search for the closest point from O where a transit line passes
+' 'OLD STUFF: Station Type will look for a point where .isStation is equal UptoStationType
+' When using the last three options, one must call as D a non existing point, or unlinked point, or a point known to attend the reequirements (to see if there is other closer)
+Function NLinksInShortestPathWithinSelectedLinks(ByVal Opoint As Long, _
+                                                    ByVal Dpoint As Long, _
+                                                    Optional Arelinked As Boolean, _
+                                                    Optional NetWorkDistance As Single, _
+                                                    Optional UpToDist As Single = -1, _
+                                                    Optional UptoBusNode As Boolean = False, _
+                                                    Optional UpToStationType As String = "NOPE") As Integer
+
+    ' uses Dijkstra method
+    ' sets unique value to (global) Marker for all the routine
+    ' the routine uses LinkList to save points, this might be confusing
+    Dim memo As Long
+    Dim BestPoint As Long 'is the current closest point in the expansion from the origin point
+    Dim bestdist As Single
+    Dim dist As Single
+    Dim i As Integer
+    
+    If UpToDist = -1 Then
+        UpToDist = Infinite_Distance
+    End If
+    marker = marker + 1
+    NetWorkDistance = 0
+    LinkList(1) = Opoint 'sets the start expanding point
+    LinkList(2) = 0      'for the event that happened when the Point on the second position of LinkList has a marker equal of the first point, cause other routine forgot to add 1 to marker
+    BestPoint = Opoint
+    point(Opoint).Distance = 0
+    point(Opoint).marker = marker
+    Do While BestPoint <> Dpoint And BestPoint <> 0 _
+                And point(BestPoint).Distance < UpToDist _
+                And (Not UptoBusNode Or point(BestPoint).nRoutes = 0) _
+                'OLD STUFF And (point(BestPoint).Isstation <> UpToStationType Or UpToStationType = "NOPE")
+                'CONTINUE SEARCH IN ONE OF THE BELLOW
+                ' - have not found DPoint yet
+                ' - have not reach limit distance in spreading the search
+                ' - (is not extending till a BusNode or expansion did not reach a node where bus passes)
+                ' - (is not searching for an specific Node>Isstation type or the expansion have not reach the expected type
+        BestPoint = Spread_From_Point_Within_Selected(Opoint)
+        ' Debug.Print Point(BestPoint).name
+    Loop
+    If BestPoint = 0 Then   ' there were no where else to expand and destination was not reach
+        Arelinked = False
+        bestdist = Infinite_Distance
+        For i = 1 To Npoints    'searches to the closest point to destination inside the network, states that to be the destiny
+            If point(i).marker = marker Then
+                dist = Point_Distance(point(Dpoint), point(i))
+                If dist < bestdist Then
+                    BestPoint = i
+                    bestdist = dist
+                End If
+            End If
+        Next i
+    ElseIf BestPoint <> Dpoint Then
+        Arelinked = False
+    Else
+        Arelinked = True
+    End If
+    NLinksInShortestPathWithinSelectedLinks = 0
+    NetWorkDistance = 0
+    Do While BestPoint <> Opoint And BestPoint <> 0
+        NLinksInShortestPathWithinSelectedLinks = NLinksInShortestPathWithinSelectedLinks + 1
+        LinkList(NLinksInShortestPathWithinSelectedLinks) = point(BestPoint).LastLink
+        NetWorkDistance = NetWorkDistance + link(point(BestPoint).LastLink).Extension
+        BestPoint = link(point(BestPoint).LastLink).op
+    Loop
+    For i = 1 To Int(NLinksInShortestPathWithinSelectedLinks / 2)
+        memo = LinkList(i)
+        LinkList(i) = LinkList(NLinksInShortestPathWithinSelectedLinks - i + 1)
+        LinkList(NLinksInShortestPathWithinSelectedLinks - i + 1) = memo
+    Next i
+End Function
+Function Spread_From_Point_Within_Selected(ipoint As Long) As Long
+' This is for Disktra search wihtin selected links
+' Returns the closest marked point to ipoint at the moment of call (looking for points with same marked value and the .distance property
+' (this means the point that was closer in the previous round) AND
+' expands from there:
+' using all selected links that start on the return point
+' marking all points linked (= marker of ipoint = origin point) AND
+' adding them to PointList
+' One thing that migth be confusing is that this routine uses LinkList to save points
+' The shortest path distance from ipoint to the marked links is let on the point().distance
+' The path is saved in point().LastLink
+
+
+    Dim P As Point_type  ' origin point
+    Dim SP As Point_type ' spread point, to be determined here, inside the list of points marked
+                         ' SP: the object point of the return:  SP=Point(Spread_From_Point_within_Selected)
+    Dim thelink As Link_type  ' loop variable link from the return point SP (to check if is selected and other properties)
+    Dim idp As Point_type ' variable destiny point of thelink above
+    Dim bestdistance As Single
+    Dim candidist As Single
+    Dim NListed As Integer
+    Dim Position As Integer
+    Dim i As Integer
+    
+    P = point(ipoint)
+    point(0).marker = 0 '  for safety, as we eventually found some links pointing to 0 and then marking point(0) as part of the candidates
+    
+    Spread_From_Point_Within_Selected = 0
+    bestdistance = Infinite_Distance
+    NListed = 0 'start with empty list
+    ' looks for the next point that is not yet listed
+    Do While point(LinkList(NListed + 1)).marker = P.marker             'CONTINUES if next point in the list is candidate to expansion
+        If point(LinkList(NListed + 1)).Distance <= bestdistance Then   'if the distance is of such candidate is  better then the best so far
+            bestdistance = point(LinkList(NListed + 1)).Distance            ' this distance is new reference to beat
+            Spread_From_Point_Within_Selected = LinkList(NListed + 1)       ' the point becomes the next to be expanded
+            Position = NListed + 1                                          ' and we learn which is the position of the winner in the list
+        End If
+        NListed = NListed + 1                                           'we know the list has one more point
+    Loop
+    
+    If Spread_From_Point_Within_Selected = 0 Then Exit Function         'if there is no more points to expand, our job here is done.
+    
+    SP = point(Spread_From_Point_Within_Selected)
+    LinkList(Position) = LinkList(NListed)  ' Puts the Last listed point in the position of the winner point,
+    LinkList(NListed) = 0                   ' the winner point will leave the list, he is expanded already (this is to have clear the point wher the list ends)
+    NListed = NListed - 1                   ' so the list gets shorter by one
+    For i = 1 To SP.NLinksDaqui             ' expands from the selected point
+        thelink = link(SP.iLinkDaqui(i))
+        If link(SP.iLinkDaqui(i)).selected Then
+            idp = point(thelink.dp)
+            If idp.marker <> P.marker Then  'if links to a point that is new to the list
+                point(thelink.dp).Distance = Infinite_Distance    'sets some (good) distance to the point, so it can be beat bellow
+                point(thelink.dp).marker = marker       'mark the point
+                NListed = NListed + 1                   'add it to the list
+                LinkList(NListed) = thelink.dp
+            End If
+            candidist = SP.Distance + thelink.Extension
+            If candidist < point(thelink.dp).Distance Then  'if new distance to this destiny point is better than the older
+                point(thelink.dp).Distance = candidist      ' this is the best distance to reach this point
+                point(thelink.dp).LastLink = SP.iLinkDaqui(i)   'learn the path that brought us here
+            End If
+        End If
+    Next i
+    LinkList(NListed + 1) = 0   'this is to have clear the point where the list ends
 End Function

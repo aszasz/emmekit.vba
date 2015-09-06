@@ -225,6 +225,7 @@ For i = 1 To Npoints
         RelinkPoint i, equivWalkDist, transferPenaltyCost, walkmode, chargemode, integrationLinkType, onlyOneTransfer
     End If
 Next i
+
 msgCell = msgCell & Chr(10) & "... DONE: " & NLinks - OldNLinks & " new links ( total = " & NLinks & " )"
 
 If onlyOneTransfer Then
@@ -243,7 +244,6 @@ For iroute = 1 To nRoutes
         End If
     End If
 Next iroute
-
 
 sum = 0
 For iroute = 1 To nRoutes
@@ -773,12 +773,23 @@ ReDim route(nRoutes).para(NP)
 route(nRoutes) = route(iroute) ' new route = iroute
 
 'Change number and description of second route
+Dim tryname As String
+Dim lettercode As Integer
+lettercode = Asc("X") - 1
+
+Do
+lettercode = lettercode + 1
+If lettercode > Asc("Z") Then lettercode = Asc("A")
 If Len(route(nRoutes).number) < 6 Then
-    route(nRoutes).number = "X" & route(iroute).number
+    tryname = Chr(lettercode) & route(iroute).number
 Else
-    route(nRoutes).number = "X" & Right(route(iroute).number, 5)
+    tryname = Chr(lettercode) & Right(route(iroute).number, 5)
 End If
-route(nRoutes).Name = "X" & route(iroute).number & "X" & route(iroute).Name
+If lettercode = Asc("X") - 1 Then tryname = InputBox("Could not find a name to double line " & route(iroute).Name & "Please enter one bellow", "UNLIKELY BREAK")
+Loop While Get_Route(tryname) <> 0
+
+route(nRoutes).number = tryname
+route(nRoutes).Name = "2_" & route(iroute).number & "_" & route(iroute).Name
 
 Dim ipoint As Long
 nguarda = 0
@@ -1492,19 +1503,19 @@ For i = 1 To Npoints
         For j = 1 To N
             Candi = PointList(j)
             candiminVDF = point(Candi).MinVDF
-            CandiDist = Distância(i, Candi, True)
+            candidist = Distância(i, Candi, True)
             ' Testa se deve existir um conector entre Point(i)(= a zona) e candi
             Nwhatever = NLinksInShortestPathWithinSelectedLinks(i, Candi, arethey, netdist, True)
             incluilink = False
             If Not arethey Then
                 incluilink = True
-            ElseIf netdist - CandiDist > 150 And ((candiminVDF > 3 And CandiDist < 0.75 * netdist) Or (CandiDist < 0.3 * netdist)) Then
+            ElseIf netdist - candidist > 150 And ((candiminVDF > 3 And candidist < 0.75 * netdist) Or (candidist < 0.3 * netdist)) Then
                 incluilink = True
             End If
             If incluilink Then
                 CandiLink.op = i
                 CandiLink.dp = Candi
-                CandiLink.Extension = CandiDist
+                CandiLink.Extension = candidist
                 NL = Add_Link(CandiLink)
                 A = B
             End If
@@ -1513,13 +1524,13 @@ For i = 1 To Npoints
             incluilink = False
             If Not arethey Then
                 incluilink = True
-            ElseIf netdist - CandiDist > 150 And CandiDist < 0.75 * netdist Then
+            ElseIf netdist - candidist > 150 And candidist < 0.75 * netdist Then
                 incluilink = True
             End If
             If incluilink Then
                 CandiLink.op = Candi
                 CandiLink.dp = i
-                CandiLink.Extension = CandiDist
+                CandiLink.Extension = candidist
                 NL = Add_Link(CandiLink)
             End If
         Next j
