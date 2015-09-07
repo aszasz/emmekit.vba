@@ -340,8 +340,18 @@ While this are enabled you must be aware of the origins of macros you run... a g
 Once you do this, you can export all modules running the Sub export_all_my_basic_modules() (and adding the names of your created modules to Sub load_names_of_modules()
 
 ##Inspirational Garbage
-In the file with the same name you can find a considerable ammount of things not cleaned up and not well organized is huge:
+In the file with the same name you can find a considerable ammount of things not cleaned up and not well organized:
 - There is some fairly well documented classes
+	- file handlers
+	- regex
+- A lot of portuguese documented code for specific applications to:
+	- map matching from inconsistent gtfs files
+	- read APC (automated passenger count with location) and draw daily profile
+	- selection of bus stops effectively used in the model (to cones)
+	- Re-design lines in a feeder-trunk system based on main corridor itinerary
+- Reading EMME reports
+
+You may find some reference to code not present, ask me if you missing something. (I also have tons of other messed code for EMME and network processing that I would like to clean and document)
 
 
 
