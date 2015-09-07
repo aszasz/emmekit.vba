@@ -1266,29 +1266,29 @@ End Sub
 Function Cut_Route(iroute As Integer, Optional FirstPoint As Long = 0, Optional LastPoint As Long = 0) As Boolean
 'Corta a linha antes de firstpoint e depois de lastpoint
 Dim i As Integer
-Dim FROMPoint As Integer
+Dim frompoint As Integer
 Dim TOPoint As Integer
 For i = 1 To route(iroute).Npoints
-    If route(iroute).ipoint(i) = FirstPoint Then FROMPoint = i
+    If route(iroute).ipoint(i) = FirstPoint Then frompoint = i
     If route(iroute).ipoint(i) = LastPoint Then TOPoint = i
 Next i
 
-If FirstPoint = 0 Then FROMPoint = 1
+If FirstPoint = 0 Then frompoint = 1
 If LastPoint = 0 Then TOPoint = route(iroute).Npoints
 
-For i = FROMPoint To TOPoint
-    route(iroute).ipoint(i - FROMPoint + 1) = route(iroute).ipoint(i)
-    If route(iroute).HasPara Then route(iroute).para(i - FROMPoint + 1) = route(iroute).para(i)
-    If route(iroute).HasPara Then route(iroute).dwt(i - FROMPoint + 1) = route(iroute).dwt(i)
-    If route(iroute).HasTtf Then route(iroute).ttf(i - FROMPoint + 1) = route(iroute).ttf(i)
-    If route(iroute).HasTtfT Then route(iroute).ttfT(i - FROMPoint + 1) = route(iroute).ttfT(i)
-    If route(iroute).HasTtfL Then route(iroute).ttfL(i - FROMPoint + 1) = route(iroute).ttfL(i)
-    If route(iroute).HasUs1 Then route(iroute).us1(i - FROMPoint + 1) = route(iroute).us1(i)
-    If route(iroute).HasUs2 Then route(iroute).us2(i - FROMPoint + 1) = route(iroute).us2(i)
-    If route(iroute).HasUs3 Then route(iroute).us3(i - FROMPoint + 1) = route(iroute).us3(i)
+For i = frompoint To TOPoint
+    route(iroute).ipoint(i - frompoint + 1) = route(iroute).ipoint(i)
+    If route(iroute).HasPara Then route(iroute).para(i - frompoint + 1) = route(iroute).para(i)
+    If route(iroute).HasPara Then route(iroute).dwt(i - frompoint + 1) = route(iroute).dwt(i)
+    If route(iroute).HasTtf Then route(iroute).ttf(i - frompoint + 1) = route(iroute).ttf(i)
+    If route(iroute).HasTtfT Then route(iroute).ttfT(i - frompoint + 1) = route(iroute).ttfT(i)
+    If route(iroute).HasTtfL Then route(iroute).ttfL(i - frompoint + 1) = route(iroute).ttfL(i)
+    If route(iroute).HasUs1 Then route(iroute).us1(i - frompoint + 1) = route(iroute).us1(i)
+    If route(iroute).HasUs2 Then route(iroute).us2(i - frompoint + 1) = route(iroute).us2(i)
+    If route(iroute).HasUs3 Then route(iroute).us3(i - frompoint + 1) = route(iroute).us3(i)
 Next i
 
-route(iroute).Npoints = TOPoint - FROMPoint + 1
+route(iroute).Npoints = TOPoint - frompoint + 1
 ReDim Preserve route(iroute).ipoint(route(iroute).Npoints)
 If route(iroute).HasPara Then ReDim Preserve route(iroute).para(route(iroute).Npoints)
 If route(iroute).HasPara Then ReDim Preserve route(iroute).dwt(route(iroute).Npoints)

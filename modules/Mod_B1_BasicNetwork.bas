@@ -340,6 +340,59 @@ Function YFinder(y As Double) As Long
     If YFinder < 0 Then YFinder = 0
     If YFinder > DIM_Y_POINTFINDER Then YFinder = DIM_Y_POINTFINDER
 End Function
+Function Get_Closer_Selected_Point(frompoint As Point_type, radius As Single, Optional islonglat As Boolean = False) As Long
+    Get_Closer_Selected_Point = 0
+    bestdist = radius
+    For i = 1 To NPointsListedInARange(frompoint, radius, islonglat)
+        If point(PointList(i)).selected Then
+            dista = Point_Distance(frompoint, point(PointList(i)), islonglat)
+            If dista < bestdist Then
+                Get_Closer_Selected_Point = PointList(i)
+                bestdist = dista
+            End If
+        End If
+    Next i
+End Function
+Function Get_Closer_Point(frompoint As Point_type, radius As Single, Optional islonglat As Boolean = False) As Long
+    Get_Closer_Point = 0
+    bestdist = radius
+    For i = 1 To NPointsListedInARange(frompoint, radius, islonglat)
+        dista = Point_Distance(frompoint, point(PointList(i)), islonglat)
+        If dista < bestdist Then
+            Get_Closer_Point = PointList(i)
+            bestdist = dista
+        End If
+    Next i
+End Function
+Function Get_Closer_Auto_Point(frompoint As Point_type, radius As Single, UpToVDF As Integer, Optional islonglat As Boolean = False) As Long
+    Get_Closer_Auto_Point = 0
+    bestdist = radius
+    For i = 1 To NAutoPointsListedInARadius(frompoint, radius, islonglat)
+        If point(PointList(i)).MinVDF <= UpToVDF Then
+            dista = Point_Distance(frompoint, point(PointList(i)), islonglat)
+            If dista < bestdist Then
+                Get_Closer_Auto_Point = PointList(i)
+                bestdist = dista
+            End If
+        End If
+    Next i
+End Function
+Function Get_Closer_Bus_Point(From As Long, radius As Single, UpToVDF As Integer, Optional islonglat As Boolean = False, Optional IncludeMyself As Boolean = True) As Long
+    Get_Closer_Bus_Point = 0
+    bestdist = radius
+    For i = 1 To NPointsListedInARange(point(From), radius, islonglat)
+        If point(PointList(i)).nRoutes > 0 Then
+            dista = Distância(From, PointList(i), islonglat)
+            If dista < bestdist Then
+                If PointList(i) <> From Or IncludeMyself Then
+                    Get_Closer_Bus_Point = PointList(i)
+                    bestdist = dista
+                End If
+            End If
+        End If
+    Next i
+End Function
+
 Sub UnSelect_all_points()
 Dim i As Long
 For i = 1 To Npoints
